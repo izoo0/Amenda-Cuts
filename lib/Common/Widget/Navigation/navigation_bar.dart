@@ -28,50 +28,56 @@ class _BottomNavigatorState extends State<BottomNavigator> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    double mHeight = SizeConfig.blockSizeHeight!;
+
     return Scaffold(
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: myCurrentIndex,
+      backgroundColor: Colors.transparent,
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: ColorConstants.appColor,
+        unselectedItemColor: ColorConstants.appTextColor.withOpacity(0.5),
+        showUnselectedLabels: true,
+        iconSize: 28,
+        selectedFontSize: 12,
+        currentIndex: myCurrentIndex,
         backgroundColor: ColorConstants.blackBackground,
-        height: mHeight * 6,
-        onDestinationSelected: (int index) {
+        useLegacyColorScheme: false,
+        onTap: (int index) {
           setState(() {
             myCurrentIndex = index;
           });
         },
-        destinations: const [
-          NavigationDestination(
+        items: const [
+          BottomNavigationBarItem(
+            backgroundColor: ColorConstants.blackBackground,
             icon: Icon(
               Iconsax.home,
-              color: ColorConstants.appColor,
             ),
             label: 'Home',
           ),
-          NavigationDestination(
+          BottomNavigationBarItem(
+            backgroundColor: ColorConstants.blackBackground,
             icon: Icon(
               Iconsax.gallery,
-              color: ColorConstants.appColor,
             ),
             label: 'Gallery',
           ),
-          NavigationDestination(
+          BottomNavigationBarItem(
+            backgroundColor: ColorConstants.blackBackground,
             icon: Icon(
               Iconsax.book,
-              color: ColorConstants.appColor,
             ),
             label: 'My Booking',
           ),
-          NavigationDestination(
+          BottomNavigationBarItem(
+            backgroundColor: ColorConstants.blackBackground,
             icon: Icon(
               Iconsax.message,
-              color: ColorConstants.appColor,
             ),
             label: 'Inbox',
           ),
-          NavigationDestination(
+          BottomNavigationBarItem(
+            backgroundColor: ColorConstants.blackBackground,
             icon: Icon(
-              Iconsax.user_square,
-              color: ColorConstants.appColor,
+              Iconsax.user,
             ),
             label: 'Profile',
           ),
