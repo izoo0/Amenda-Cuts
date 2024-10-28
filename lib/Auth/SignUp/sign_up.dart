@@ -148,6 +148,7 @@ class _SignUpState extends State<SignUp> {
                   height: 30,
                 ),
                 button(
+                    color: ColorConstants.appColor,
                     onTap: () {
                       if (_formKey.currentState!.validate()) {
                         Navigator.of(context).push(MaterialPageRoute(

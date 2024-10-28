@@ -1,6 +1,8 @@
 import 'package:amenda_cuts/Common/Widget/Preloader/preloader.dart';
 import 'package:amenda_cuts/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Constants/size_config.dart';
+import 'package:amenda_cuts/Functions/APIS/apis.dart';
+import 'package:amenda_cuts/Screens/Home/home.dart';
 import 'package:amenda_cuts/Screens/OnBoarding/on_boarding.dart';
 import 'package:flutter/material.dart';
 import 'package:amenda_cuts/Constants/color_constants.dart';
@@ -19,7 +21,6 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _controller = AnimationController(
       duration: const Duration(seconds: 4),
@@ -30,8 +31,16 @@ class _SplashScreenState extends State<SplashScreen>
       curve: Curves.easeIn,
     );
     Future.delayed(const Duration(seconds: 6), () {
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const OnBoarding()));
+      // ignore: unnecessary_null_comparison
+      if (Apis.user != null) {
+        // ignore: use_build_context_synchronously
+        Navigator.of(context)
+            .pushReplacement(MaterialPageRoute(builder: (_) => const Home()));
+      } else {
+        // ignore: use_build_context_synchronously
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const OnBoarding()));
+      }
     });
   }
 

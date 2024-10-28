@@ -3,11 +3,13 @@ import 'dart:ffi';
 import 'package:amenda_cuts/Auth/SignUp/sign_up.dart';
 import 'package:amenda_cuts/Common/Widget/Button/button.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/icon_container.dart';
+import 'package:amenda_cuts/Common/Widget/Preloader/preloader.dart';
 import 'package:amenda_cuts/Common/Widget/TextField/text_field.dart';
 import 'package:amenda_cuts/Constants/color_constants.dart';
 import 'package:amenda_cuts/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Constants/size_config.dart';
-import 'package:amenda_cuts/Screens/SplashScreen/splash_screen.dart';
+import 'package:amenda_cuts/Functions/Auth/login/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:email_validator/email_validator.dart';
@@ -28,7 +30,6 @@ class _SignInState extends State<SignIn> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     usernameController = TextEditingController();
     passwordController = TextEditingController();
@@ -37,7 +38,6 @@ class _SignInState extends State<SignIn> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     usernameController.dispose();
     passwordController.dispose();
@@ -110,10 +110,25 @@ class _SignInState extends State<SignIn> {
                 ),
                 button(
                     color: ColorConstants.appColor,
-                    onTap: () {
+                    onTap: () async {
                       if (_formKey.currentState!.validate()) {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => const SplashScreen()));
+                        showDialog(
+                            context: context,
+                            builder: (_) {
+                              return Center(
+                                child: SizedBox(
+                                  width: 30,
+                                  height: 30,
+                                  child: preloader(20.0),
+                                ),
+                              );
+                            });
+                        final email = usernameController.text.trim();
+                        final password = passwordController.text.trim();
+                        User? user = await Login.signInWithEmailAndPassword(
+                            context,
+                            email: email,
+                            password: password);
                       }
                     },
                     text: 'Login'),

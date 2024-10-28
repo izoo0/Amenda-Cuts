@@ -121,7 +121,10 @@ class _OnBoardigTwoState extends State<OnBoardigTwo> {
                   height: 50,
                 ),
                 button(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (_) => const SignIn()));
+                  },
                   text: 'Sign In With Password',
                   color: ColorConstants.appColor,
                 ),

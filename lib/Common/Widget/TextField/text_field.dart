@@ -11,6 +11,7 @@ Widget commonTextField(
     required bool obscure,
     required Function validator,
     Function? onTap,
+    bool? isSearch,
     icon}) {
   return TextFormField(
     controller: controller,
@@ -46,7 +47,12 @@ Widget commonTextField(
                         Iconsax.eye_slash,
                         color: Color.fromARGB(255, 186, 186, 186),
                       ))
-            : const SizedBox.shrink(),
+            : isSearch != null
+                ? const Icon(
+                    Iconsax.candle_2,
+                    color: ColorConstants.appColor,
+                  )
+                : const SizedBox.shrink(),
         prefixIcon: Icon(
           icon,
           color: const Color.fromARGB(255, 186, 186, 186),
