@@ -1,3 +1,4 @@
+import 'package:amenda_cuts/Common/Widget/Navigation/navigation_bar.dart';
 import 'package:amenda_cuts/Common/Widget/Preloader/preloader.dart';
 import 'package:amenda_cuts/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Constants/size_config.dart';
@@ -34,8 +35,8 @@ class _SplashScreenState extends State<SplashScreen>
       // ignore: unnecessary_null_comparison
       if (Apis.user != null) {
         // ignore: use_build_context_synchronously
-        Navigator.of(context)
-            .pushReplacement(MaterialPageRoute(builder: (_) => const Home()));
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (_) => const BottomNavigator()));
       } else {
         // ignore: use_build_context_synchronously
         Navigator.of(context).pushReplacement(
