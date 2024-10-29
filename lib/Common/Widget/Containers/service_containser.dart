@@ -97,7 +97,11 @@ Widget serviceContainer(
                 const SizedBox(
                   width: 170,
                 ),
-                userButtton(width: 80.0, name: 'Book Now', onTap: () {})
+                userButtton(
+                    width: 80.0,
+                    name: 'Book Now',
+                    onTap: () {},
+                    color: ColorConstants.appColor)
               ],
             )
           ],

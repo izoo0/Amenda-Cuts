@@ -1,10 +1,9 @@
 import 'package:amenda_cuts/Constants/color_constants.dart';
 import 'package:flutter/material.dart';
 
-Widget userButtton({
+Widget userButttonOutline({
   required width,
   required name,
-  required color,
   required Function onTap,
 }) {
   return SizedBox(
@@ -14,8 +13,12 @@ Widget userButtton({
           onTap();
         },
         style: TextButton.styleFrom(
-          backgroundColor: color,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+              side: const BorderSide(
+                width: 1,
+                color: ColorConstants.appColor,
+              )),
         ),
         child: Text(
           name,
