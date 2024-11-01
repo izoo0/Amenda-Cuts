@@ -1,82 +1,39 @@
 class ServiceModel {
   final String serviceName;
   final String serviceImage;
-  final String serviceRatings;
-  final bool isFavorite;
+  final num serviceRatings;
   final String servicePrice;
   final String discreption;
-  ServiceModel({
-    required this.serviceName,
-    required this.serviceImage,
-    required this.serviceRatings,
-    required this.isFavorite,
-    required this.servicePrice,
-    required this.discreption,
-  });
+  final List<String> favorite;
+  final bool isDeleted;
+  ServiceModel(
+      {required this.serviceName,
+      required this.serviceImage,
+      required this.serviceRatings,
+      required this.servicePrice,
+      required this.discreption,
+      required this.favorite,
+      required this.isDeleted});
+
+  factory ServiceModel.fromFirebase(
+      {required Map<String, dynamic> serviceData}) {
+    List<String> favoriteList = [];
+    var newFavorite = serviceData['favorite'];
+    if (newFavorite != null && newFavorite is List) {
+      newFavorite.forEach((id) {
+        favoriteList.add(id);
+      });
+    }
+    return ServiceModel(
+      serviceName: serviceData['name'],
+      serviceImage: serviceData['image'],
+      serviceRatings: serviceData['ratings'],
+      servicePrice: serviceData['price'],
+      discreption: serviceData['description'],
+      favorite: favoriteList,
+      isDeleted: serviceData['isDeleted'],
+    );
+  }
 }
 
-List<ServiceModel> service = [
-  ServiceModel(
-    serviceName: 'Beard Trim',
-    serviceImage: 'assets/Images/on.jpg',
-    serviceRatings: '5',
-    isFavorite: true,
-    servicePrice: 'Ksh 200',
-    discreption:
-        "Please remember to add a link to us wherever you use this icon",
-  ),
-  ServiceModel(
-    serviceName: 'Beard Trim',
-    serviceImage: 'assets/Images/on.jpg',
-    serviceRatings: '5',
-    isFavorite: true,
-    servicePrice: 'Ksh 200',
-    discreption:
-        "Please remember to add a link to us wherever you use this icon",
-  ),
-  ServiceModel(
-    serviceName: 'Beard Trim',
-    serviceImage: 'assets/Images/on.jpg',
-    serviceRatings: '5',
-    isFavorite: true,
-    servicePrice: 'Ksh 200',
-    discreption:
-        "Please remember to add a link to us wherever you use this icon",
-  ),
-  ServiceModel(
-    serviceName: 'Beard Trim',
-    serviceImage: 'assets/Images/on.jpg',
-    serviceRatings: '5',
-    isFavorite: true,
-    servicePrice: 'Ksh 200',
-    discreption:
-        "Please remember to add a link to us wherever you use this icon",
-  ),
-  ServiceModel(
-    serviceName: 'Beard Trim',
-    serviceImage: 'assets/Images/on.jpg',
-    serviceRatings: '5',
-    isFavorite: true,
-    servicePrice: 'Ksh 200',
-    discreption:
-        "Please remember to add a link to us wherever you use this icon",
-  ),
-  ServiceModel(
-    serviceName: 'Beard Trim',
-    serviceImage: 'assets/Images/on.jpg',
-    serviceRatings: '5',
-    isFavorite: true,
-    servicePrice: 'Ksh 200',
-    discreption:
-        "Please remember to add a link to us wherever you use this icon",
-  ),
-  ServiceModel(
-    serviceName: 'Beard Trim',
-    serviceImage: 'assets/Images/on.jpg',
-    serviceRatings: '5',
-    isFavorite: true,
-    servicePrice: 'Ksh 200',
-    discreption:
-        "Please remember to add a link to us wherever you use this icon",
-  ),
-];
+List<ServiceModel> service = [];
