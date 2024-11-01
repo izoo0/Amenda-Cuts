@@ -1,36 +1,47 @@
 import 'package:amenda_cuts/Models/service_model.dart';
-import 'package:amenda_cuts/Models/users_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class OrderModel {
   final DateTime timestamp;
-  final ServiceModel service;
-  final UsersModel user;
+  final String serviceId;
   final String status;
-
+  ServiceModel? serviceModel;
+  bool? remindMe;
   OrderModel({
     required this.timestamp,
-    required this.service,
-    required this.user,
+    required this.serviceId,
     required this.status,
+    required this.serviceModel,
+    this.remindMe,
   });
 
-  factory OrderModel.fromFirebase({
+  static Future<OrderModel> fromFirebase({
     required Map<String, dynamic> orderModel,
-    required service,
-    required user,
-  }) {
+  }) async {
     DateTime bookingTime = DateTime(1950);
     var newTime = orderModel['timestamp'];
     if (newTime != null && newTime is Timestamp) {
       bookingTime = newTime.toDate();
     }
 
+    String serviceId = orderModel['serviceId'];
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    // Fetch the service document using the serviceId
+    DocumentSnapshot serviceSnapshot =
+        await firestore.collection('services').doc(serviceId).get();
+
+    ServiceModel? serviceModel;
+    if (serviceSnapshot.exists) {
+      Map<String, dynamic> serviceData =
+          serviceSnapshot.data() as Map<String, dynamic>;
+      serviceModel = ServiceModel.fromFirebase(serviceData: serviceData);
+    }
     return OrderModel(
-      timestamp: bookingTime,
-      service: service,
-      user: user,
-      status: orderModel['status'],
-    );
+        timestamp: bookingTime,
+        serviceId: serviceId,
+        status: orderModel['status'],
+        serviceModel: serviceModel,
+        remindMe: orderModel['remindMe']);
   }
 }

@@ -1,16 +1,21 @@
 import 'package:amenda_cuts/Common/Widget/Button/user_button.dart';
 import 'package:amenda_cuts/Constants/color_constants.dart';
+import 'package:amenda_cuts/Functions/APIS/apis.dart';
+import 'package:amenda_cuts/Models/service_model.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
-Widget serviceContainer(
-    {required image,
-    required serviceName,
-    required discreption,
-    required amount,
-    required maxWidth,
-    required Function onTap,
-    required bool isFavorite}) {
+Widget serviceContainer({
+  required image,
+  required serviceName,
+  required discreption,
+  required amount,
+  required maxWidth,
+  ServiceModel? serviceModel,
+  required Function onTap,
+  required bool isFavorite,
+  required Function onTapBook,
+}) {
   return Container(
     width: double.infinity,
     decoration: BoxDecoration(
@@ -38,7 +43,7 @@ Widget serviceContainer(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(4),
               child: Image(
-                image: AssetImage(image),
+                image: NetworkImage(image),
                 fit: BoxFit.cover,
               ),
             ),
@@ -87,7 +92,7 @@ Widget serviceContainer(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  amount,
+                  ' Ksh $amount',
                   style: const TextStyle(
                     fontSize: 14,
                     color: ColorConstants.appColor,
@@ -100,7 +105,9 @@ Widget serviceContainer(
                 userButtton(
                     width: 80.0,
                     name: 'Book Now',
-                    onTap: () {},
+                    onTap: () {
+                      onTapBook();
+                    },
                     color: ColorConstants.appColor)
               ],
             )

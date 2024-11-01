@@ -1,3 +1,4 @@
+import 'package:amenda_cuts/Common/Widget/Alerts/alerts.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/category_container.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/service_containser.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/slider_container.dart';
@@ -6,6 +7,7 @@ import 'package:amenda_cuts/Common/Widget/TextField/text_field.dart';
 import 'package:amenda_cuts/Constants/color_constants.dart';
 import 'package:amenda_cuts/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Constants/size_config.dart';
+import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Functions/Auth/signout/sign_out.dart';
 import 'package:amenda_cuts/Models/service_model.dart';
 import 'package:flutter/material.dart';
@@ -20,13 +22,11 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   late TextEditingController SearchController;
-  late bool favorite = false;
   SignOut signOut = SignOut();
   @override
   void initState() {
     super.initState();
     SearchController = TextEditingController();
-    favorite = false;
   }
 
   @override
@@ -239,28 +239,71 @@ class _HomeState extends State<Home> {
                 const SizedBox(
                   height: 15,
                 ),
-                ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: service.length,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      final data = service[index];
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4),
-                        child: serviceContainer(
-                          onTap: () {
-                            setState(() {
-                              favorite = !favorite;
+                StreamBuilder<List<ServiceModel>>(
+                    stream: Apis().fetchServices(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        final service = snapshot.data!;
+
+                        return ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: service.length,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              final data = service[index];
+                              bool favorite = false;
+                              final documentId = data.documentId;
+                              var favorites =
+                                  data.favorite.contains(Apis.user?.uid);
+                              if (favorites) {
+                                favorite = true;
+                              }
+                              bool isDeleted = data.isDeleted;
+                              return isDeleted
+                                  ? const Text('data deleted')
+                                  : Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4),
+                                      child: serviceContainer(
+                                          onTap: () {
+                                            setState(() {});
+                                          },
+                                          maxWidth: mWidth * 60,
+                                          image: data.serviceImage,
+                                          serviceName: data.serviceName,
+                                          discreption: data.discreption,
+                                          amount: data.servicePrice,
+                                          isFavorite: favorite,
+                                          onTapBook: () async {
+                                            try {
+                                              await Apis().bookNow(
+                                                  documentId, Apis.user!.uid);
+                                              return showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return const AnimatedAlertDialog(
+                                                      title: "Success",
+                                                      content:
+                                                          "You have book this service",
+                                                    );
+                                                  });
+                                            } catch (e) {
+                                              return showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return const AnimatedAlertDialog(
+                                                      title: "Error",
+                                                      content:
+                                                          "Failed to book Service",
+                                                    );
+                                                  });
+                                            }
+                                          }),
+                                    );
                             });
-                          },
-                          maxWidth: mWidth * 60,
-                          image: data.serviceImage,
-                          serviceName: data.serviceName,
-                          discreption: data.discreption,
-                          amount: data.servicePrice,
-                          isFavorite: favorite,
-                        ),
-                      );
+                      } else {
+                        return const Text("No data availabe");
+                      }
                     })
               ],
             ),

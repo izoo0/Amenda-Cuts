@@ -1,9 +1,15 @@
 import 'package:amenda_cuts/Common/Widget/Button/user_button.dart';
 import 'package:amenda_cuts/Common/Widget/Button/user_button_border.dart';
+import 'package:amenda_cuts/Common/Widget/Preloader/preloader.dart';
 import 'package:amenda_cuts/Constants/color_constants.dart';
 import 'package:amenda_cuts/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Constants/size_config.dart';
+import 'package:amenda_cuts/Functions/APIS/apis.dart';
+import 'package:amenda_cuts/Models/order_model.dart';
 import 'package:amenda_cuts/Models/service_model.dart';
+import 'package:amenda_cuts/Screens/Booking/canceled.dart';
+import 'package:amenda_cuts/Screens/Booking/completed.dart';
+import 'package:amenda_cuts/Screens/Booking/upcoming.dart';
 import 'package:flutter/material.dart';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:iconsax/iconsax.dart';
@@ -16,7 +22,6 @@ class Booking extends StatefulWidget {
 }
 
 class _BookingState extends State<Booking> {
-  bool light1 = false;
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -113,46 +118,93 @@ class _BookingState extends State<Booking> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: const BouncingScrollPhysics(),
-                              itemCount: service.length,
-                              itemBuilder: (context, index) {
-                                final data = service[index];
-                                return Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 8.0, top: 10),
-                                    child: upcommingContainer(data));
+                          child: StreamBuilder<List<OrderModel>>(
+                              stream: Apis().fetchBooking(),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData && snapshot.data != null) {
+                                  final service = snapshot.data!;
+                                  return ListView.builder(
+                                      shrinkWrap: true,
+                                      physics: const BouncingScrollPhysics(),
+                                      itemCount: service.length,
+                                      itemBuilder: (context, index) {
+                                        final data = service[index];
+                                        final status = data.status;
+                                        bool light1 = data.remindMe ?? false;
+
+                                        return status == 'upcoming'
+                                            ? Padding(
+                                                padding: const EdgeInsets.only(
+                                                    bottom: 8.0, top: 10),
+                                                child: upcommingContainer(
+                                                    data, context,
+                                                    value: light1,
+                                                    onTap: () {}))
+                                            : const SizedBox.shrink();
+                                      });
+                                } else {
+                                  return Center(child: preloader(30.0));
+                                }
                               }),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: const BouncingScrollPhysics(),
-                              itemCount: service.length,
-                              itemBuilder: (context, index) {
-                                final data = service[index];
-                                return Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 8.0, top: 10),
-                                    child: completedContainer(data));
+                          child: StreamBuilder<List<OrderModel>>(
+                              stream: Apis().fetchBooking(),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData && snapshot.data != null) {
+                                  final service = snapshot.data!;
+                                  return ListView.builder(
+                                      shrinkWrap: true,
+                                      physics: const BouncingScrollPhysics(),
+                                      itemCount: service.length,
+                                      itemBuilder: (context, index) {
+                                        final data = service[index];
+                                        final status = data.status;
+                                        return status == 'completed'
+                                            ? Padding(
+                                                padding: const EdgeInsets.only(
+                                                    bottom: 8.0, top: 10),
+                                                child: completedContainer(
+                                                    data, context))
+                                            : const SizedBox();
+                                      });
+                                } else {
+                                  return Center(
+                                    child: preloader(30.0),
+                                  );
+                                }
                               }),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: const BouncingScrollPhysics(),
-                              itemCount: service.length,
-                              itemBuilder: (context, index) {
-                                final data = service[index];
-                                return Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 8.0, top: 10),
-                                  child: bookingContainer(
-                                      data: data, mWidth: mWidth),
-                                );
+                          child: StreamBuilder<List<OrderModel>>(
+                              stream: Apis().fetchBooking(),
+                              builder: (context, snapshot) {
+                                final service = snapshot.data!;
+                                return ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: const BouncingScrollPhysics(),
+                                    itemCount: service.length,
+                                    itemBuilder: (context, index) {
+                                      final data = service[index];
+                                      final status = data.status;
+                                      if (snapshot.hasData &&
+                                          snapshot.data != null) {
+                                        return status == 'cancel'
+                                            ? Padding(
+                                                padding: const EdgeInsets.only(
+                                                    bottom: 8.0, top: 10),
+                                                child: cancelledContainer(
+                                                    data, context),
+                                              )
+                                            : const SizedBox.shrink();
+                                      } else {
+                                        return Center(
+                                          child: preloader(30.0),
+                                        );
+                                      }
+                                    });
                               }),
                         ),
                       ],
@@ -162,417 +214,6 @@ class _BookingState extends State<Booking> {
               ),
             ),
           )),
-    );
-  }
-
-  Container upcommingContainer(ServiceModel data) {
-    SizeConfig().init(context);
-    double mWidth = SizeConfig.blockSizeWidth!;
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-          color: ColorConstants.blackBackground,
-          borderRadius: BorderRadius.circular(4)),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "13-08-2024 - 10:00AM",
-                  style: TextStyle(color: ColorConstants.appTextColor),
-                ),
-                Row(
-                  children: [
-                    const Text(
-                      "Remind Me",
-                      style: TextStyle(color: ColorConstants.appTextColor),
-                    ),
-                    Switch(
-                      activeColor: ColorConstants.appColor,
-                      inactiveThumbColor:
-                          ColorConstants.appTextColor.withOpacity(0.8),
-                      value: light1,
-                      onChanged: (bool value) {
-                        setState(() {
-                          light1 = value;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Divider(
-              color: ColorConstants.appTextColor.withOpacity(0.1),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
-            child: Row(
-              children: [
-                Container(
-                  width: 120,
-                  height: 120,
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image(
-                      image: AssetImage(data.serviceImage),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Hair Cut",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: ColorConstants.appTextColor),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Container(
-                        constraints: BoxConstraints(
-                          maxWidth: mWidth * 90,
-                        ),
-                        child: Text(
-                          data.serviceName,
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              color: ColorConstants.appTextColor),
-                        )),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    const Text(
-                      'Description:',
-                      style: TextStyle(
-                        color: ColorConstants.appTextColor,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Container(
-                      constraints: BoxConstraints(
-                        maxWidth: mWidth * 60,
-                      ),
-                      child: Text(
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        data.discreption,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontStyle: FontStyle.italic,
-                          color: ColorConstants.appColor.withOpacity(0.7),
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 8,
-            ),
-            child: Divider(
-              color: ColorConstants.appTextColor.withOpacity(0.1),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 8.0,
-              vertical: 16,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                userButttonOutline(
-                    width: mWidth * 40, name: "Cancel Booking", onTap: () {}),
-                userButtton(
-                    color: ColorConstants.appColor,
-                    width: mWidth * 40,
-                    name: "View E-Receipt",
-                    onTap: () {}),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Container completedContainer(ServiceModel data) {
-    SizeConfig().init(context);
-    double mWidth = SizeConfig.blockSizeWidth!;
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-          color: ColorConstants.blackBackground,
-          borderRadius: BorderRadius.circular(4)),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "13-08-2024 - 10:00AM",
-                  style: TextStyle(color: ColorConstants.appTextColor),
-                ),
-                userButtton(
-                    width: mWidth * 20,
-                    name: "Completed",
-                    onTap: () {},
-                    color: Colors.green)
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Divider(
-              color: ColorConstants.appTextColor.withOpacity(0.1),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
-            child: Row(
-              children: [
-                Container(
-                  width: 120,
-                  height: 120,
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image(
-                      image: AssetImage(data.serviceImage),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Hair Cut",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: ColorConstants.appTextColor),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Container(
-                        constraints: BoxConstraints(
-                          maxWidth: mWidth * 90,
-                        ),
-                        child: Text(
-                          data.serviceName,
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              color: ColorConstants.appTextColor),
-                        )),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    const Text(
-                      'Description:',
-                      style: TextStyle(
-                        color: ColorConstants.appTextColor,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Container(
-                      constraints: BoxConstraints(
-                        maxWidth: mWidth * 60,
-                      ),
-                      child: Text(
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        data.discreption,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontStyle: FontStyle.italic,
-                          color: ColorConstants.appColor.withOpacity(0.7),
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 8,
-            ),
-            child: Divider(
-              color: ColorConstants.appTextColor.withOpacity(0.1),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 8.0,
-              vertical: 16,
-            ),
-            child: userButttonOutline(
-                width: mWidth * 90, name: "View Receipt", onTap: () {}),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class bookingContainer extends StatelessWidget {
-  const bookingContainer({
-    super.key,
-    required this.data,
-    required this.mWidth,
-  });
-
-  final ServiceModel data;
-  final double mWidth;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-          color: ColorConstants.blackBackground,
-          borderRadius: BorderRadius.circular(4)),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "13-08-2024 - 10:00AM",
-                  style: TextStyle(color: ColorConstants.appTextColor),
-                ),
-                userButtton(
-                  width: 80.0,
-                  name: 'Cancel',
-                  onTap: () {},
-                  color: ColorConstants.appColor,
-                )
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Divider(
-              color: ColorConstants.appTextColor.withOpacity(0.1),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
-            child: Row(
-              children: [
-                Container(
-                  width: 120,
-                  height: 120,
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image(
-                      image: AssetImage(data.serviceImage),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Hair Cut",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: ColorConstants.appTextColor),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Container(
-                        constraints: BoxConstraints(
-                          maxWidth: mWidth * 90,
-                        ),
-                        child: Text(
-                          data.serviceName,
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              color: ColorConstants.appTextColor),
-                        )),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    const Text(
-                      'Description:',
-                      style: TextStyle(
-                        color: ColorConstants.appTextColor,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Container(
-                      constraints: BoxConstraints(
-                        maxWidth: mWidth * 60,
-                      ),
-                      child: Text(
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        data.discreption,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontStyle: FontStyle.italic,
-                          color: ColorConstants.appColor.withOpacity(0.7),
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          )
-        ],
-      ),
     );
   }
 }
