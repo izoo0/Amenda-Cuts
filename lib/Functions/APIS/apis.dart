@@ -35,8 +35,7 @@ class Apis {
         String serviceId = data['serviceId'];
         String status = data['status'];
         bool? remindMe = data['remindMe'];
-        print("-------------------------------------------");
-        print(remindMe);
+        String orderId = doc.id;
         // Fetch the associated service model
         DocumentSnapshot serviceSnapshot =
             await _firestore.collection('services').doc(serviceId).get();
@@ -56,8 +55,9 @@ class Apis {
             timestamp: timestamp,
             serviceId: serviceId,
             status: status,
-            serviceModel: serviceModel!,
-            remindMe: remindMe!));
+            serviceModel: serviceModel,
+            remindMe: remindMe,
+            orderId: orderId));
       }
       return orders;
     });
@@ -68,7 +68,8 @@ class Apis {
       'serviceId': documentId,
       'userId': userId,
       'timestamp': Timestamp.now(),
-      'status': 'upcoming'
+      'status': 'upcoming',
+      'remindMe': false,
     });
   }
 
@@ -88,6 +89,52 @@ class Apis {
       return 'Yesterday';
     } else {
       return DateFormat('d/M/yy').format(date);
+    }
+  }
+
+  Future<void> remidMe(bool value, String docId) async {
+    try {
+      DocumentReference docRef = _firestore.collection('booking').doc(docId);
+      await docRef.update({'remindMe': !value});
+
+      print("_________________________________");
+      print("Reminder status updated to ${!value}");
+    } catch (e) {
+      print("_________________________________");
+      print("Error updating reminder: ${e.toString()}");
+      print(docId);
+    }
+  }
+
+  Future<void> userFavorite(bool favorite, String docId, String userId) async {
+    try {
+      DocumentReference docRef = _firestore.collection('services').doc(docId);
+
+      if (favorite == true) {
+        await docRef.update({
+          'favorite': FieldValue.arrayRemove([userId]),
+        });
+      } else {
+        await docRef.update({
+          'favorite': FieldValue.arrayUnion([userId]),
+        });
+      }
+    } catch (e) {
+      print("_________________________________");
+      print("Error updating favorite: ${e.toString()}");
+      print(favorite);
+    }
+  }
+
+  Future<void> userCancel({required String docId}) async {
+    try {
+      DocumentReference docRef = _firestore.collection("booking").doc(docId);
+
+      await docRef.update({
+        "status": "cancel",
+      });
+    } catch (e) {
+      print("Failed to cancle order ${e.toString()}");
     }
   }
 }

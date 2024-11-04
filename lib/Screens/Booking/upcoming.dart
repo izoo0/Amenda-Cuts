@@ -7,7 +7,10 @@ import 'package:amenda_cuts/Models/order_model.dart';
 import 'package:flutter/material.dart';
 
 Container upcommingContainer(OrderModel data, BuildContext context,
-    {required Function onTap, required bool value}) {
+    {required Function onTap,
+    required bool value,
+    required Function onCancelTap,
+    required Function openReceipt}) {
   SizeConfig().init(context);
   double mWidth = SizeConfig.blockSizeWidth!;
   return Container(
@@ -38,7 +41,7 @@ Container upcommingContainer(OrderModel data, BuildContext context,
                         ColorConstants.appTextColor.withOpacity(0.8),
                     value: value,
                     onChanged: (bool value) {
-                      onTap();
+                      onTap(value);
                     },
                   ),
                 ],
@@ -146,12 +149,19 @@ Container upcommingContainer(OrderModel data, BuildContext context,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               userButttonOutline(
-                  width: mWidth * 40, name: "Cancel Booking", onTap: () {}),
+                width: mWidth * 40,
+                name: "Cancel Booking",
+                onTap: () {
+                  onCancelTap();
+                },
+              ),
               userButtton(
                   color: ColorConstants.appColor,
                   width: mWidth * 40,
                   name: "View E-Receipt",
-                  onTap: () {}),
+                  onTap: () {
+                    openReceipt();
+                  }),
             ],
           ),
         )

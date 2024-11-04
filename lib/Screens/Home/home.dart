@@ -266,7 +266,10 @@ class _HomeState extends State<Home> {
                                           vertical: 4),
                                       child: serviceContainer(
                                           onTap: () {
-                                            setState(() {});
+                                            Apis().userFavorite(
+                                                favorite,
+                                                documentId,
+                                                Apis.user?.uid ?? '');
                                           },
                                           maxWidth: mWidth * 60,
                                           image: data.serviceImage,

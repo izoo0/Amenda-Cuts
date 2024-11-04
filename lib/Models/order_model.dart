@@ -6,18 +6,19 @@ class OrderModel {
   final String serviceId;
   final String status;
   ServiceModel? serviceModel;
+  final String orderId;
   bool? remindMe;
-  OrderModel({
-    required this.timestamp,
-    required this.serviceId,
-    required this.status,
-    required this.serviceModel,
-    this.remindMe,
-  });
+  OrderModel(
+      {required this.timestamp,
+      required this.serviceId,
+      required this.status,
+      required this.serviceModel,
+      this.remindMe,
+      required this.orderId});
 
-  static Future<OrderModel> fromFirebase({
-    required Map<String, dynamic> orderModel,
-  }) async {
+  static Future<OrderModel> fromFirebase(
+      {required Map<String, dynamic> orderModel,
+      required String orderId}) async {
     DateTime bookingTime = DateTime(1950);
     var newTime = orderModel['timestamp'];
     if (newTime != null && newTime is Timestamp) {
@@ -42,6 +43,7 @@ class OrderModel {
         serviceId: serviceId,
         status: orderModel['status'],
         serviceModel: serviceModel,
-        remindMe: orderModel['remindMe']);
+        remindMe: orderModel['remindMe'],
+        orderId: orderId);
   }
 }
