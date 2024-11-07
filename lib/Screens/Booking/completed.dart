@@ -4,6 +4,7 @@ import 'package:amenda_cuts/Constants/color_constants.dart';
 import 'package:amenda_cuts/Constants/size_config.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Models/order_model.dart';
+import 'package:amenda_cuts/Screens/Receipt/receipt.dart';
 import 'package:flutter/material.dart';
 
 Container completedContainer(OrderModel data, BuildContext context) {
@@ -23,7 +24,7 @@ Container completedContainer(OrderModel data, BuildContext context) {
             children: [
               Text(
                 Apis().GetDateString(data.timestamp),
-                style: TextStyle(color: ColorConstants.appTextColor),
+                style: const TextStyle(color: ColorConstants.appTextColor),
               ),
               userButtton(
                   width: mWidth * 20,
@@ -130,7 +131,12 @@ Container completedContainer(OrderModel data, BuildContext context) {
             vertical: 16,
           ),
           child: userButttonOutline(
-              width: mWidth * 90, name: "View Receipt", onTap: () {}),
+              width: mWidth * 90,
+              name: "View Receipt",
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const Receipt()));
+              }),
         )
       ],
     ),

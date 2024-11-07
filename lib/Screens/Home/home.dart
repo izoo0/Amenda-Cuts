@@ -1,4 +1,6 @@
 import 'package:amenda_cuts/Common/Widget/Alerts/alerts.dart';
+import 'package:amenda_cuts/Common/Widget/BottomSheet/bottom_sheet.dart';
+import 'package:amenda_cuts/Common/Widget/Button/user_button.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/category_container.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/service_containser.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/slider_container.dart';
@@ -266,10 +268,192 @@ class _HomeState extends State<Home> {
                                           vertical: 4),
                                       child: serviceContainer(
                                           onTap: () {
-                                            Apis().userFavorite(
-                                                favorite,
-                                                documentId,
-                                                Apis.user?.uid ?? '');
+                                            bottomSheet(
+                                              context: context,
+                                              height: mHeight * 25,
+                                              child: Column(
+                                                children: [
+                                                  const SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Container(
+                                                    width: mWidth * 90,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5),
+                                                        color: ColorConstants
+                                                            .appTextColor
+                                                            .withOpacity(0.3)),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 8.0,
+                                                          vertical: 12),
+                                                      child: Row(
+                                                        children: [
+                                                          SizedBox(
+                                                            height: 80,
+                                                            width: 80,
+                                                            child: ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          4),
+                                                              child: Image(
+                                                                image: NetworkImage(
+                                                                    data.serviceImage),
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              const SizedBox(
+                                                                height: 8,
+                                                              ),
+                                                              Text(
+                                                                maxLines: 2,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                data.serviceName,
+                                                                style:
+                                                                    const TextStyle(
+                                                                  fontSize: 18,
+                                                                  color: ColorConstants
+                                                                      .appTextColor,
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                height: 8,
+                                                              ),
+                                                              Container(
+                                                                constraints:
+                                                                    BoxConstraints(
+                                                                  maxWidth:
+                                                                      mWidth *
+                                                                          65,
+                                                                ),
+                                                                child: Text(
+                                                                  maxLines: 2,
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  data.discreption,
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        14,
+                                                                    fontStyle:
+                                                                        FontStyle
+                                                                            .italic,
+                                                                    color: ColorConstants
+                                                                        .appTextColor
+                                                                        .withOpacity(
+                                                                            0.7),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                height: 15,
+                                                              ),
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  Text(
+                                                                    ' Ksh ${data.servicePrice}',
+                                                                    style:
+                                                                        const TextStyle(
+                                                                      fontSize:
+                                                                          14,
+                                                                      color: ColorConstants
+                                                                          .appColor,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  favorites
+                                                      ? Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceEvenly,
+                                                          children: [
+                                                            userButtton(
+                                                              width:
+                                                                  mWidth * 44,
+                                                              name: 'Cancel',
+                                                              color: ColorConstants
+                                                                  .appTextColor
+                                                                  .withOpacity(
+                                                                      0.3),
+                                                              onTap: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                            ),
+                                                            userButtton(
+                                                              width:
+                                                                  mWidth * 44,
+                                                              name:
+                                                                  'Remove Favorite',
+                                                              color:
+                                                                  ColorConstants
+                                                                      .appColor,
+                                                              onTap: () {
+                                                                Apis().userFavorite(
+                                                                    favorite,
+                                                                    documentId,
+                                                                    Apis.user
+                                                                            ?.uid ??
+                                                                        '');
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                            )
+                                                          ],
+                                                        )
+                                                      : userButtton(
+                                                          width: mWidth * 90,
+                                                          name:
+                                                              'Add To Favorites',
+                                                          color: ColorConstants
+                                                              .appColor,
+                                                          onTap: () {
+                                                            Apis().userFavorite(
+                                                                favorite,
+                                                                documentId,
+                                                                Apis.user
+                                                                        ?.uid ??
+                                                                    '');
+                                                            Navigator.pop(
+                                                                context);
+                                                          })
+                                                ],
+                                              ),
+                                            );
                                           },
                                           maxWidth: mWidth * 60,
                                           image: data.serviceImage,
