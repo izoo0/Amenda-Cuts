@@ -1,10 +1,8 @@
-import 'package:amenda_cuts/Common/Widget/Button/user_button.dart';
-import 'package:amenda_cuts/Common/Widget/Listtile/receipt_listtile.dart';
 import 'package:amenda_cuts/Constants/color_constants.dart';
 import 'package:amenda_cuts/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Constants/size_config.dart';
 import 'package:flutter/material.dart';
-import 'package:barcode_widget/barcode_widget.dart';
+import 'package:iconsax/iconsax.dart';
 
 class Receipt extends StatefulWidget {
   const Receipt({super.key});
@@ -31,85 +29,104 @@ class _ReceiptState extends State<Receipt> {
               ),
             ),
             body: SingleChildScrollView(
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    BarcodeWidget(
-                      width: mWidth * 85,
-                      height: mHeight * 12,
-                      data: '12344',
-                      drawText: false,
-                      style:
-                          const TextStyle(color: ColorConstants.appTextColor),
-                      color: ColorConstants.appTextColor.withOpacity(0.8),
-                      barcode: Barcode.codabar(),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      width: mWidth * 85,
-                      decoration: BoxDecoration(
-                        color: ColorConstants.appTextColor.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                child: Card(
+                  color: ColorConstants.blackBackground,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5)),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 6),
                       child: Column(
                         children: [
-                          receiptTile(
-                              leading: "Barber Shop", trailling: "Amenda Cuts"),
-                          receiptTile(
-                              leading: "Address", trailling: "50200-Bungoma"),
-                          receiptTile(leading: 'Name', trailling: 'John Doe'),
-                          receiptTile(
-                              leading: 'Phone', trailling: '+254 793783983'),
-                          receiptTile(
-                              leading: 'Booking Date', trailling: '1/2/2024'),
-                          receiptTile(leading: 'Time', trailling: "04:52"),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      width: mWidth * 85,
-                      decoration: BoxDecoration(
-                        color: ColorConstants.appTextColor.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Column(
-                        children: [
-                          receiptTile(
-                              leading: "Hair Cut", trailling: "ksh 200"),
-                          receiptTile(
-                              leading: "Half Black Color",
-                              trailling: "ksh 300"),
-                          receiptTile(leading: "Total", trailling: "Ksh 500"),
+                          const SizedBox(
+                            width: 10,
+                          ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
-                            child: Divider(
-                              color:
-                                  ColorConstants.appTextColor.withOpacity(0.2),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10.0, vertical: 12),
+                            child: Stack(
+                              children: [
+                                Container(
+                                  constraints: const BoxConstraints(
+                                    maxHeight: 90,
+                                    maxWidth: 90,
+                                  ),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      gradient: LinearGradient(
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomLeft,
+                                          stops: const [
+                                            0.0,
+                                            1.0
+                                          ],
+                                          colors: [
+                                            ColorConstants.appColor
+                                                .withOpacity(0.4),
+                                            ColorConstants.appColor
+                                                .withOpacity(0.2)
+                                          ])),
+                                ),
+                                Positioned(
+                                  top: 18,
+                                  left: 24,
+                                  child: Container(
+                                    width: 40,
+                                    height: 50,
+                                    decoration: const BoxDecoration(
+                                        color: Colors.redAccent,
+                                        shape: BoxShape.circle),
+                                    child: Icon(
+                                      Iconsax.clock,
+                                      color: ColorConstants.appTextColor
+                                          .withOpacity(0.9),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
+                          ),
+                          const Text(
+                            "Pending Payment",
+                            style: TextStyle(
+                                color: ColorConstants.appTextColor,
+                                fontSize: 24),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          LayoutBuilder(
+                            builder: (BuildContext context,
+                                BoxConstraints constraints) {
+                              print('${constraints.constrainWidth()}');
+                              return Flex(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.max,
+                                direction: Axis.horizontal,
+                                children: List.generate(
+                                    (constraints.constrainWidth() / 4).floor(),
+                                    (index) => Text(
+                                          ' -',
+                                          style: TextStyle(
+                                              fontSize: 30,
+                                              color: ColorConstants.appTextColor
+                                                  .withOpacity(0.3)),
+                                        )),
+                              );
+                            },
+                          ),
+                          const SizedBox(
+                            height: 10,
                           )
                         ],
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    userButtton(
-                      width: mWidth * 85,
-                      name: 'Download E-Receipt',
-                      color: ColorConstants.appColor,
-                      onTap: () {},
-                    )
-                  ],
+                  ),
                 ),
               ),
             )));
