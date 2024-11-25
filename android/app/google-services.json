@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "293170647951",
+    "project_id": "amenda-cuts",
+    "storage_bucket": "amenda-cuts.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:293170647951:android:09979ebce768c28bc2b1fa",
+        "android_client_info": {
+          "package_name": "com.example.amenda_cuts"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnifoqK32Uh8Gyr3vUbNpIAmwOIQ7w_d8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
