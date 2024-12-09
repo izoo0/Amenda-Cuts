@@ -2,15 +2,18 @@ import 'package:amenda_cuts/Models/order_model.dart';
 import 'package:amenda_cuts/Models/service_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class Apis {
-  static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+class Apis extends ChangeNotifier {
+  static Apis instance = Apis._constructor();
+  Apis._constructor();
+  static final FirebaseFirestore firestore = FirebaseFirestore.instance;
   static final FirebaseAuth auth = FirebaseAuth.instance;
   static final user = FirebaseAuth.instance.currentUser;
 
   Stream<List<ServiceModel>> fetchServices() {
-    return _firestore.collection('services').snapshots().map((snapshot) {
+    return firestore.collection('services').snapshots().map((snapshot) {
       return snapshot.docs.map((doc) {
         return ServiceModel.fromFirebase(
             serviceData: doc.data() as Map<String, dynamic>,
@@ -20,7 +23,7 @@ class Apis {
   }
 
   Stream<List<OrderModel>> fetchBooking() {
-    return _firestore
+    return firestore
         .collection('booking')
         .where('userId', isEqualTo: user?.uid)
         .snapshots()
@@ -38,7 +41,7 @@ class Apis {
         String orderId = doc.id;
         // Fetch the associated service model
         DocumentSnapshot serviceSnapshot =
-            await _firestore.collection('services').doc(serviceId).get();
+            await firestore.collection('services').doc(serviceId).get();
 
         ServiceModel? serviceModel;
         if (serviceSnapshot.exists) {
@@ -64,7 +67,7 @@ class Apis {
   }
 
   Future<dynamic> bookNow(String documentId, String userId) {
-    return _firestore.collection('booking').add({
+    return firestore.collection('booking').add({
       'serviceId': documentId,
       'userId': userId,
       'timestamp': Timestamp.now(),
@@ -94,21 +97,16 @@ class Apis {
 
   Future<void> remidMe(bool value, String docId) async {
     try {
-      DocumentReference docRef = _firestore.collection('booking').doc(docId);
+      DocumentReference docRef = firestore.collection('booking').doc(docId);
       await docRef.update({'remindMe': !value});
-
-      print("_________________________________");
-      print("Reminder status updated to ${!value}");
     } catch (e) {
-      print("_________________________________");
-      print("Error updating reminder: ${e.toString()}");
-      print(docId);
+//
     }
   }
 
   Future<void> userFavorite(bool favorite, String docId, String userId) async {
     try {
-      DocumentReference docRef = _firestore.collection('services').doc(docId);
+      DocumentReference docRef = firestore.collection('services').doc(docId);
 
       if (favorite == true) {
         await docRef.update({
@@ -120,21 +118,19 @@ class Apis {
         });
       }
     } catch (e) {
-      print("_________________________________");
-      print("Error updating favorite: ${e.toString()}");
-      print(favorite);
+      //
     }
   }
 
   Future<void> userCancel({required String docId}) async {
     try {
-      DocumentReference docRef = _firestore.collection("booking").doc(docId);
+      DocumentReference docRef = firestore.collection("booking").doc(docId);
 
       await docRef.update({
         "status": "cancel",
       });
     } catch (e) {
-      print("Failed to cancle order ${e.toString()}");
+      //
     }
   }
 }

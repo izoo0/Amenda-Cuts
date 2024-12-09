@@ -12,6 +12,7 @@ class Gallery extends StatefulWidget {
 }
 
 class _GalleryState extends State<Gallery> {
+  final Apis instance = Apis.instance;
   @override
   Widget build(BuildContext context) {
     return NewAppBackground(
@@ -28,9 +29,9 @@ class _GalleryState extends State<Gallery> {
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: StreamBuilder<List<ServiceModel>>(
-                stream: Apis().fetchServices(),
+                stream: instance.fetchServices(),
                 builder: (context, snapshot) {
                   final service = snapshot.data;
                   if (snapshot.hasData && snapshot.data != null) {
@@ -40,6 +41,7 @@ class _GalleryState extends State<Gallery> {
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
+                          childAspectRatio: 0.8,
                           mainAxisSpacing: 10, // Vertical spacing between items
                           crossAxisSpacing:
                               10, // Horizontal spacing between items
@@ -48,17 +50,15 @@ class _GalleryState extends State<Gallery> {
                         itemBuilder: (context, index) {
                           final image = service?[index];
                           return Container(
-                            width: 60,
-                            height: 60,
                             decoration: BoxDecoration(
                               border: Border.all(
                                 width: 1,
                                 color: ColorConstants.appColor,
                               ),
-                              borderRadius: BorderRadius.circular(15),
+                              borderRadius: BorderRadius.circular(4),
                             ),
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
+                              borderRadius: BorderRadius.circular(4),
                               child: Image(
                                 image: NetworkImage(image?.serviceImage ?? ''),
                                 fit: BoxFit.cover,

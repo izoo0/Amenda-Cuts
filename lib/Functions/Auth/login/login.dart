@@ -1,4 +1,5 @@
 import 'package:amenda_cuts/Common/Widget/Alerts/alerts.dart';
+import 'package:amenda_cuts/Common/Widget/Navigation/navigation_bar.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Screens/Home/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,7 +13,7 @@ class Login {
           .signInWithEmailAndPassword(email: email, password: password);
       Navigator.of(context).pop();
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => const Home()));
+          context, MaterialPageRoute(builder: (_) => const BottomNavigator()));
     } catch (e) {
       print(e.toString());
       Navigator.of(context).pop();

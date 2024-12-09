@@ -11,6 +11,7 @@ Container upcommingContainer(OrderModel data, BuildContext context,
     required bool value,
     required Function onCancelTap,
     required Function openReceipt}) {
+  final Apis instance = Apis.instance;
   SizeConfig().init(context);
   double mWidth = SizeConfig.blockSizeWidth!;
   return Container(
@@ -26,7 +27,7 @@ Container upcommingContainer(OrderModel data, BuildContext context,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                Apis().GetDateString(data.timestamp),
+                instance.GetDateString(data.timestamp),
                 style: TextStyle(color: ColorConstants.appTextColor),
               ),
               Row(

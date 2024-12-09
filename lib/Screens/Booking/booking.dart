@@ -22,6 +22,7 @@ class Booking extends StatefulWidget {
 }
 
 class _BookingState extends State<Booking> {
+  final Apis instance = Apis.instance;
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -120,7 +121,7 @@ class _BookingState extends State<Booking> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: StreamBuilder<List<OrderModel>>(
-                              stream: Apis().fetchBooking(),
+                              stream: instance.fetchBooking(),
                               builder: (context, snapshot) {
                                 if (snapshot.hasError) {
                                   print(
@@ -146,7 +147,7 @@ class _BookingState extends State<Booking> {
                                                     data, context,
                                                     value: light1,
                                                     onTap: (bool value) {
-                                                  Apis().remidMe(
+                                                  instance.remidMe(
                                                       light1, data.orderId);
                                                 }, onCancelTap: () {
                                                   bottomSheet(
@@ -240,7 +241,7 @@ class _BookingState extends State<Booking> {
                                                                   color: ColorConstants
                                                                       .appColor,
                                                                   onTap: () {
-                                                                    Apis().userCancel(
+                                                                    instance.userCancel(
                                                                         docId: data
                                                                             .orderId);
                                                                     Navigator.pop(
@@ -266,7 +267,7 @@ class _BookingState extends State<Booking> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: StreamBuilder<List<OrderModel>>(
-                              stream: Apis().fetchBooking(),
+                              stream: instance.fetchBooking(),
                               builder: (context, snapshot) {
                                 if (snapshot.hasData && snapshot.data != null) {
                                   final service = snapshot.data!;
@@ -295,7 +296,7 @@ class _BookingState extends State<Booking> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: StreamBuilder<List<OrderModel>>(
-                              stream: Apis().fetchBooking(),
+                              stream: instance.fetchBooking(),
                               builder: (context, snapshot) {
                                 final service = snapshot.data;
                                 if (snapshot.hasData && snapshot.data != null) {

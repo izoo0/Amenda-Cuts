@@ -34,9 +34,10 @@ class _BottomNavigatorState extends State<BottomNavigator> {
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: ColorConstants.appColor,
         unselectedItemColor: ColorConstants.appTextColor.withOpacity(0.5),
-        showUnselectedLabels: true,
+        showUnselectedLabels: false,
         iconSize: 28,
-        selectedFontSize: 12,
+        type: BottomNavigationBarType.fixed,
+        selectedFontSize: 0,
         currentIndex: myCurrentIndex,
         backgroundColor: ColorConstants.blackBackground,
         useLegacyColorScheme: false,
@@ -51,35 +52,35 @@ class _BottomNavigatorState extends State<BottomNavigator> {
             icon: Icon(
               Iconsax.home,
             ),
-            label: 'Home',
+            label: '.',
           ),
           BottomNavigationBarItem(
             backgroundColor: ColorConstants.blackBackground,
             icon: Icon(
               Iconsax.gallery,
             ),
-            label: 'Gallery',
+            label: '.',
           ),
           BottomNavigationBarItem(
             backgroundColor: ColorConstants.blackBackground,
             icon: Icon(
               Iconsax.book,
             ),
-            label: 'My Booking',
+            label: '.',
           ),
           BottomNavigationBarItem(
             backgroundColor: ColorConstants.blackBackground,
             icon: Icon(
               Iconsax.message,
             ),
-            label: 'Inbox',
+            label: '.',
           ),
           BottomNavigationBarItem(
             backgroundColor: ColorConstants.blackBackground,
             icon: Icon(
-              Iconsax.user,
+              Iconsax.setting,
             ),
-            label: 'Profile',
+            label: '.',
           ),
         ],
       ),

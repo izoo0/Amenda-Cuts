@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 Container completedContainer(OrderModel data, BuildContext context) {
   SizeConfig().init(context);
   double mWidth = SizeConfig.blockSizeWidth!;
+  final Apis instance = Apis.instance;
   return Container(
     width: double.infinity,
     decoration: BoxDecoration(
@@ -23,7 +24,7 @@ Container completedContainer(OrderModel data, BuildContext context) {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                Apis().GetDateString(data.timestamp),
+                instance.GetDateString(data.timestamp),
                 style: const TextStyle(color: ColorConstants.appTextColor),
               ),
               userButtton(

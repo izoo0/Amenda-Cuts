@@ -3,10 +3,12 @@ import 'dart:ffi';
 import 'package:amenda_cuts/Auth/SignIn/sign_in.dart';
 import 'package:amenda_cuts/Common/Widget/Button/button.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/icon_container.dart';
+import 'package:amenda_cuts/Common/Widget/Preloader/preloader.dart';
 import 'package:amenda_cuts/Common/Widget/TextField/text_field.dart';
 import 'package:amenda_cuts/Constants/color_constants.dart';
 import 'package:amenda_cuts/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Constants/size_config.dart';
+import 'package:amenda_cuts/Functions/Auth/signup/signup.dart';
 import 'package:amenda_cuts/Screens/SplashScreen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -46,6 +48,7 @@ class _SignUpState extends State<SignUp> {
     usernameController.dispose();
     passwordController.dispose();
     emailController.dispose();
+    phoneController.dispose();
   }
 
   @override
@@ -151,8 +154,23 @@ class _SignUpState extends State<SignUp> {
                     color: ColorConstants.appColor,
                     onTap: () {
                       if (_formKey.currentState!.validate()) {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const SplashScreen()));
+                        showDialog(
+                            context: context,
+                            builder: (_) {
+                              return Center(
+                                child: SizedBox(
+                                  width: 30,
+                                  height: 30,
+                                  child: preloader(20.0),
+                                ),
+                              );
+                            });
+                        Signup.registerWithEmailAndPassword(
+                            context: context,
+                            username: usernameController.text.trim(),
+                            email: emailController.text.trim(),
+                            password: passwordController.text.trim(),
+                            phone: phoneController.text.trim());
                       }
                     },
                     text: 'Sign Up'),

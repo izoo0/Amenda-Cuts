@@ -1,10 +1,7 @@
-import 'package:amenda_cuts/Common/Widget/Alerts/alerts.dart';
 import 'package:amenda_cuts/Common/Widget/BottomSheet/bottom_sheet.dart';
-import 'package:amenda_cuts/Common/Widget/Button/user_button.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/category_container.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/service_containser.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/slider_container.dart';
-import 'package:amenda_cuts/Common/Widget/Navigation/navigation_bar.dart';
 import 'package:amenda_cuts/Common/Widget/TextField/text_field.dart';
 import 'package:amenda_cuts/Constants/color_constants.dart';
 import 'package:amenda_cuts/Constants/new_app_background.dart';
@@ -12,6 +9,9 @@ import 'package:amenda_cuts/Constants/size_config.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Functions/Auth/signout/sign_out.dart';
 import 'package:amenda_cuts/Models/service_model.dart';
+import 'package:amenda_cuts/Screens/Home/favorite/favorite.dart';
+import 'package:amenda_cuts/Screens/Home/single_service_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -23,18 +23,20 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  late TextEditingController SearchController;
-  SignOut signOut = SignOut();
+  late TextEditingController searchController;
+
+  User? user = FirebaseAuth.instance.currentUser;
+  final Apis instance = Apis.instance;
   @override
   void initState() {
     super.initState();
-    SearchController = TextEditingController();
+    searchController = TextEditingController();
   }
 
   @override
   void dispose() {
     super.dispose();
-    SearchController.dispose();
+    searchController.dispose();
   }
 
   @override
@@ -82,9 +84,7 @@ class _HomeState extends State<Home> {
               width: 10,
             ),
             GestureDetector(
-              onTap: () {
-                signOut.signOut(context);
-              },
+              onTap: () {},
               child: const Icon(
                 Iconsax.archive_1,
                 size: 25,
@@ -107,7 +107,7 @@ class _HomeState extends State<Home> {
                 const SizedBox(
                   width: double.infinity,
                   child: Text(
-                    "Morning, Amenda 👋",
+                    "Morning, 👋",
                     style: TextStyle(
                       fontSize: 30,
                       color: ColorConstants.appTextColor,
@@ -118,7 +118,7 @@ class _HomeState extends State<Home> {
                   height: 10,
                 ),
                 commonTextField(
-                    controller: SearchController,
+                    controller: searchController,
                     text: 'Search',
                     maxLines: 1,
                     icon: Iconsax.search_normal,
@@ -242,12 +242,14 @@ class _HomeState extends State<Home> {
                   height: 15,
                 ),
                 StreamBuilder<List<ServiceModel>>(
-                    stream: Apis().fetchServices(),
+                    stream: instance.fetchServices(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         final service = snapshot.data!;
-
-                        return ListView.builder(
+                        return GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    childAspectRatio: 0.67, crossAxisCount: 2),
                             shrinkWrap: true,
                             itemCount: service.length,
                             physics: const NeverScrollableScrollPhysics(),
@@ -261,232 +263,37 @@ class _HomeState extends State<Home> {
                                 favorite = true;
                               }
                               bool isDeleted = data.isDeleted;
-                              return isDeleted
-                                  ? const Text('data deleted')
-                                  : Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 4),
-                                      child: serviceContainer(
-                                          onTap: () {
-                                            bottomSheet(
-                                              context: context,
-                                              height: mHeight * 25,
-                                              child: Column(
-                                                children: [
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Container(
-                                                    width: mWidth * 90,
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(5),
-                                                        color: ColorConstants
-                                                            .appTextColor
-                                                            .withOpacity(0.3)),
-                                                    child: Padding(
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: 8.0,
-                                                          vertical: 12),
-                                                      child: Row(
-                                                        children: [
-                                                          SizedBox(
-                                                            height: 80,
-                                                            width: 80,
-                                                            child: ClipRRect(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          4),
-                                                              child: Image(
-                                                                image: NetworkImage(
-                                                                    data.serviceImage),
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          const SizedBox(
-                                                            width: 10,
-                                                          ),
-                                                          Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              const SizedBox(
-                                                                height: 8,
-                                                              ),
-                                                              Text(
-                                                                maxLines: 2,
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                                data.serviceName,
-                                                                style:
-                                                                    const TextStyle(
-                                                                  fontSize: 18,
-                                                                  color: ColorConstants
-                                                                      .appTextColor,
-                                                                ),
-                                                              ),
-                                                              const SizedBox(
-                                                                height: 8,
-                                                              ),
-                                                              Container(
-                                                                constraints:
-                                                                    BoxConstraints(
-                                                                  maxWidth:
-                                                                      mWidth *
-                                                                          65,
-                                                                ),
-                                                                child: Text(
-                                                                  maxLines: 2,
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  data.discreption,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontStyle:
-                                                                        FontStyle
-                                                                            .italic,
-                                                                    color: ColorConstants
-                                                                        .appTextColor
-                                                                        .withOpacity(
-                                                                            0.7),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              const SizedBox(
-                                                                height: 15,
-                                                              ),
-                                                              Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  Text(
-                                                                    ' Ksh ${data.servicePrice}',
-                                                                    style:
-                                                                        const TextStyle(
-                                                                      fontSize:
-                                                                          14,
-                                                                      color: ColorConstants
-                                                                          .appColor,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              )
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  favorites
-                                                      ? Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceEvenly,
-                                                          children: [
-                                                            userButtton(
-                                                              width:
-                                                                  mWidth * 44,
-                                                              name: 'Cancel',
-                                                              color: ColorConstants
-                                                                  .appTextColor
-                                                                  .withOpacity(
-                                                                      0.3),
-                                                              onTap: () {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop();
-                                                              },
-                                                            ),
-                                                            userButtton(
-                                                              width:
-                                                                  mWidth * 44,
-                                                              name:
-                                                                  'Remove Favorite',
-                                                              color:
-                                                                  ColorConstants
-                                                                      .appColor,
-                                                              onTap: () {
-                                                                Apis().userFavorite(
-                                                                    favorite,
-                                                                    documentId,
-                                                                    Apis.user
-                                                                            ?.uid ??
-                                                                        '');
-                                                                Navigator.pop(
-                                                                    context);
-                                                              },
-                                                            )
-                                                          ],
-                                                        )
-                                                      : userButtton(
-                                                          width: mWidth * 90,
-                                                          name:
-                                                              'Add To Favorites',
-                                                          color: ColorConstants
-                                                              .appColor,
-                                                          onTap: () {
-                                                            Apis().userFavorite(
-                                                                favorite,
-                                                                documentId,
-                                                                Apis.user
-                                                                        ?.uid ??
-                                                                    '');
-                                                            Navigator.pop(
-                                                                context);
-                                                          })
-                                                ],
-                                              ),
-                                            );
-                                          },
-                                          maxWidth: mWidth * 60,
-                                          image: data.serviceImage,
-                                          serviceName: data.serviceName,
-                                          discreption: data.discreption,
-                                          amount: data.servicePrice,
+                              return serviceContainer(
+                                image: data.serviceImage,
+                                serviceName: data.serviceName,
+                                discreption: data.discreption,
+                                amount: data.servicePrice,
+                                onTap: () {
+                                  bottomSheet(
+                                      context: context,
+                                      height: mHeight * 24,
+                                      child: favoritewidget(
+                                          context: context,
                                           isFavorite: favorite,
-                                          onTapBook: () async {
-                                            try {
-                                              await Apis().bookNow(
-                                                  documentId, Apis.user!.uid);
-                                              return showDialog(
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return const AnimatedAlertDialog(
-                                                      title: "Success",
-                                                      content:
-                                                          "You have book this service",
-                                                    );
-                                                  });
-                                            } catch (e) {
-                                              return showDialog(
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return const AnimatedAlertDialog(
-                                                      title: "Error",
-                                                      content:
-                                                          "Failed to book Service",
-                                                    );
-                                                  });
-                                            }
-                                          }),
-                                    );
+                                          image: data.serviceImage,
+                                          discreption: data.discreption,
+                                          servicename: data.serviceName,
+                                          price: data.servicePrice,
+                                          onTap: () {
+                                            instance.userFavorite(favorite,
+                                                data.documentId, user!.uid);
+                                            setState(() {});
+                                            Navigator.pop(context);
+                                          }));
+                                },
+                                isFavorite: favorites,
+                                onTapBook: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SingleServiceScreen()));
+                                },
+                                context: context,
+                              );
                             });
                       } else {
                         return const Text("No data availabe");
@@ -496,7 +303,6 @@ class _HomeState extends State<Home> {
             ),
           ),
         ),
-        // bottomNavigationBar: const BottomNavigator(),
       ),
     );
   }

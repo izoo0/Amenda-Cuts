@@ -1,5 +1,4 @@
 import 'package:amenda_cuts/Common/Widget/Button/user_button.dart';
-import 'package:amenda_cuts/Common/Widget/Button/user_button_border.dart';
 import 'package:amenda_cuts/Constants/color_constants.dart';
 import 'package:amenda_cuts/Constants/size_config.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
@@ -12,6 +11,7 @@ Container cancelledContainer(
 ) {
   SizeConfig().init(context);
   double mWidth = SizeConfig.blockSizeWidth!;
+  final Apis instance = Apis.instance;
   return Container(
     width: double.infinity,
     decoration: BoxDecoration(
@@ -25,7 +25,7 @@ Container cancelledContainer(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                Apis().GetDateString(data.timestamp),
+                instance.GetDateString(data.timestamp),
                 style: const TextStyle(color: ColorConstants.appTextColor),
               ),
               userButtton(
