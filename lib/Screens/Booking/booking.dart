@@ -31,9 +31,9 @@ class _BookingState extends State<Booking> {
     return NewAppBackground(
       color: ColorConstants.appBackground,
       child: Scaffold(
-          backgroundColor: ColorConstants.appBackground,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           appBar: AppBar(
-            backgroundColor: ColorConstants.appBackground,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             title: Row(
               children: [
                 Container(
@@ -53,10 +53,8 @@ class _BookingState extends State<Booking> {
                 const SizedBox(
                   width: 5,
                 ),
-                const Text(
-                  'My Booking',
-                  style: TextStyle(color: ColorConstants.appTextColor),
-                ),
+                Text('My Booking',
+                    style: Theme.of(context).textTheme.displaySmall),
               ],
             ),
             actions: [
@@ -64,9 +62,8 @@ class _BookingState extends State<Booking> {
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: GestureDetector(
                   onTap: () {},
-                  child: Icon(
+                  child: const Icon(
                     Iconsax.search_normal,
-                    color: ColorConstants.appTextColor.withOpacity(0.7),
                   ),
                 ),
               )
@@ -94,12 +91,16 @@ class _BookingState extends State<Booking> {
                       contentPadding: const EdgeInsets.symmetric(
                         vertical: 4,
                       ),
-                      labelStyle: const TextStyle(
-                        color: Colors.white,
+                      labelStyle: TextStyle(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? ColorConstants.appTextColor
+                            : ColorConstants.appBackground,
                         fontWeight: FontWeight.bold,
                       ),
-                      unselectedLabelStyle: const TextStyle(
-                        color: ColorConstants.appTextColor,
+                      unselectedLabelStyle: TextStyle(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? ColorConstants.appTextColor
+                            : ColorConstants.appBackground,
                         fontWeight: FontWeight.bold,
                       ),
                       tabs: const [
@@ -124,9 +125,7 @@ class _BookingState extends State<Booking> {
                               stream: instance.fetchBooking(),
                               builder: (context, snapshot) {
                                 if (snapshot.hasError) {
-                                  print(
-                                      "____________________________________________");
-                                  print(snapshot.error.toString());
+                                  //
                                 }
                                 if (snapshot.hasData && snapshot.data != null) {
                                   final service = snapshot.data!;
@@ -219,6 +218,8 @@ class _BookingState extends State<Booking> {
                                                                     .spaceEvenly,
                                                             children: [
                                                               userButtton(
+                                                                  context:
+                                                                      context,
                                                                   width:
                                                                       mWidth *
                                                                           40,
@@ -233,6 +234,8 @@ class _BookingState extends State<Booking> {
                                                                         context);
                                                                   }),
                                                               userButtton(
+                                                                  context:
+                                                                      context,
                                                                   width:
                                                                       mWidth *
                                                                           40,
@@ -260,7 +263,8 @@ class _BookingState extends State<Booking> {
                                             : const SizedBox.shrink();
                                       });
                                 } else {
-                                  return Center(child: preloader(30.0));
+                                  return Center(
+                                      child: preloader(30.0, context));
                                 }
                               }),
                         ),
@@ -288,7 +292,7 @@ class _BookingState extends State<Booking> {
                                       });
                                 } else {
                                   return Center(
-                                    child: preloader(30.0),
+                                    child: preloader(30.0, context),
                                   );
                                 }
                               }),
@@ -324,7 +328,7 @@ class _BookingState extends State<Booking> {
                                       });
                                 } else {
                                   return Center(
-                                    child: preloader(30.0),
+                                    child: preloader(30.0, context),
                                   );
                                 }
                               }),

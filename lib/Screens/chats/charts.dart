@@ -13,16 +13,13 @@ class _ChatsState extends State<Chats> {
   @override
   Widget build(BuildContext context) {
     return NewAppBackground(
-      color: ColorConstants.appBackground,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: Scaffold(
-        backgroundColor: ColorConstants.appBackground,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
-          backgroundColor: ColorConstants.appBackground,
-          title: const Text(
-            'Chats',
-            style: TextStyle(color: ColorConstants.appTextColor),
-          ),
-          centerTitle: true,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          title:
+              Text('Chats', style: Theme.of(context).textTheme.displayMedium),
         ),
       ),
     );

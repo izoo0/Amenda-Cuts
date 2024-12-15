@@ -1,8 +1,9 @@
 class UserDetailsConstants {
-  UserDetailsConstants(_);
+  UserDetailsConstants._();
   static const String username = 'username';
   static const String fullName = 'full_name';
   static const String email = 'email';
   static const String profilePicture = 'profile';
   static const String phoneNumber = 'phone_number';
+  static const String role = "role";
 }

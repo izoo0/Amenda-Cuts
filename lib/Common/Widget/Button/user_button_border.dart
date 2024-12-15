@@ -1,11 +1,11 @@
 import 'package:amenda_cuts/Constants/color_constants.dart';
 import 'package:flutter/material.dart';
 
-Widget userButttonOutline({
-  required width,
-  required name,
-  required Function onTap,
-}) {
+Widget userButttonOutline(
+    {required width,
+    required name,
+    required Function onTap,
+    required BuildContext context}) {
   return SizedBox(
     width: width,
     child: TextButton(
@@ -20,13 +20,6 @@ Widget userButttonOutline({
                 color: ColorConstants.appColor,
               )),
         ),
-        child: Text(
-          name,
-          style: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-            color: ColorConstants.appTextColor,
-          ),
-        )),
+        child: Text(name, style: Theme.of(context).textTheme.bodySmall)),
   );
 }

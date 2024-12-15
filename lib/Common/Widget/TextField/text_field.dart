@@ -12,11 +12,12 @@ Widget commonTextField(
     required Function validator,
     Function? onTap,
     bool? isSearch,
+    required BuildContext context,
     icon}) {
   return TextFormField(
     controller: controller,
     keyboardType: TextInputType.text,
-    style: const TextStyle(color: ColorConstants.appTextColor),
+    style: Theme.of(context).textTheme.bodyLarge,
     expands: false,
     minLines: obscure ? 1 : null,
     obscureText: obscure,
@@ -28,7 +29,7 @@ Widget commonTextField(
       onChange(value);
     },
     decoration: InputDecoration(
-        fillColor: ColorConstants.blackBackground,
+        fillColor: Theme.of(context).cardColor,
         filled: true,
         hintText: text,
         suffixIcon: isPassword
@@ -41,11 +42,9 @@ Widget commonTextField(
                 child: obscure
                     ? const Icon(
                         Iconsax.eye,
-                        color: Color.fromARGB(255, 186, 186, 186),
                       )
                     : const Icon(
                         Iconsax.eye_slash,
-                        color: Color.fromARGB(255, 186, 186, 186),
                       ))
             : isSearch != null
                 ? const Icon(

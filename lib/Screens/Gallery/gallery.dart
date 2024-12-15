@@ -16,16 +16,13 @@ class _GalleryState extends State<Gallery> {
   @override
   Widget build(BuildContext context) {
     return NewAppBackground(
-      color: ColorConstants.appBackground,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: Scaffold(
-        backgroundColor: ColorConstants.appBackground,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
-          backgroundColor: ColorConstants.appBackground,
-          title: const Text(
-            'Our Gallery',
-            style: TextStyle(color: ColorConstants.appTextColor),
-          ),
-          centerTitle: true,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          title: Text('Our Gallery',
+              style: Theme.of(context).textTheme.displaySmall),
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -52,7 +49,7 @@ class _GalleryState extends State<Gallery> {
                           return Container(
                             decoration: BoxDecoration(
                               border: Border.all(
-                                width: 1,
+                                width: 2,
                                 color: ColorConstants.appColor,
                               ),
                               borderRadius: BorderRadius.circular(4),

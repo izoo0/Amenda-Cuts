@@ -17,7 +17,7 @@ bottomSheet(
         return Stack(
           children: [
             Card(
-                color: ColorConstants.blackBackground,
+                color: Theme.of(context).cardColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -31,9 +31,8 @@ bottomSheet(
                         height: 5,
                         width: 50,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                          color: ColorConstants.appColor,
-                        ),
+                            borderRadius: BorderRadius.circular(4),
+                            color: Theme.of(context).primaryColor),
                       ),
                     ),
                     child
@@ -46,11 +45,8 @@ bottomSheet(
                 onTap: () {
                   Navigator.pop(context);
                 },
-                child: const Icon(
-                  Iconsax.close_circle,
-                  size: 32,
-                  color: ColorConstants.appColor,
-                ),
+                child: Icon(Iconsax.close_circle,
+                    size: 32, color: Theme.of(context).primaryColor),
               ),
             )
           ],

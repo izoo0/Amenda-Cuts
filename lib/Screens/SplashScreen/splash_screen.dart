@@ -58,7 +58,7 @@ class _SplashScreenState extends State<SplashScreen>
     double mWidth = SizeConfig.blockSizeWidth!;
     return NewAppBackground(
         child: Scaffold(
-      backgroundColor: ColorConstants.appBackground,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Center(
         child: FadeTransition(
           opacity: _animation,
@@ -70,7 +70,7 @@ class _SplashScreenState extends State<SplashScreen>
                 image: const AssetImage('assets/Logo/logo.png'),
                 width: mWidth * 60,
               ),
-              preloader(mWidth * 7)
+              preloader(mWidth * 7, context)
             ],
           ),
         ),

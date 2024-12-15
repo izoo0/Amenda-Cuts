@@ -37,11 +37,17 @@ class _NewAppBackgroundState extends State<NewAppBackground> {
   Widget build(BuildContext context) {
     return AnnotatedRegion(
         value: SystemUiOverlayStyle(
-            statusBarIconBrightness: Brightness.dark,
-            statusBarColor: widget.color ?? ColorConstants.appBackground,
-            systemNavigationBarIconBrightness: Brightness.dark,
-            systemNavigationBarColor:
-                widget.color ?? ColorConstants.appBackground),
+          statusBarIconBrightness:
+              Theme.of(context).brightness == Brightness.dark
+                  ? Brightness.light
+                  : Brightness.dark,
+          statusBarColor: Colors.transparent,
+          systemNavigationBarIconBrightness:
+              Theme.of(context).brightness == Brightness.dark
+                  ? Brightness.dark
+                  : Brightness.light,
+          systemNavigationBarColor: Colors.transparent,
+        ),
         child: widget.child);
   }
 }

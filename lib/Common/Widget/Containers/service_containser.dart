@@ -22,7 +22,7 @@ Widget serviceContainer({
   return Container(
     decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: ColorConstants.blackBackground),
+        color: Theme.of(context).cardColor),
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
       child: Column(
@@ -42,10 +42,7 @@ Widget serviceContainer({
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             serviceName,
-            style: const TextStyle(
-              fontSize: 18,
-              color: ColorConstants.appTextColor,
-            ),
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
           const SizedBox(
             height: 8,
@@ -54,23 +51,16 @@ Widget serviceContainer({
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             discreption,
-            style: TextStyle(
-              fontSize: 14,
-              fontStyle: FontStyle.italic,
-              color: ColorConstants.appTextColor.withOpacity(0.7),
-            ),
+            style: Theme.of(context).textTheme.bodySmall,
           ),
           const SizedBox(
             height: 8,
           ),
-          Text(
-            ' Ksh $amount',
-            style: const TextStyle(
-              fontSize: 14,
-              color: ColorConstants.appColor,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
+          Text(' Ksh $amount',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .apply(color: Theme.of(context).primaryColor)),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -81,11 +71,14 @@ Widget serviceContainer({
                 child: Icon(
                   !isFavorite ? Iconsax.archive_add : Iconsax.archive_1,
                   color: !isFavorite
-                      ? ColorConstants.appTextColor
-                      : ColorConstants.appColor,
+                      ? Theme.of(context).brightness == Brightness.light
+                          ? Colors.black
+                          : Colors.white
+                      : Theme.of(context).primaryColor,
                 ),
               ),
               userButtton(
+                  context: context,
                   width: mWidth * 35,
                   name: 'Book Now',
                   onTap: () {

@@ -1,23 +1,32 @@
-class UsersModel {
-  final String name;
-  final String email;
-  final String number;
-  final String profile;
-  final String username;
+import 'package:amenda_cuts/Constants/FirebaseConstants/user_details_constants.dart';
 
-  UsersModel(
-      {required this.name,
-      required this.email,
-      required this.number,
-      required this.profile,
-      required this.username});
+class UsersModel {
+  final String? name;
+  final String? email;
+  final String? number;
+  final String? profile;
+  final String? username;
+  final String? role;
+
+  UsersModel({
+    this.name,
+    this.email,
+    this.number,
+    this.profile,
+    this.username,
+    this.role,
+  });
+  @override
+  String toString() =>
+      'UsersModel(name: $name,email: $email,number: $number,profile:$profile, username: $username,role: $role)';
   factory UsersModel.fromFirebase(Map<String, dynamic> userData) {
     return UsersModel(
-      name: userData['full_name'],
-      email: userData['email'],
-      number: userData['phone_number'],
-      profile: userData['profile'],
-      username: userData['username'],
+      name: userData[UserDetailsConstants.fullName] ?? '',
+      email: userData[UserDetailsConstants.email] ?? '',
+      number: userData[UserDetailsConstants.phoneNumber] ?? '',
+      profile: userData[UserDetailsConstants.profilePicture] ?? '',
+      username: userData[UserDetailsConstants.username] ?? '',
+      role: userData[UserDetailsConstants.role] ?? '',
     );
   }
 }

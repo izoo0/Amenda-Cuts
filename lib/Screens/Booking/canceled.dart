@@ -15,7 +15,7 @@ Container cancelledContainer(
   return Container(
     width: double.infinity,
     decoration: BoxDecoration(
-        color: ColorConstants.blackBackground,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(4)),
     child: Column(
       children: [
@@ -26,9 +26,10 @@ Container cancelledContainer(
             children: [
               Text(
                 instance.GetDateString(data.timestamp),
-                style: const TextStyle(color: ColorConstants.appTextColor),
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               userButtton(
+                context: context,
                 width: 80.0,
                 name: 'Cancel',
                 onTap: () {},
@@ -40,7 +41,9 @@ Container cancelledContainer(
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Divider(
-            color: ColorConstants.appTextColor.withOpacity(0.1),
+            color: Theme.of(context).brightness == Brightness.dark
+                ? ColorConstants.appTextColor.withOpacity(0.1)
+                : ColorConstants.blackBackground.withOpacity(0.1),
           ),
         ),
         Padding(
@@ -68,10 +71,7 @@ Container cancelledContainer(
                 children: [
                   Text(
                     data.serviceModel!.serviceName,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        color: ColorConstants.appTextColor),
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   const SizedBox(
                     height: 8,
@@ -84,17 +84,14 @@ Container cancelledContainer(
                         data.serviceModel!.serviceName,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
-                        style:
-                            const TextStyle(color: ColorConstants.appTextColor),
+                        style: Theme.of(context).textTheme.bodyMedium,
                       )),
                   const SizedBox(
                     height: 8,
                   ),
-                  const Text(
+                  Text(
                     'Description:',
-                    style: TextStyle(
-                      color: ColorConstants.appTextColor,
-                    ),
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   const SizedBox(
                     height: 5,
@@ -107,11 +104,9 @@ Container cancelledContainer(
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       data.serviceModel!.discreption,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontStyle: FontStyle.italic,
-                        color: ColorConstants.appColor.withOpacity(0.7),
-                      ),
+                      style: Theme.of(context).textTheme.bodyMedium!.apply(
+                          color: ColorConstants.appColor,
+                          fontStyle: FontStyle.italic),
                     ),
                   ),
                 ],

@@ -1,15 +1,11 @@
-import 'dart:ffi';
-
 import 'package:amenda_cuts/Auth/SignIn/sign_in.dart';
 import 'package:amenda_cuts/Common/Widget/Button/button.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/icon_container.dart';
 import 'package:amenda_cuts/Common/Widget/Preloader/preloader.dart';
 import 'package:amenda_cuts/Common/Widget/TextField/text_field.dart';
-import 'package:amenda_cuts/Constants/color_constants.dart';
 import 'package:amenda_cuts/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Constants/size_config.dart';
 import 'package:amenda_cuts/Functions/Auth/signup/signup.dart';
-import 'package:amenda_cuts/Screens/SplashScreen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:email_validator/email_validator.dart';
@@ -57,10 +53,10 @@ class _SignUpState extends State<SignUp> {
     double mWidth = SizeConfig.blockSizeWidth!;
 
     return NewAppBackground(
-      color: ColorConstants.appBackground,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: ColorConstants.appBackground,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8),
           child: Form(
@@ -76,6 +72,7 @@ class _SignUpState extends State<SignUp> {
                   height: 30,
                 ),
                 commonTextField(
+                  context: context,
                   controller: emailController,
                   text: "Email",
                   maxLines: 1,
@@ -95,6 +92,7 @@ class _SignUpState extends State<SignUp> {
                   height: 30,
                 ),
                 commonTextField(
+                  context: context,
                   controller: usernameController,
                   text: "Username",
                   maxLines: 1,
@@ -112,6 +110,7 @@ class _SignUpState extends State<SignUp> {
                   height: 30,
                 ),
                 commonTextField(
+                  context: context,
                   controller: phoneController,
                   text: "Phone number",
                   maxLines: 1,
@@ -129,6 +128,7 @@ class _SignUpState extends State<SignUp> {
                   height: 30,
                 ),
                 commonTextField(
+                  context: context,
                   controller: passwordController,
                   text: "Password",
                   maxLines: 1,
@@ -151,7 +151,7 @@ class _SignUpState extends State<SignUp> {
                   height: 30,
                 ),
                 button(
-                    color: ColorConstants.appColor,
+                    color: Theme.of(context).primaryColor,
                     onTap: () {
                       if (_formKey.currentState!.validate()) {
                         showDialog(
@@ -161,7 +161,7 @@ class _SignUpState extends State<SignUp> {
                                 child: SizedBox(
                                   width: 30,
                                   height: 30,
-                                  child: preloader(20.0),
+                                  child: preloader(20.0, context),
                                 ),
                               );
                             });
@@ -177,24 +177,22 @@ class _SignUpState extends State<SignUp> {
                 const SizedBox(
                   height: 30,
                 ),
-                const Row(
+                Row(
                   children: [
                     Expanded(
                       child: Divider(
-                        color: ColorConstants.blackBackground,
+                        color: Theme.of(context).dividerColor,
                         thickness: 2,
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Text(
-                        "Or continue with",
-                        style: TextStyle(color: ColorConstants.appTextColor),
-                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text("Or continue with",
+                          style: Theme.of(context).textTheme.bodyLarge),
                     ),
                     Expanded(
                       child: Divider(
-                        color: ColorConstants.blackBackground,
+                        color: Theme.of(context).primaryColor,
                         thickness: 2,
                       ),
                     ),
@@ -233,10 +231,8 @@ class _SignUpState extends State<SignUp> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
-                        "Already Have An Account ?",
-                        style: TextStyle(color: ColorConstants.appTextColor),
-                      ),
+                      Text("Already Have An Account ?",
+                          style: Theme.of(context).textTheme.displaySmall),
                       const SizedBox(
                         width: 5,
                       ),
@@ -246,12 +242,11 @@ class _SignUpState extends State<SignUp> {
                               MaterialPageRoute(
                                   builder: (context) => const SignIn()));
                         },
-                        child: const Text(
-                          "Sign In",
-                          style: TextStyle(
-                            color: ColorConstants.appColor,
-                          ),
-                        ),
+                        child: Text("Sign In",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .apply(color: Theme.of(context).primaryColor)),
                       )
                     ])
               ],

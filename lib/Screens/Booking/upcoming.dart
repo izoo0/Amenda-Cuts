@@ -17,7 +17,7 @@ Container upcommingContainer(OrderModel data, BuildContext context,
   return Container(
     width: double.infinity,
     decoration: BoxDecoration(
-        color: ColorConstants.blackBackground,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(4)),
     child: Column(
       children: [
@@ -28,13 +28,13 @@ Container upcommingContainer(OrderModel data, BuildContext context,
             children: [
               Text(
                 instance.GetDateString(data.timestamp),
-                style: TextStyle(color: ColorConstants.appTextColor),
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               Row(
                 children: [
-                  const Text(
+                  Text(
                     "Remind Me",
-                    style: TextStyle(color: ColorConstants.appTextColor),
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   Switch(
                     activeColor: ColorConstants.appColor,
@@ -53,7 +53,9 @@ Container upcommingContainer(OrderModel data, BuildContext context,
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Divider(
-            color: ColorConstants.appTextColor.withOpacity(0.1),
+            color: Theme.of(context).brightness == Brightness.dark
+                ? ColorConstants.appTextColor.withOpacity(0.1)
+                : ColorConstants.blackBackground.withOpacity(0.1),
           ),
         ),
         Padding(
@@ -79,12 +81,9 @@ Container upcommingContainer(OrderModel data, BuildContext context,
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     "Hair Cut",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        color: ColorConstants.appTextColor),
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   const SizedBox(
                     height: 8,
@@ -97,17 +96,14 @@ Container upcommingContainer(OrderModel data, BuildContext context,
                         data.serviceModel!.serviceName,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
-                        style:
-                            const TextStyle(color: ColorConstants.appTextColor),
+                        style: Theme.of(context).textTheme.bodyMedium,
                       )),
                   const SizedBox(
                     height: 8,
                   ),
-                  const Text(
+                  Text(
                     'Description:',
-                    style: TextStyle(
-                      color: ColorConstants.appTextColor,
-                    ),
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   const SizedBox(
                     height: 5,
@@ -120,11 +116,9 @@ Container upcommingContainer(OrderModel data, BuildContext context,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       data.serviceModel!.discreption,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontStyle: FontStyle.italic,
-                        color: ColorConstants.appColor.withOpacity(0.7),
-                      ),
+                      style: Theme.of(context).textTheme.bodyMedium!.apply(
+                          color: Theme.of(context).primaryColor,
+                          fontStyle: FontStyle.italic),
                     ),
                   ),
                 ],
@@ -138,7 +132,9 @@ Container upcommingContainer(OrderModel data, BuildContext context,
             vertical: 8,
           ),
           child: Divider(
-            color: ColorConstants.appTextColor.withOpacity(0.1),
+            color: Theme.of(context).brightness == Brightness.dark
+                ? ColorConstants.appTextColor.withOpacity(0.1)
+                : ColorConstants.blackBackground.withOpacity(0.1),
           ),
         ),
         Padding(
@@ -150,6 +146,7 @@ Container upcommingContainer(OrderModel data, BuildContext context,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               userButttonOutline(
+                context: context,
                 width: mWidth * 40,
                 name: "Cancel Booking",
                 onTap: () {
@@ -157,7 +154,8 @@ Container upcommingContainer(OrderModel data, BuildContext context,
                 },
               ),
               userButtton(
-                  color: ColorConstants.appColor,
+                  context: context,
+                  color: Theme.of(context).primaryColor,
                   width: mWidth * 40,
                   name: "View E-Receipt",
                   onTap: () {

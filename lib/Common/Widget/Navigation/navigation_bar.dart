@@ -33,51 +33,53 @@ class _BottomNavigatorState extends State<BottomNavigator> {
       backgroundColor: Colors.transparent,
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: ColorConstants.appColor,
-        unselectedItemColor: ColorConstants.appTextColor.withOpacity(0.5),
+        unselectedItemColor: Theme.of(context).brightness == Brightness.light
+            ? ColorConstants.blackBackground.withOpacity(0.5)
+            : ColorConstants.appTextColor.withOpacity(0.5),
         showUnselectedLabels: false,
         iconSize: 28,
         type: BottomNavigationBarType.fixed,
         selectedFontSize: 0,
         currentIndex: myCurrentIndex,
-        backgroundColor: ColorConstants.blackBackground,
+        backgroundColor: Theme.of(context).cardColor,
         useLegacyColorScheme: false,
         onTap: (int index) {
           setState(() {
             myCurrentIndex = index;
           });
         },
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            backgroundColor: ColorConstants.blackBackground,
-            icon: Icon(
+            backgroundColor: Theme.of(context).cardColor,
+            icon: const Icon(
               Iconsax.home,
             ),
             label: '.',
           ),
           BottomNavigationBarItem(
-            backgroundColor: ColorConstants.blackBackground,
-            icon: Icon(
+            backgroundColor: Theme.of(context).cardColor,
+            icon: const Icon(
               Iconsax.gallery,
             ),
             label: '.',
           ),
           BottomNavigationBarItem(
-            backgroundColor: ColorConstants.blackBackground,
-            icon: Icon(
+            backgroundColor: Theme.of(context).cardColor,
+            icon: const Icon(
               Iconsax.book,
             ),
             label: '.',
           ),
           BottomNavigationBarItem(
-            backgroundColor: ColorConstants.blackBackground,
-            icon: Icon(
+            backgroundColor: Theme.of(context).cardColor,
+            icon: const Icon(
               Iconsax.message,
             ),
             label: '.',
           ),
           BottomNavigationBarItem(
-            backgroundColor: ColorConstants.blackBackground,
-            icon: Icon(
+            backgroundColor: Theme.of(context).cardColor,
+            icon: const Icon(
               Iconsax.setting,
             ),
             label: '.',

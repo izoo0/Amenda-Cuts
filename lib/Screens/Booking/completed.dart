@@ -14,7 +14,7 @@ Container completedContainer(OrderModel data, BuildContext context) {
   return Container(
     width: double.infinity,
     decoration: BoxDecoration(
-        color: ColorConstants.blackBackground,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(4)),
     child: Column(
       children: [
@@ -25,9 +25,10 @@ Container completedContainer(OrderModel data, BuildContext context) {
             children: [
               Text(
                 instance.GetDateString(data.timestamp),
-                style: const TextStyle(color: ColorConstants.appTextColor),
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               userButtton(
+                  context: context,
                   width: mWidth * 20,
                   name: "Completed",
                   onTap: () {},
@@ -38,7 +39,9 @@ Container completedContainer(OrderModel data, BuildContext context) {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Divider(
-            color: ColorConstants.appTextColor.withOpacity(0.1),
+            color: Theme.of(context).brightness == Brightness.dark
+                ? ColorConstants.appTextColor.withOpacity(0.1)
+                : ColorConstants.blackBackground.withOpacity(0.1),
           ),
         ),
         Padding(
@@ -66,10 +69,7 @@ Container completedContainer(OrderModel data, BuildContext context) {
                 children: [
                   Text(
                     data.serviceModel!.serviceName,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        color: ColorConstants.appTextColor),
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   const SizedBox(
                     height: 8,
@@ -82,17 +82,14 @@ Container completedContainer(OrderModel data, BuildContext context) {
                         data.serviceModel!.serviceName,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
-                        style:
-                            const TextStyle(color: ColorConstants.appTextColor),
+                        style: Theme.of(context).textTheme.bodyMedium,
                       )),
                   const SizedBox(
                     height: 8,
                   ),
-                  const Text(
+                  Text(
                     'Description:',
-                    style: TextStyle(
-                      color: ColorConstants.appTextColor,
-                    ),
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   const SizedBox(
                     height: 5,
@@ -105,11 +102,9 @@ Container completedContainer(OrderModel data, BuildContext context) {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       data.serviceModel!.discreption,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontStyle: FontStyle.italic,
-                        color: ColorConstants.appColor.withOpacity(0.7),
-                      ),
+                      style: Theme.of(context).textTheme.bodyMedium!.apply(
+                          color: ColorConstants.appColor,
+                          fontStyle: FontStyle.italic),
                     ),
                   ),
                 ],
@@ -123,7 +118,9 @@ Container completedContainer(OrderModel data, BuildContext context) {
             vertical: 8,
           ),
           child: Divider(
-            color: ColorConstants.appTextColor.withOpacity(0.1),
+            color: Theme.of(context).brightness == Brightness.dark
+                ? ColorConstants.appTextColor.withOpacity(0.1)
+                : ColorConstants.blackBackground.withOpacity(0.1),
           ),
         ),
         Padding(
@@ -132,6 +129,7 @@ Container completedContainer(OrderModel data, BuildContext context) {
             vertical: 16,
           ),
           child: userButttonOutline(
+              context: context,
               width: mWidth * 90,
               name: "View Receipt",
               onTap: () {

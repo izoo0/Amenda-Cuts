@@ -6,6 +6,7 @@ Widget userButtton({
   required name,
   required color,
   required Function onTap,
+  required BuildContext context,
 }) {
   return SizedBox(
     width: width,
@@ -17,13 +18,10 @@ Widget userButtton({
           backgroundColor: color,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
         ),
-        child: Text(
-          name,
-          style: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-            color: ColorConstants.appTextColor,
-          ),
-        )),
+        child: Text(name,
+            style: Theme.of(context).textTheme.bodyMedium!.apply(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? ColorConstants.blackBackground
+                    : ColorConstants.appTextColor))),
   );
 }

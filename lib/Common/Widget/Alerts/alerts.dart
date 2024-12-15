@@ -45,7 +45,7 @@ class _AnimatedAlertDialogState extends State<AnimatedAlertDialog>
         child: AlertDialog(
           backgroundColor: Colors.transparent,
           content: Card(
-            color: ColorConstants.blackBackground,
+            color: Theme.of(context).cardColor,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
             child: Padding(
@@ -58,14 +58,14 @@ class _AnimatedAlertDialogState extends State<AnimatedAlertDialog>
                   ),
                   Text(
                     widget.title,
-                    style: const TextStyle(color: ColorConstants.appTextColor),
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   Text(
                     widget.content,
-                    style: const TextStyle(color: ColorConstants.appTextColor),
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
