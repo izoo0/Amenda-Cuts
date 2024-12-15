@@ -2,7 +2,9 @@ import 'package:amenda_cuts/Constants/color_constants.dart';
 import 'package:amenda_cuts/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Models/service_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class Gallery extends StatefulWidget {
   const Gallery({super.key});
@@ -24,50 +26,52 @@ class _GalleryState extends State<Gallery> {
           title: Text('Our Gallery',
               style: Theme.of(context).textTheme.displaySmall),
         ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: StreamBuilder<List<ServiceModel>>(
-                stream: instance.fetchServices(),
-                builder: (context, snapshot) {
-                  final service = snapshot.data;
-                  if (snapshot.hasData && snapshot.data != null) {
-                    return GridView.builder(
-                        shrinkWrap: true,
-                        physics: const BouncingScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          childAspectRatio: 0.8,
-                          mainAxisSpacing: 10, // Vertical spacing between items
-                          crossAxisSpacing:
-                              10, // Horizontal spacing between items
-                        ),
-                        itemCount: service?.length,
-                        itemBuilder: (context, index) {
-                          final image = service?[index];
-                          return Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 2,
-                                color: ColorConstants.appColor,
-                              ),
-                              borderRadius: BorderRadius.circular(4),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: StreamBuilder<List<ServiceModel>>(
+              stream: instance.fetchServices(),
+              builder: (context, snapshot) {
+                final service = snapshot.data;
+                if (snapshot.hasData && snapshot.data != null) {
+                  return GridView.custom(
+                      scrollDirection: Axis.vertical,
+                      semanticChildCount: service?.length ?? 0,
+                      physics: const BouncingScrollPhysics(),
+                      gridDelegate: SliverQuiltedGridDelegate(
+                        crossAxisCount: 4,
+                        mainAxisSpacing: 4,
+                        crossAxisSpacing: 4,
+                        repeatPattern: QuiltedGridRepeatPattern.inverted,
+                        pattern: [
+                          const QuiltedGridTile(2, 2),
+                          const QuiltedGridTile(1, 1),
+                          const QuiltedGridTile(1, 1),
+                          const QuiltedGridTile(1, 2),
+                        ],
+                      ),
+                      childrenDelegate:
+                          SliverChildBuilderDelegate((context, index) {
+                        final image = service?[index];
+                        return Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 2,
+                              color: ColorConstants.appColor,
                             ),
-                            child: ClipRRect(
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: ClipRRect(
                               borderRadius: BorderRadius.circular(4),
-                              child: Image(
-                                image: NetworkImage(image?.serviceImage ?? ''),
+                              child: CachedNetworkImage(
+                                imageUrl: image?.serviceImage ?? '',
                                 fit: BoxFit.cover,
-                              ),
-                            ),
-                          );
-                        });
-                  } else {
-                    return const SizedBox.shrink();
-                  }
-                }),
-          ),
+                              )),
+                        );
+                      }));
+                } else {
+                  return const SizedBox.shrink();
+                }
+              }),
         ),
       ),
     );

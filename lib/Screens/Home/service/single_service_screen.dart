@@ -166,80 +166,85 @@ class _SingleServiceScreenState extends State<SingleServiceScreen> {
                   padding: const EdgeInsets.symmetric(
                     horizontal: 14.0,
                   ),
-                  child: ListView(
-                    shrinkWrap: false,
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
                     scrollDirection: Axis.vertical,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    children: [
-                      Text(
-                        "Choose your loation",
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                      Row(
-                        children: [
-                          ...location.map((location) {
-                            return Row(
-                              children: [
-                                radioListTile(
-                                    value: location,
-                                    groupValue: serviceLocation,
-                                    onChange: (val) {
-                                      setState(() {
-                                        serviceLocation = val;
-                                      });
-                                    }),
-                                Text(location),
-                              ],
-                            );
-                          }),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "Date",
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                      datePicker(
-                        selectedTime: _selectedTime,
-                        onDateChange: (date) {
-                          final now = DateTime.now();
-                          final today = DateTime(now.year, now.month, now.day);
-                          if (date.isBefore(today)) {
-                            showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return const AnimatedAlertDialog(
-                                    title: "Date",
-                                    content: "Please select a current date",
-                                  );
-                                });
-                          } else {
-                            setState(() {
-                              _selectedTime = date;
-                            });
-                          }
-                        },
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "Time",
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      timeRange(
-                          context: context,
-                          onRangeCompleted: (range) {
-                            setState(() {
-                              time = range;
-                            });
-                          })
-                    ],
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 10),
+                        Text(
+                          "Choose your loation",
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        Row(
+                          children: [
+                            ...location.map((location) {
+                              return Row(
+                                children: [
+                                  radioListTile(
+                                      value: location,
+                                      groupValue: serviceLocation,
+                                      onChange: (val) {
+                                        setState(() {
+                                          serviceLocation = val;
+                                        });
+                                      }),
+                                  Text(location),
+                                ],
+                              );
+                            }),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "Date",
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        datePicker(
+                          selectedTime: _selectedTime,
+                          onDateChange: (date) {
+                            final now = DateTime.now();
+                            final today =
+                                DateTime(now.year, now.month, now.day);
+                            if (date.isBefore(today)) {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return const AnimatedAlertDialog(
+                                      title: "Date",
+                                      content: "Please select a current date",
+                                    );
+                                  });
+                            } else {
+                              setState(() {
+                                _selectedTime = date;
+                              });
+                            }
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          "Time",
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        timeRange(
+                            context: context,
+                            onRangeCompleted: (range) {
+                              setState(() {
+                                time = range;
+                              });
+                            }),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -282,7 +287,7 @@ class _SingleServiceScreenState extends State<SingleServiceScreen> {
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

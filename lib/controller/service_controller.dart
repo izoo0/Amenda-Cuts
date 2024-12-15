@@ -16,7 +16,7 @@ ServiceController(
 
 getSingleService(
     {required BuildContext context, required ServiceModel serviceModel}) async {
-  service = await ServiceController(
+  List<ServiceModel> service = await ServiceController(
     serviceModel: serviceModel,
     context: context,
   );

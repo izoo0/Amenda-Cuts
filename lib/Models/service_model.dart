@@ -1,3 +1,5 @@
+import 'package:amenda_cuts/Constants/FirebaseConstants/firebase_service_constants.dart';
+
 class ServiceModel {
   final String documentId;
   final String serviceName;
@@ -7,6 +9,9 @@ class ServiceModel {
   final String discreption;
   final List<String> favorite;
   final bool isDeleted;
+  final String? bookingDate;
+  final String? timeRange;
+  final String? location;
   ServiceModel(
       {required this.serviceName,
       required this.serviceImage,
@@ -15,6 +20,9 @@ class ServiceModel {
       required this.discreption,
       required this.favorite,
       required this.documentId,
+      this.bookingDate,
+      this.location,
+      this.timeRange,
       required this.isDeleted});
   @override
   String toString() =>
@@ -22,7 +30,7 @@ class ServiceModel {
   factory ServiceModel.fromFirebase(
       {required Map<String, dynamic> serviceData, documentId}) {
     List<String> favoriteList = [];
-    var newFavorite = serviceData['favorite'];
+    var newFavorite = serviceData[FirebaseServiceConstants.serviceFavorite];
     if (newFavorite != null && newFavorite is List) {
       newFavorite.forEach((id) {
         favoriteList.add(id);
@@ -30,15 +38,18 @@ class ServiceModel {
     }
 
     return ServiceModel(
-        serviceName: serviceData['name'],
-        serviceImage: serviceData['image'],
-        serviceRatings: serviceData['ratings'],
-        servicePrice: serviceData['price'],
-        discreption: serviceData['description'],
-        favorite: favoriteList,
-        isDeleted: serviceData['isDeleted'],
-        documentId: documentId);
+      serviceName: serviceData[FirebaseServiceConstants.serviceName],
+      serviceImage: serviceData[FirebaseServiceConstants.serviceReserveDate],
+      serviceRatings: serviceData[FirebaseServiceConstants.serviceRatings],
+      servicePrice: serviceData[FirebaseServiceConstants.servicePrice],
+      discreption: serviceData[FirebaseServiceConstants.serviceDescription],
+      favorite: favoriteList,
+      isDeleted: serviceData[FirebaseServiceConstants.serviceisDeleted],
+      documentId: documentId,
+      location: serviceData[FirebaseServiceConstants.serviceLocation] ?? '',
+      bookingDate:
+          serviceData[FirebaseServiceConstants.serviceReserveDate] ?? '',
+      timeRange: serviceData[FirebaseServiceConstants.serviceTimeRange] ?? '',
+    );
   }
 }
-
-List<ServiceModel> service = [];
