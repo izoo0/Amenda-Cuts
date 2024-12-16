@@ -32,7 +32,7 @@ class _BottomNavigatorState extends State<BottomNavigator> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: ColorConstants.appColor,
+        selectedItemColor: Theme.of(context).primaryColor,
         unselectedItemColor: Theme.of(context).brightness == Brightness.light
             ? ColorConstants.blackBackground.withOpacity(0.5)
             : ColorConstants.appTextColor.withOpacity(0.5),

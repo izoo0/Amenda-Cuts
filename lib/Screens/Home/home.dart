@@ -1,15 +1,22 @@
+import 'package:amenda_cuts/Admin/Category/category.dart';
+import 'package:amenda_cuts/Admin/Charts/charts.dart';
+import 'package:amenda_cuts/Admin/Dashboard/dashboard.dart';
+import 'package:amenda_cuts/Admin/Service/service.dart';
+import 'package:amenda_cuts/Admin/Users/users.dart';
 import 'package:amenda_cuts/Common/Widget/BottomSheet/bottom_sheet.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/category_container.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/service_containser.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/slider_container.dart';
+import 'package:amenda_cuts/Common/Widget/Listview/drawer_list_view.dart';
+import 'package:amenda_cuts/Common/Widget/Rating/rating_widget.dart';
 import 'package:amenda_cuts/Common/Widget/TextField/text_field.dart';
-import 'package:amenda_cuts/Constants/color_constants.dart';
 import 'package:amenda_cuts/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Constants/size_config.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Models/service_model.dart';
 import 'package:amenda_cuts/Models/users_model.dart';
 import 'package:amenda_cuts/Provider/user_details_provider.dart';
+import 'package:amenda_cuts/Screens/Booking/booking.dart';
 import 'package:amenda_cuts/Screens/Home/favorite/favorite.dart';
 import 'package:amenda_cuts/Screens/Home/service/single_service_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -42,6 +49,23 @@ class _HomeState extends State<Home> {
     searchController.dispose();
   }
 
+  int currentIndex = 0;
+
+  List<Widget> screens = [
+    const Dashboard(),
+    const Booking(),
+    const Users(),
+    const Service(),
+    const Category(),
+    const Charts(),
+  ];
+
+  void changePage(int index) {
+    setState(() {
+      currentIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -54,6 +78,7 @@ class _HomeState extends State<Home> {
         UsersModel usersDetails = userDetailsProvider.usersModel;
         return Scaffold(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          drawer: Drawer(child: Text("Hello")),
           appBar: AppBar(
             toolbarHeight: 60,
             elevation: 0,
@@ -68,6 +93,7 @@ class _HomeState extends State<Home> {
                           imageUrl: usersDetails.profile ?? '',
                           width: 45,
                           height: 45,
+                          fit: BoxFit.cover,
                         )
                       : const Image(
                           image: AssetImage('assets/Logo/logo.png'),
@@ -107,6 +133,13 @@ class _HomeState extends State<Home> {
               const SizedBox(
                 width: 10,
               ),
+              GestureDetector(
+                onTap: () {
+                  Scaffold.of(context).openDrawer();
+                  print("Hello");
+                },
+                child: const Icon(Iconsax.menu),
+              )
             ],
           ),
           body: SingleChildScrollView(
@@ -139,7 +172,65 @@ class _HomeState extends State<Home> {
                   const SizedBox(
                     height: 15,
                   ),
-                  sliderContainer(),
+                  Container(
+                    width: double.infinity,
+                    constraints: const BoxConstraints(
+                      maxWidth: double.infinity,
+                      maxHeight: 200,
+                    ),
+                    child: ListView.builder(
+                        itemCount: 5,
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return sliderContainer(
+                            context: context,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: CachedNetworkImage(
+                                      imageUrl:
+                                          'https://plus.unsplash.com/premium_photo-1658506711778-d56cdeae1b9b?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                                      width: 80,
+                                      height: 80,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    "Gerishom Amenda",
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    "Hair Cut Specialist",
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Row(
+                                    children: [
+                                      ratingBar(
+                                          context: context, initialRating: 4.2),
+                                      const SizedBox(
+                                        width: 4,
+                                      ),
+                                      const Text('4.2')
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        }),
+                  ),
                   const SizedBox(
                     height: 15,
                   ),
@@ -147,97 +238,26 @@ class _HomeState extends State<Home> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Column(
-                        children: [
-                          categoryContainer(
-                              child: const Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 10),
-                            child: Image(
-                              image: AssetImage('assets/Images/cu.png'),
-                              width: 5,
-                            ),
-                          )),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          Text(
-                            'Haircuts',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          )
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          categoryContainer(
-                              child: const Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 10),
-                            child: Image(
-                              image: AssetImage('assets/Images/dr.png'),
-                              width: 5,
-                            ),
-                          )),
-                          Text(
-                            'Dreadlocks',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          )
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          categoryContainer(
-                              child: const Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 10),
-                            child: Image(
-                              image: AssetImage('assets/Images/c.png'),
-                              width: 5,
-                            ),
-                          )),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          Text(
-                            'Hair Color',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          )
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          categoryContainer(
-                              child: const Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 10),
-                            child: Image(
-                              image: AssetImage('assets/Images/p.png'),
-                              width: 5,
-                            ),
-                          )),
-                          Text(
-                            'Pedicure',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          )
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          categoryContainer(
-                              child: const Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 10),
-                            child: Image(
-                              image: AssetImage('assets/Images/m.png'),
-                              width: 5,
-                            ),
-                          )),
-                          Text(
-                            'Manicure',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          )
-                        ],
-                      ),
+                      categoryContainer(
+                          context: context,
+                          path: 'assets/Images/cu.png',
+                          category: "Haircuts"),
+                      categoryContainer(
+                          context: context,
+                          path: 'assets/Images/dr.png',
+                          category: "Dreadlocks"),
+                      categoryContainer(
+                          context: context,
+                          path: 'assets/Images/c.png',
+                          category: "Hair Color"),
+                      categoryContainer(
+                          context: context,
+                          path: 'assets/Images/p.png',
+                          category: "Pedicure"),
+                      categoryContainer(
+                          context: context,
+                          path: 'assets/Images/m.png',
+                          category: "Manicure")
                     ],
                   ),
                   const SizedBox(
@@ -252,11 +272,13 @@ class _HomeState extends State<Home> {
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           final service = snapshot.data!;
-                          print("+++++++++++++++++++++++++++$service");
+
                           return GridView.builder(
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
-                                      childAspectRatio: 0.67,
+                                      childAspectRatio: 0.66,
+                                      mainAxisSpacing: 6,
+                                      crossAxisSpacing: 6,
                                       crossAxisCount: 2),
                               shrinkWrap: true,
                               itemCount: service.length,

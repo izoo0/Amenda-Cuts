@@ -53,7 +53,11 @@ class _ProfileState extends State<Profile> {
                         ? ClipRRect(
                             borderRadius: BorderRadius.circular(50),
                             child: CachedNetworkImage(
-                                imageUrl: userDetails.profile ?? ''),
+                              imageUrl: userDetails.profile ?? '',
+                              width: 45,
+                              height: 45,
+                              fit: BoxFit.cover,
+                            ),
                           )
                         : const Image(
                             image: AssetImage("assets/Logo/logo.png")),

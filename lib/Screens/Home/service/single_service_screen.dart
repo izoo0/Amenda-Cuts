@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:amenda_cuts/Common/Widget/Alerts/alerts.dart';
 import 'package:amenda_cuts/Common/Widget/Button/user_button.dart';
 import 'package:amenda_cuts/Common/Widget/Calendar/date_picker_widget.dart';
+import 'package:amenda_cuts/Common/Widget/Rating/rating_widget.dart';
 import 'package:amenda_cuts/Common/Widget/Time/time_picker_widget.dart';
 import 'package:amenda_cuts/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Constants/size_config.dart';
@@ -87,7 +88,7 @@ class _SingleServiceScreenState extends State<SingleServiceScreen> {
                             topLeft: Radius.circular(12),
                             topRight: Radius.circular(12))),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Column(
                         children: [
                           const SizedBox(
@@ -126,17 +127,9 @@ class _SingleServiceScreenState extends State<SingleServiceScreen> {
                                   const SizedBox(
                                     height: 4,
                                   ),
-                                  RatingBar.readOnly(
-                                    isHalfAllowed: true,
-                                    filledIcon: Icons.star,
-                                    halfFilledIcon: Icons.star_half,
-                                    halfFilledColor:
-                                        Theme.of(context).primaryColor,
-                                    filledColor: Theme.of(context).primaryColor,
-                                    size: 18,
-                                    emptyIcon: Icons.star_border,
+                                  ratingBar(
+                                    context: context,
                                     initialRating: 4.2,
-                                    maxRating: 5,
                                   )
                                 ],
                               )
