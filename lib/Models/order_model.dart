@@ -36,7 +36,8 @@ class OrderModel {
     if (serviceSnapshot.exists) {
       Map<String, dynamic> serviceData =
           serviceSnapshot.data() as Map<String, dynamic>;
-      serviceModel = ServiceModel.fromFirebase(serviceData: serviceData);
+      serviceModel = ServiceModel.fromFirebase(
+          serviceData: serviceData, documentId: serviceSnapshot.id);
     }
     return OrderModel(
         timestamp: bookingTime,

@@ -24,7 +24,7 @@ class UserDetailsProvider extends ChangeNotifier {
       );
     } else {
       firestore
-          .collection(FirebaseCollectionContant.usersCollection)
+          .collection(FirebaseCollectionConstant.usersCollection)
           .doc(userId)
           .snapshots()
           .listen((snap) {

@@ -3,12 +3,10 @@ import 'package:amenda_cuts/Common/Widget/Alerts/alerts.dart';
 import 'package:amenda_cuts/Common/Widget/Button/user_button.dart';
 import 'package:amenda_cuts/Common/Widget/Calendar/date_picker_widget.dart';
 import 'package:amenda_cuts/Common/Widget/Time/time_picker_widget.dart';
-import 'package:amenda_cuts/Constants/color_constants.dart';
 import 'package:amenda_cuts/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Constants/size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
-import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
@@ -25,7 +23,6 @@ class SingleServiceScreen extends StatefulWidget {
 
 class _SingleServiceScreenState extends State<SingleServiceScreen> {
   DateTime _selectedTime = DateTime.now();
-  DateTime _pickedDate = DateTime.now();
   TimeRangeResult? time;
   String serviceLocation = '';
 
@@ -67,7 +64,7 @@ class _SingleServiceScreenState extends State<SingleServiceScreen> {
                       },
                       child: const Icon(
                         Iconsax.arrow_left_2,
-                        size: 24,
+                        size: 32,
                       ),
                     ),
                   ),
@@ -118,7 +115,7 @@ class _SingleServiceScreenState extends State<SingleServiceScreen> {
                                         Theme.of(context).textTheme.bodyLarge,
                                   ),
                                   Text(
-                                    'Avarage: 4.2',
+                                    'Average: 4.2',
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium!
@@ -175,7 +172,7 @@ class _SingleServiceScreenState extends State<SingleServiceScreen> {
                       children: [
                         const SizedBox(height: 10),
                         Text(
-                          "Choose your loation",
+                          "Choose your location",
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                         Row(
@@ -191,7 +188,7 @@ class _SingleServiceScreenState extends State<SingleServiceScreen> {
                                           serviceLocation = val;
                                         });
                                       }),
-                                  Text(location),
+                                  Text(location.toUpperCase()),
                                 ],
                               );
                             }),

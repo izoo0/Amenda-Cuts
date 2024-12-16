@@ -1,5 +1,9 @@
+// ignore_for_file: unnecessary_cast
+
+import 'package:amenda_cuts/Constants/FirebaseConstants/firebase_collection_contant.dart';
 import 'package:amenda_cuts/Models/order_model.dart';
 import 'package:amenda_cuts/Models/service_model.dart';
+import 'package:amenda_cuts/controller/service_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +17,10 @@ class Apis extends ChangeNotifier {
   static final user = FirebaseAuth.instance.currentUser;
 
   Stream<List<ServiceModel>> fetchServices() {
-    return firestore.collection('services').snapshots().map((snapshot) {
+    return firestore
+        .collection(FirebaseCollectionConstant.serviceCollection)
+        .snapshots()
+        .map((snapshot) {
       return snapshot.docs.map((doc) {
         return ServiceModel.fromFirebase(
             serviceData: doc.data() as Map<String, dynamic>,
@@ -33,17 +40,23 @@ class Apis extends ChangeNotifier {
       for (var doc in snapshot.docs) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
 
-        // Extract basic order details
-        DateTime timestamp = (data['timestamp'] as Timestamp).toDate();
+        Future<OrderModel> orderModel =
+            OrderModel.fromFirebase(orderModel: data, orderId: doc.id);
         String serviceId = data['serviceId'];
-        String status = data['status'];
-        bool? remindMe = data['remindMe'];
-        String orderId = doc.id;
+
         // Fetch the associated service model
         DocumentSnapshot serviceSnapshot =
             await firestore.collection('services').doc(serviceId).get();
 
-        ServiceModel? serviceModel;
+        ServiceModel serviceModel = ServiceModel(
+            serviceName: '',
+            serviceImage: '',
+            serviceRatings: 0,
+            servicePrice: '',
+            discreption: '',
+            favorite: [],
+            documentId: '',
+            isDeleted: false);
         if (serviceSnapshot.exists) {
           Map<String, dynamic> serviceData =
               serviceSnapshot.data() as Map<String, dynamic>;
@@ -53,14 +66,14 @@ class Apis extends ChangeNotifier {
           );
         }
 
-        // Add OrderModel with populated serviceModel to the list
-        orders.add(OrderModel(
-            timestamp: timestamp,
-            serviceId: serviceId,
-            status: status,
-            serviceModel: serviceModel,
-            remindMe: remindMe,
-            orderId: orderId));
+        // Use the corrected getSingleService
+        List<OrderModel> singleServiceOrders = await getSingleService(
+          serviceModel: serviceModel,
+          orderModel: orderModel,
+        );
+
+        // Add the result to the list
+        orders.addAll(singleServiceOrders);
       }
       return orders;
     });

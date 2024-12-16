@@ -252,6 +252,7 @@ class _HomeState extends State<Home> {
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           final service = snapshot.data!;
+                          print("+++++++++++++++++++++++++++$service");
                           return GridView.builder(
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
@@ -262,6 +263,7 @@ class _HomeState extends State<Home> {
                               physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
                                 final data = service[index];
+
                                 bool favorite = false;
                                 final documentId = data.documentId;
                                 var favorites =
@@ -304,7 +306,7 @@ class _HomeState extends State<Home> {
                                 );
                               });
                         } else {
-                          return const Text("No data availabe");
+                          return const Text("No data available");
                         }
                       })
                 ],

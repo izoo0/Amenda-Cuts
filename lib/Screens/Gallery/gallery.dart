@@ -51,7 +51,10 @@ class _GalleryState extends State<Gallery> {
                       ),
                       childrenDelegate:
                           SliverChildBuilderDelegate((context, index) {
-                        final image = service?[index];
+                        if (service == null || index >= service.length) {
+                          return const SizedBox.shrink();
+                        }
+                        final image = service[index];
                         return Container(
                           decoration: BoxDecoration(
                             border: Border.all(

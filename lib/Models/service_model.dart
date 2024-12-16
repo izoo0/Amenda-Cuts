@@ -9,9 +9,6 @@ class ServiceModel {
   final String discreption;
   final List<String> favorite;
   final bool isDeleted;
-  final String? bookingDate;
-  final String? timeRange;
-  final String? location;
   ServiceModel(
       {required this.serviceName,
       required this.serviceImage,
@@ -20,15 +17,12 @@ class ServiceModel {
       required this.discreption,
       required this.favorite,
       required this.documentId,
-      this.bookingDate,
-      this.location,
-      this.timeRange,
       required this.isDeleted});
   @override
   String toString() =>
       'ServiceModel(serviceName: $serviceName, serviceImage: $serviceImage, serviceRatings: $serviceRatings, servicePrice: $servicePrice, discreption: $discreption, favorite: $favorite, isDeleted: $isDeleted)';
   factory ServiceModel.fromFirebase(
-      {required Map<String, dynamic> serviceData, documentId}) {
+      {required Map<String, dynamic> serviceData, required documentId}) {
     List<String> favoriteList = [];
     var newFavorite = serviceData[FirebaseServiceConstants.serviceFavorite];
     if (newFavorite != null && newFavorite is List) {
@@ -39,17 +33,13 @@ class ServiceModel {
 
     return ServiceModel(
       serviceName: serviceData[FirebaseServiceConstants.serviceName],
-      serviceImage: serviceData[FirebaseServiceConstants.serviceReserveDate],
+      serviceImage: serviceData[FirebaseServiceConstants.serviceImage],
       serviceRatings: serviceData[FirebaseServiceConstants.serviceRatings],
       servicePrice: serviceData[FirebaseServiceConstants.servicePrice],
       discreption: serviceData[FirebaseServiceConstants.serviceDescription],
       favorite: favoriteList,
       isDeleted: serviceData[FirebaseServiceConstants.serviceisDeleted],
-      documentId: documentId,
-      location: serviceData[FirebaseServiceConstants.serviceLocation] ?? '',
-      bookingDate:
-          serviceData[FirebaseServiceConstants.serviceReserveDate] ?? '',
-      timeRange: serviceData[FirebaseServiceConstants.serviceTimeRange] ?? '',
+      documentId: documentId ?? '',
     );
   }
 }
