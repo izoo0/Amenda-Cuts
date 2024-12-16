@@ -7,7 +7,7 @@ import 'package:iconsax/iconsax.dart';
 Widget serviceContainer({
   required image,
   required serviceName,
-  required discreption,
+  required description,
   required amount,
   required maxWidth,
   ServiceModel? serviceModel,
@@ -76,7 +76,7 @@ Widget serviceContainer({
               child: Text(
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                discreption,
+                description,
                 style: TextStyle(
                   fontSize: 14,
                   fontStyle: FontStyle.italic,

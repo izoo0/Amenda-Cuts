@@ -1,4 +1,3 @@
-import 'package:amenda_cuts/Constants/color_constants.dart';
 import 'package:amenda_cuts/Screens/OnBoarding/on_boardig_two.dart';
 import 'package:amenda_cuts/Screens/OnBoarding/on_boarding_one.dart';
 import 'package:flutter/material.dart';

@@ -3,7 +3,6 @@ import 'package:amenda_cuts/Common/Widget/Preloader/preloader.dart';
 import 'package:amenda_cuts/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Constants/size_config.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
-import 'package:amenda_cuts/Screens/Home/home.dart';
 import 'package:amenda_cuts/Screens/OnBoarding/on_boarding.dart';
 import 'package:flutter/material.dart';
 import 'package:amenda_cuts/Constants/color_constants.dart';

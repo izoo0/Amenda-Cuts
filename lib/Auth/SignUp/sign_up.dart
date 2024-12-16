@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:amenda_cuts/Auth/SignIn/sign_in.dart';
 import 'package:amenda_cuts/Common/Widget/Button/button.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/icon_container.dart';
@@ -30,7 +28,6 @@ class _SignUpState extends State<SignUp> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     usernameController = TextEditingController();
     passwordController = TextEditingController();
@@ -41,7 +38,6 @@ class _SignUpState extends State<SignUp> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     usernameController.dispose();
     passwordController.dispose();
@@ -83,7 +79,7 @@ class _SignUpState extends State<SignUp> {
                     if (value == null || value.isEmpty) {
                       return 'Email is required';
                     } else if (!EmailValidator.validate(value)) {
-                      return 'Plaease enter a valid email';
+                      return 'Please enter a valid email';
                     }
                   },
                   icon: Iconsax.messages,

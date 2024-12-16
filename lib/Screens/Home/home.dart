@@ -1,10 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:amenda_cuts/Common/Widget/Alerts/alerts.dart';
 import 'package:amenda_cuts/Common/Widget/BottomSheet/bottom_sheet.dart';
 import 'package:amenda_cuts/Common/Widget/Button/user_button.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/category_container.dart';
-import 'package:amenda_cuts/Common/Widget/Containers/service_containser.dart';
+import 'package:amenda_cuts/Common/Widget/Containers/service_container.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/slider_container.dart';
-import 'package:amenda_cuts/Common/Widget/Navigation/navigation_bar.dart';
 import 'package:amenda_cuts/Common/Widget/TextField/text_field.dart';
 import 'package:amenda_cuts/Constants/color_constants.dart';
 import 'package:amenda_cuts/Constants/new_app_background.dart';
@@ -458,7 +459,7 @@ class _HomeState extends State<Home> {
                                           maxWidth: mWidth * 60,
                                           image: data.serviceImage,
                                           serviceName: data.serviceName,
-                                          discreption: data.discreption,
+                                          description: data.discreption,
                                           amount: data.servicePrice,
                                           isFavorite: favorite,
                                           onTapBook: () async {
@@ -489,7 +490,7 @@ class _HomeState extends State<Home> {
                                     );
                             });
                       } else {
-                        return const Text("No data availabe");
+                        return const Text("No data available");
                       }
                     })
               ],

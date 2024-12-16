@@ -6,7 +6,6 @@ import 'package:amenda_cuts/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Constants/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class OnBoardigTwo extends StatefulWidget {
   const OnBoardigTwo({super.key});

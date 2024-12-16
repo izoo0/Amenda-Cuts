@@ -15,8 +15,7 @@ class _ReceiptState extends State<Receipt> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    double mWidth = SizeConfig.blockSizeWidth!;
-    double mHeight = SizeConfig.blockSizeHeight!;
+
     return NewAppBackground(
         color: ColorConstants.appBackground,
         child: Scaffold(

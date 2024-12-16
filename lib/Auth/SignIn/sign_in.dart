@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:amenda_cuts/Auth/SignUp/sign_up.dart';
 import 'package:amenda_cuts/Common/Widget/Button/button.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/icon_container.dart';
