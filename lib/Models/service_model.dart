@@ -6,7 +6,7 @@ class ServiceModel {
   final String serviceImage;
   final num serviceRatings;
   final String servicePrice;
-  final String discreption;
+  final String description;
   final List<String> favorite;
   final bool isDeleted;
   ServiceModel(
@@ -14,21 +14,21 @@ class ServiceModel {
       required this.serviceImage,
       required this.serviceRatings,
       required this.servicePrice,
-      required this.discreption,
+      required this.description,
       required this.favorite,
       required this.documentId,
       required this.isDeleted});
   @override
   String toString() =>
-      'ServiceModel(serviceName: $serviceName, serviceImage: $serviceImage, serviceRatings: $serviceRatings, servicePrice: $servicePrice, discreption: $discreption, favorite: $favorite, isDeleted: $isDeleted)';
+      'ServiceModel(serviceName: $serviceName, serviceImage: $serviceImage, serviceRatings: $serviceRatings, servicePrice: $servicePrice, description: $description, favorite: $favorite, isDeleted: $isDeleted)';
   factory ServiceModel.fromFirebase(
       {required Map<String, dynamic> serviceData, required documentId}) {
     List<String> favoriteList = [];
     var newFavorite = serviceData[FirebaseServiceConstants.serviceFavorite];
     if (newFavorite != null && newFavorite is List) {
-      newFavorite.forEach((id) {
+      for (var id in newFavorite) {
         favoriteList.add(id);
-      });
+      }
     }
 
     return ServiceModel(
@@ -36,9 +36,9 @@ class ServiceModel {
       serviceImage: serviceData[FirebaseServiceConstants.serviceImage],
       serviceRatings: serviceData[FirebaseServiceConstants.serviceRatings],
       servicePrice: serviceData[FirebaseServiceConstants.servicePrice],
-      discreption: serviceData[FirebaseServiceConstants.serviceDescription],
+      description: serviceData[FirebaseServiceConstants.serviceDescription],
       favorite: favoriteList,
-      isDeleted: serviceData[FirebaseServiceConstants.serviceisDeleted],
+      isDeleted: serviceData[FirebaseServiceConstants.serviceIsDeleted],
       documentId: documentId ?? '',
     );
   }

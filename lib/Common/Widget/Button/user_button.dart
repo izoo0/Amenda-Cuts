@@ -1,7 +1,7 @@
 import 'package:amenda_cuts/Constants/color_constants.dart';
 import 'package:flutter/material.dart';
 
-Widget userButtton({
+Widget userButton({
   required width,
   required name,
   required color,

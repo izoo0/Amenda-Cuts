@@ -25,10 +25,10 @@ Container cancelledContainer(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                instance.GetDateString(data.timestamp),
+                instance.getDateString(data.timestamp),
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
-              userButtton(
+              userButton(
                 context: context,
                 width: 80.0,
                 name: 'Cancel',
@@ -103,7 +103,7 @@ Container cancelledContainer(
                     child: Text(
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      data.serviceModel!.discreption,
+                      data.serviceModel!.description,
                       style: Theme.of(context).textTheme.bodyMedium!.apply(
                           color: ColorConstants.appColor,
                           fontStyle: FontStyle.italic),

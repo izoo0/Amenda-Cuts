@@ -1,4 +1,3 @@
-import 'package:amenda_cuts/Constants/color_constants.dart';
 import 'package:flutter/material.dart';
 
 class AnimatedAlertDialog extends StatefulWidget {
@@ -85,7 +84,7 @@ class _AnimatedAlertDialogState extends State<AnimatedAlertDialog>
               ),
             ),
           ),
-          actions: <Widget>[],
+          actions: const <Widget>[],
         ),
       ),
     );

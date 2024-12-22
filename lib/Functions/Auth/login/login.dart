@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:amenda_cuts/Common/Widget/Alerts/alerts.dart';
 import 'package:amenda_cuts/Common/Widget/Navigation/navigation_bar.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
@@ -20,13 +22,12 @@ class Login {
 
       userDetailsProvider.getUserDetails();
     } catch (e) {
-      print(e.toString());
       Navigator.of(context).pop();
       return showDialog(
           context: context,
           builder: (_) {
             return const AnimatedAlertDialog(
-                title: 'Erorr', content: 'Incorrect username or password');
+                title: 'Error', content: 'Incorrect username or password');
           });
     }
   }

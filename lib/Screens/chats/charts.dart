@@ -1,4 +1,3 @@
-import 'package:amenda_cuts/Constants/color_constants.dart';
 import 'package:amenda_cuts/Constants/new_app_background.dart';
 import 'package:flutter/material.dart';
 

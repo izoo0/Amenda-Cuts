@@ -23,7 +23,8 @@ Widget categoryContainer(
                     stops: const [0.0, 1.0],
                   )),
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: Image(
                   image: AssetImage(path),
                   width: 5,

@@ -1,6 +1,6 @@
 // ignore_for_file: unnecessary_cast
 
-import 'package:amenda_cuts/Constants/FirebaseConstants/firebase_collection_contant.dart';
+import 'package:amenda_cuts/Constants/FirebaseConstants/firebase_collection_constant.dart';
 import 'package:amenda_cuts/Models/order_model.dart';
 import 'package:amenda_cuts/Models/service_model.dart';
 import 'package:amenda_cuts/controller/service_controller.dart';
@@ -53,7 +53,7 @@ class Apis extends ChangeNotifier {
             serviceImage: '',
             serviceRatings: 0,
             servicePrice: '',
-            discreption: '',
+            description: '',
             favorite: [],
             documentId: '',
             isDeleted: false);
@@ -89,13 +89,14 @@ class Apis extends ChangeNotifier {
     });
   }
 
-  String GetDateString(DateTime date) {
+  String getDateString(DateTime date) {
     DateTime now = DateTime.now();
     DateTime todayStart = DateTime(now.year, now.month, now.day, 0, 0, 0);
     DateTime endOfToday =
         DateTime(now.year, now.month, now.day, 23, 59, 59, 999);
-    DateTime startOfYesterday = todayStart.subtract(Duration(days: 1));
-    DateTime endOfYesterday = todayStart.subtract(Duration(milliseconds: 1));
+    DateTime startOfYesterday = todayStart.subtract(const Duration(days: 1));
+    DateTime endOfYesterday =
+        todayStart.subtract(const Duration(milliseconds: 1));
     if (date == DateTime(1980)) {
       return '';
     } else if (date.isAfter(todayStart) && date.isBefore(endOfToday)) {
@@ -108,7 +109,7 @@ class Apis extends ChangeNotifier {
     }
   }
 
-  Future<void> remidMe(bool value, String docId) async {
+  Future<void> remindMe(bool value, String docId) async {
     try {
       DocumentReference docRef = firestore.collection('booking').doc(docId);
       await docRef.update({'remindMe': !value});

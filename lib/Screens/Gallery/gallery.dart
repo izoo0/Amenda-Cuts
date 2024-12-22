@@ -66,7 +66,7 @@ class _GalleryState extends State<Gallery> {
                           child: ClipRRect(
                               borderRadius: BorderRadius.circular(4),
                               child: CachedNetworkImage(
-                                imageUrl: image?.serviceImage ?? '',
+                                imageUrl: image.serviceImage,
                                 fit: BoxFit.cover,
                               )),
                         );

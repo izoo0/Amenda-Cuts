@@ -7,7 +7,6 @@ import 'package:amenda_cuts/Common/Widget/Time/time_picker_widget.dart';
 import 'package:amenda_cuts/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Constants/size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
@@ -267,7 +266,7 @@ class _SingleServiceScreenState extends State<SingleServiceScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      userButtton(
+                      userButton(
                           width: double.infinity,
                           name: "Book Now",
                           color: Theme.of(context).primaryColor,

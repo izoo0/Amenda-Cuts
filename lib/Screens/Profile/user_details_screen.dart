@@ -3,7 +3,6 @@
 import 'package:amenda_cuts/Common/Widget/Button/user_button.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/user_details_container.dart';
 import 'package:amenda_cuts/Common/Widget/Listtile/user_details_list_tile.dart';
-import 'package:amenda_cuts/Constants/FirebaseConstants/user_details_constants.dart';
 import 'package:amenda_cuts/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Constants/size_config.dart';
 import 'package:amenda_cuts/Models/users_model.dart';
@@ -108,7 +107,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                   )
                                 ],
                               ),
-                              userButtton(
+                              userButton(
                                   width: width * 30,
                                   name: "Change Profile",
                                   color: Theme.of(context).primaryColor,

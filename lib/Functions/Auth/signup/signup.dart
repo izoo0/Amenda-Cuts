@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:amenda_cuts/Auth/SignIn/sign_in.dart';
 import 'package:amenda_cuts/Common/Widget/Alerts/alerts.dart';
 import 'package:amenda_cuts/Constants/FirebaseConstants/user_details_constants.dart';
@@ -32,7 +34,7 @@ class Signup {
           builder: (_) {
             return const AnimatedAlertDialog(
               title: 'Sign Up',
-              content: "Your accout has been registerd successfully",
+              content: "Your account has been registered successfully",
             );
           });
       return user;

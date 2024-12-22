@@ -5,7 +5,7 @@ class FirebaseServiceConstants {
   static const serviceRatings = 'ratings';
   static const servicePrice = 'price';
   static const serviceDescription = 'description';
-  static const serviceisDeleted = 'isDeleted';
+  static const serviceIsDeleted = 'isDeleted';
   static const serviceLocation = 'location';
   static const serviceReserveDate = 'reserveDate';
   static const serviceTimeRange = 'timeRange';

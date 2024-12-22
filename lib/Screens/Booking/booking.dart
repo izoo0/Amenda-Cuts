@@ -142,11 +142,11 @@ class _BookingState extends State<Booking> {
                                             ? Padding(
                                                 padding: const EdgeInsets.only(
                                                     bottom: 8.0, top: 10),
-                                                child: upcommingContainer(
+                                                child: upcomingContainer(
                                                     data, context,
                                                     value: light1,
                                                     onTap: (bool value) {
-                                                  instance.remidMe(
+                                                  instance.remindMe(
                                                       light1, data.orderId);
                                                 }, onCancelTap: () {
                                                   bottomSheet(
@@ -217,7 +217,7 @@ class _BookingState extends State<Booking> {
                                                                 MainAxisAlignment
                                                                     .spaceEvenly,
                                                             children: [
-                                                              userButtton(
+                                                              userButton(
                                                                   context:
                                                                       context,
                                                                   width:
@@ -233,7 +233,7 @@ class _BookingState extends State<Booking> {
                                                                     Navigator.pop(
                                                                         context);
                                                                   }),
-                                                              userButtton(
+                                                              userButton(
                                                                   context:
                                                                       context,
                                                                   width:

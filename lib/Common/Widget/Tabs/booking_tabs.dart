@@ -20,10 +20,10 @@ class _BookingTabsState extends State<BookingTabs> {
               ButtonsTabBar(
                 backgroundColor: Colors.red,
                 unselectedBackgroundColor: Colors.grey[300],
-                unselectedLabelStyle: TextStyle(color: Colors.black),
-                labelStyle:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                tabs: [
+                unselectedLabelStyle: const TextStyle(color: Colors.black),
+                labelStyle: const TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.bold),
+                tabs: const [
                   Tab(
                     icon: Icon(Icons.directions_car),
                     text: "car",
@@ -38,7 +38,7 @@ class _BookingTabsState extends State<BookingTabs> {
                   Tab(icon: Icon(Icons.directions_bike)),
                 ],
               ),
-              Expanded(
+              const Expanded(
                 child: TabBarView(
                   children: <Widget>[
                     Center(

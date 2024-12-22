@@ -1,6 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:amenda_cuts/Common/Widget/Alerts/alerts.dart';
-import 'package:amenda_cuts/Screens/OnBoarding/on_boardig_two.dart';
+import 'package:amenda_cuts/Screens/OnBoarding/on_boarding_two.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class SignOut {
@@ -12,7 +15,7 @@ class SignOut {
     try {
       await FirebaseAuth.instance.signOut();
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const OnBoardigTwo()),
+        MaterialPageRoute(builder: (context) => const OnBoardingTwo()),
       );
       showDialog(
         context: context,
@@ -24,7 +27,9 @@ class SignOut {
         },
       );
     } catch (e) {
-      print("Error signing out: $e");
+      if (kDebugMode) {
+        print("Error signing out: $e");
+      }
     }
   }
 }

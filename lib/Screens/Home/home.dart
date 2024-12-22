@@ -5,9 +5,8 @@ import 'package:amenda_cuts/Admin/Service/service.dart';
 import 'package:amenda_cuts/Admin/Users/users.dart';
 import 'package:amenda_cuts/Common/Widget/BottomSheet/bottom_sheet.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/category_container.dart';
-import 'package:amenda_cuts/Common/Widget/Containers/service_containser.dart';
+import 'package:amenda_cuts/Common/Widget/Containers/service_container.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/slider_container.dart';
-import 'package:amenda_cuts/Common/Widget/Listview/drawer_list_view.dart';
 import 'package:amenda_cuts/Common/Widget/Rating/rating_widget.dart';
 import 'package:amenda_cuts/Common/Widget/TextField/text_field.dart';
 import 'package:amenda_cuts/Constants/new_app_background.dart';
@@ -78,7 +77,7 @@ class _HomeState extends State<Home> {
         UsersModel usersDetails = userDetailsProvider.usersModel;
         return Scaffold(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          drawer: Drawer(child: Text("Hello")),
+          drawer: const Drawer(child: Text("Hello")),
           appBar: AppBar(
             toolbarHeight: 60,
             elevation: 0,
@@ -136,7 +135,7 @@ class _HomeState extends State<Home> {
               GestureDetector(
                 onTap: () {
                   Scaffold.of(context).openDrawer();
-                  print("Hello");
+                  // print("Hello");
                 },
                 child: const Icon(Iconsax.menu),
               )
@@ -297,18 +296,18 @@ class _HomeState extends State<Home> {
                                 return serviceContainer(
                                   image: data.serviceImage,
                                   serviceName: data.serviceName,
-                                  discreption: data.discreption,
+                                  description: data.description,
                                   amount: data.servicePrice,
                                   onTap: () {
                                     bottomSheet(
                                         context: context,
                                         height: mHeight * 24,
-                                        child: favoritewidget(
+                                        child: favoriteWidget(
                                             context: context,
                                             isFavorite: favorite,
                                             image: data.serviceImage,
-                                            discreption: data.discreption,
-                                            servicename: data.serviceName,
+                                            description: data.description,
+                                            serviceName: data.serviceName,
                                             price: data.servicePrice,
                                             onTap: () {
                                               instance.userFavorite(favorite,

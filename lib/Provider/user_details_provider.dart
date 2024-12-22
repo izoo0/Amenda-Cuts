@@ -1,4 +1,4 @@
-import 'package:amenda_cuts/Constants/FirebaseConstants/firebase_collection_contant.dart';
+import 'package:amenda_cuts/Constants/FirebaseConstants/firebase_collection_constant.dart';
 import 'package:amenda_cuts/Models/users_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,7 +31,6 @@ class UserDetailsProvider extends ChangeNotifier {
         Map<String, dynamic> userDetails = snap.data() as Map<String, dynamic>;
         _usersModel = UsersModel.fromFirebase(userDetails);
         notifyListeners();
-        print(_usersModel);
       });
     }
   }

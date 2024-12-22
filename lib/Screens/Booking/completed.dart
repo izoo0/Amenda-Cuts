@@ -24,10 +24,10 @@ Container completedContainer(OrderModel data, BuildContext context) {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                instance.GetDateString(data.timestamp),
+                instance.getDateString(data.timestamp),
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
-              userButtton(
+              userButton(
                   context: context,
                   width: mWidth * 20,
                   name: "Completed",
@@ -101,7 +101,7 @@ Container completedContainer(OrderModel data, BuildContext context) {
                     child: Text(
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      data.serviceModel!.discreption,
+                      data.serviceModel!.description,
                       style: Theme.of(context).textTheme.bodyMedium!.apply(
                           color: ColorConstants.appColor,
                           fontStyle: FontStyle.italic),
@@ -128,7 +128,7 @@ Container completedContainer(OrderModel data, BuildContext context) {
             horizontal: 8.0,
             vertical: 16,
           ),
-          child: userButttonOutline(
+          child: userButtonOutline(
               context: context,
               width: mWidth * 90,
               name: "View Receipt",

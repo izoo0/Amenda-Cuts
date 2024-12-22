@@ -3,10 +3,10 @@ import 'package:amenda_cuts/Constants/color_constants.dart';
 import 'package:amenda_cuts/Constants/size_config.dart';
 import 'package:flutter/material.dart';
 
-Widget favoritewidget(
+Widget favoriteWidget(
     {required String image,
-    required String discreption,
-    required String servicename,
+    required String description,
+    required String serviceName,
     required String price,
     required bool isFavorite,
     required Function onTap,
@@ -49,7 +49,7 @@ Widget favoritewidget(
                   Text(
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    servicename,
+                    serviceName,
                     style: const TextStyle(
                       fontSize: 18,
                       color: ColorConstants.appTextColor,
@@ -65,7 +65,7 @@ Widget favoritewidget(
                     child: Text(
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      discreption,
+                      description,
                       style: TextStyle(
                         fontSize: 14,
                         fontStyle: FontStyle.italic,

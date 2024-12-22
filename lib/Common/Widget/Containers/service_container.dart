@@ -8,7 +8,7 @@ import 'package:iconsax/iconsax.dart';
 Widget serviceContainer({
   required String image,
   required serviceName,
-  required discreption,
+  required description,
   required amount,
   ServiceModel? serviceModel,
   required Function onTap,
@@ -50,7 +50,7 @@ Widget serviceContainer({
           Text(
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            discreption,
+            description,
             style: Theme.of(context).textTheme.bodySmall,
           ),
           const SizedBox(
@@ -77,7 +77,7 @@ Widget serviceContainer({
                       : Theme.of(context).primaryColor,
                 ),
               ),
-              userButtton(
+              userButton(
                   context: context,
                   width: mWidth * 35,
                   name: 'Book Now',

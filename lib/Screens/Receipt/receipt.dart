@@ -103,7 +103,6 @@ class _ReceiptState extends State<Receipt> {
                           LayoutBuilder(
                             builder: (BuildContext context,
                                 BoxConstraints constraints) {
-                              print('${constraints.constrainWidth()}');
                               return Flex(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.max,

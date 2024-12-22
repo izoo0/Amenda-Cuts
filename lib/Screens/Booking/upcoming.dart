@@ -6,7 +6,7 @@ import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Models/order_model.dart';
 import 'package:flutter/material.dart';
 
-Container upcommingContainer(OrderModel data, BuildContext context,
+Container upcomingContainer(OrderModel data, BuildContext context,
     {required Function onTap,
     required bool value,
     required Function onCancelTap,
@@ -27,7 +27,7 @@ Container upcommingContainer(OrderModel data, BuildContext context,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                instance.GetDateString(data.timestamp),
+                instance.getDateString(data.timestamp),
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               Row(
@@ -115,7 +115,7 @@ Container upcommingContainer(OrderModel data, BuildContext context,
                     child: Text(
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      data.serviceModel!.discreption,
+                      data.serviceModel!.description,
                       style: Theme.of(context).textTheme.bodyMedium!.apply(
                           color: Theme.of(context).primaryColor,
                           fontStyle: FontStyle.italic),
@@ -145,7 +145,7 @@ Container upcommingContainer(OrderModel data, BuildContext context,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              userButttonOutline(
+              userButtonOutline(
                 context: context,
                 width: mWidth * 40,
                 name: "Cancel Booking",
@@ -153,7 +153,7 @@ Container upcommingContainer(OrderModel data, BuildContext context,
                   onCancelTap();
                 },
               ),
-              userButtton(
+              userButton(
                   context: context,
                   color: Theme.of(context).primaryColor,
                   width: mWidth * 40,

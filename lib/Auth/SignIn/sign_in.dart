@@ -6,12 +6,9 @@ import 'package:amenda_cuts/Common/Widget/TextField/text_field.dart';
 import 'package:amenda_cuts/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Constants/size_config.dart';
 import 'package:amenda_cuts/Functions/Auth/login/login.dart';
-import 'package:amenda_cuts/Provider/user_details_provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:provider/provider.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -78,7 +75,7 @@ class _SignInState extends State<SignIn> {
                     if (value == null || value.isEmpty) {
                       return 'Email is required';
                     } else if (!EmailValidator.validate(value)) {
-                      return 'Plaease enter a valid email';
+                      return 'Please enter a valid email';
                     }
                   },
                   icon: Iconsax.user,
