@@ -7,6 +7,7 @@ import 'package:amenda_cuts/Common/Widget/BottomSheet/bottom_sheet.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/category_container.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/service_container.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/slider_container.dart';
+import 'package:amenda_cuts/Common/Widget/Drawer/drawer_items.dart';
 import 'package:amenda_cuts/Common/Widget/Rating/rating_widget.dart';
 import 'package:amenda_cuts/Common/Widget/TextField/text_field.dart';
 import 'package:amenda_cuts/Constants/new_app_background.dart';
@@ -36,6 +37,7 @@ class _HomeState extends State<Home> {
 
   User? user = FirebaseAuth.instance.currentUser;
   final Apis instance = Apis.instance;
+  bool isActive = false;
   @override
   void initState() {
     super.initState();
@@ -75,9 +77,105 @@ class _HomeState extends State<Home> {
       child: Consumer<UserDetailsProvider>(
           builder: (context, userDetailsProvider, _) {
         UsersModel usersDetails = userDetailsProvider.usersModel;
+        SizeConfig().init(context);
+        double height = SizeConfig.blockSizeHeight!;
         return Scaffold(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          drawer: const Drawer(child: Text("Hello")),
+          drawer: Drawer(
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+              Radius.circular(0),
+            )),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: height * 16,
+                  color: Theme.of(context).cardColor,
+                  child: SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(30),
+                                child: CachedNetworkImage(
+                                  imageUrl: usersDetails.profile ?? '',
+                                  width: 60,
+                                  height: 60,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(Iconsax.sun_1))
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    usersDetails.name ?? '',
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                  const SizedBox(
+                                    height: 2,
+                                  ),
+                                  Text(
+                                    usersDetails.number ?? '',
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall,
+                                  ),
+                                ],
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    isActive = !isActive;
+                                  });
+                                },
+                                icon: Icon(
+                                  !isActive
+                                      ? Iconsax.arrow_down_1
+                                      : Iconsax.arrow_up_2,
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                drawerItems(
+                  context: context,
+                  isActive: isActive,
+                  userProfile: usersDetails.profile ?? '',
+                  userName: usersDetails.name ?? '',
+                )
+              ],
+            ),
+          ),
           appBar: AppBar(
             toolbarHeight: 60,
             elevation: 0,
@@ -321,7 +419,9 @@ class _HomeState extends State<Home> {
                                     Navigator.of(context).push(
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                const SingleServiceScreen()));
+                                                SingleServiceScreen(
+                                                  serviceModel: data,
+                                                )));
                                   },
                                   context: context,
                                 );

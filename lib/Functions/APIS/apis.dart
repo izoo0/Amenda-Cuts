@@ -1,5 +1,6 @@
 // ignore_for_file: unnecessary_cast
 
+import 'package:amenda_cuts/Common/Widget/Alerts/alerts.dart';
 import 'package:amenda_cuts/Constants/FirebaseConstants/firebase_collection_constant.dart';
 import 'package:amenda_cuts/Models/order_model.dart';
 import 'package:amenda_cuts/Models/service_model.dart';
@@ -79,14 +80,27 @@ class Apis extends ChangeNotifier {
     });
   }
 
-  Future<dynamic> bookNow(String documentId, String userId) {
-    return firestore.collection('booking').add({
-      'serviceId': documentId,
-      'userId': userId,
-      'timestamp': Timestamp.now(),
-      'status': 'upcoming',
-      'remindMe': false,
-    });
+  Future<void> bookNow(
+      String documentId, String userId, date, time, location) async {
+    try {
+      await firestore.collection('booking').add({
+        'serviceId': documentId,
+        'userId': userId,
+        'timestamp': Timestamp.now(),
+        'status': 'upcoming',
+        'remindMe': false,
+        'date': date,
+        'time': time,
+        'location': location,
+      });
+
+      const AnimatedAlertDialog(
+          title: "Success", content: "You have made your booking successfully");
+    } catch (e) {
+      const AnimatedAlertDialog(
+          title: "Error",
+          content: "An error occurred while creating your booking");
+    }
   }
 
   String getDateString(DateTime date) {
@@ -146,5 +160,9 @@ class Apis extends ChangeNotifier {
     } catch (e) {
       //
     }
+  }
+
+  String dateFormat({required date}) {
+    return DateFormat.yMMMEd().format(date);
   }
 }

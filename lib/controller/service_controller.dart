@@ -16,6 +16,9 @@ Future<List<OrderModel>> getSingleService({
       serviceModel: serviceModel,
       remindMe: order.remindMe,
       orderId: order.orderId,
+      time: order.time,
+      date: order.date,
+      location: order.location,
     )
   ];
 }

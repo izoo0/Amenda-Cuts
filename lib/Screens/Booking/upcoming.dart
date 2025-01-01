@@ -137,6 +137,25 @@ Container upcomingContainer(OrderModel data, BuildContext context,
                 : ColorConstants.blackBackground.withOpacity(0.1),
           ),
         ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text("Location: ${data.location}"),
+            Text("Date: ${instance.dateFormat(date: data.date)}"),
+            Text("Time:${data.time}")
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 8,
+          ),
+          child: Divider(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? ColorConstants.appTextColor.withOpacity(0.1)
+                : ColorConstants.blackBackground.withOpacity(0.1),
+          ),
+        ),
         Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 8.0,
