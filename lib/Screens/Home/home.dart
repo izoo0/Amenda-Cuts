@@ -188,27 +188,16 @@ class _HomeState extends State<Home> {
                   child: usersDetails.profile != null
                       ? CachedNetworkImage(
                           imageUrl: usersDetails.profile ?? '',
-<<<<<<< HEAD
-                          width: 30,
-                          height: 30,
-=======
                           width: 36,
                           height: 36,
->>>>>>> 29104e7fa78fc7c8317c188b0fb96a6de6e54864
                           fit: BoxFit.cover,
                         )
                       : const Image(
                           image: AssetImage('assets/Logo/logo.png'),
-<<<<<<< HEAD
-                          width: 30,
-=======
                           width: 36,
->>>>>>> 29104e7fa78fc7c8317c188b0fb96a6de6e54864
                         ),
                 ),
-                const SizedBox(
-                  width: 5,
-                ),
+                const SizedBox(width: 5),
                 Text(
                   'Amenda Cuts',
                   style: Theme.of(context).textTheme.bodyLarge,
@@ -236,12 +225,6 @@ class _HomeState extends State<Home> {
                   size: 25,
                 ),
               ),
-<<<<<<< HEAD
-              const SizedBox(
-                width: 10,
-              ),
-=======
->>>>>>> 29104e7fa78fc7c8317c188b0fb96a6de6e54864
             ],
           ),
           body: SingleChildScrollView(
@@ -382,7 +365,7 @@ class _HomeState extends State<Home> {
                           return GridView.builder(
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
-                                      childAspectRatio: mHeight / 13.55,
+                                      childAspectRatio: mHeight / 16.5,
                                       mainAxisSpacing: 6,
                                       crossAxisSpacing: 6,
                                       crossAxisCount: 2),
