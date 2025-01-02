@@ -188,13 +188,13 @@ class _HomeState extends State<Home> {
                   child: usersDetails.profile != null
                       ? CachedNetworkImage(
                           imageUrl: usersDetails.profile ?? '',
-                          width: 45,
-                          height: 45,
+                          width: 30,
+                          height: 30,
                           fit: BoxFit.cover,
                         )
                       : const Image(
                           image: AssetImage('assets/Logo/logo.png'),
-                          width: 45,
+                          width: 30,
                         ),
                 ),
                 const SizedBox(
@@ -230,13 +230,6 @@ class _HomeState extends State<Home> {
               const SizedBox(
                 width: 10,
               ),
-              GestureDetector(
-                onTap: () {
-                  Scaffold.of(context).openDrawer();
-                  // print("Hello");
-                },
-                child: const Icon(Iconsax.menu),
-              )
             ],
           ),
           body: SingleChildScrollView(
