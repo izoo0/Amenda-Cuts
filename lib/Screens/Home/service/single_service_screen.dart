@@ -153,7 +153,7 @@ class _SingleServiceScreenState extends State<SingleServiceScreen> {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                  height: mHeight * 60,
+                  height: mHeight * 58,
                   width: double.infinity,
                   decoration: BoxDecoration(
                       color: Theme.of(context).scaffoldBackgroundColor,
@@ -165,7 +165,7 @@ class _SingleServiceScreenState extends State<SingleServiceScreen> {
                       horizontal: 14.0,
                     ),
                     child: SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
+                      physics: const AlwaysScrollableScrollPhysics(),
                       scrollDirection: Axis.vertical,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -252,7 +252,7 @@ class _SingleServiceScreenState extends State<SingleServiceScreen> {
                                 });
                               }),
                           SizedBox(
-                            height: mHeight * 10,
+                            height: mHeight * 16,
                           )
                         ],
                       ),
@@ -265,10 +265,12 @@ class _SingleServiceScreenState extends State<SingleServiceScreen> {
                 child: Container(
                   height: mHeight * 10,
                   constraints: BoxConstraints(
-                    maxHeight: mHeight * 15,
+                    minHeight: mHeight * 14,
                   ),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(24),
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(12),
+                        topRight: Radius.circular(12)),
                     color: Theme.of(context).cardColor,
                   ),
                   child: Padding(
@@ -325,12 +327,3 @@ class _SingleServiceScreenState extends State<SingleServiceScreen> {
     });
   }
 }
-
-// errorSnackBar({required BuildContext context}) {
-//   ScaffoldMessenger.of(context).showSnackBar(
-//     const SnackBar(
-//       backgroundColor: Colors.red,
-//       content: Text("Please select time"),
-//     ),
-//   );
-// }

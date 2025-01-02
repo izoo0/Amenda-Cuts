@@ -98,7 +98,7 @@ Container cancelledContainer(
                   ),
                   Container(
                     constraints: BoxConstraints(
-                      maxWidth: mWidth * 60,
+                      maxWidth: mWidth * 50,
                     ),
                     child: Text(
                       maxLines: 2,

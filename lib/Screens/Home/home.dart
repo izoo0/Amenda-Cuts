@@ -94,7 +94,6 @@ class _HomeState extends State<Home> {
               children: [
                 Container(
                   width: double.infinity,
-                  height: height * 16,
                   color: Theme.of(context).cardColor,
                   child: SafeArea(
                     child: Padding(
@@ -322,31 +321,35 @@ class _HomeState extends State<Home> {
                   const SizedBox(
                     height: 15,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      categoryContainer(
-                          context: context,
-                          path: 'assets/Images/cu.png',
-                          category: "Haircuts"),
-                      categoryContainer(
-                          context: context,
-                          path: 'assets/Images/dr.png',
-                          category: "Dreadlocks"),
-                      categoryContainer(
-                          context: context,
-                          path: 'assets/Images/c.png',
-                          category: "Hair Color"),
-                      categoryContainer(
-                          context: context,
-                          path: 'assets/Images/p.png',
-                          category: "Pedicure"),
-                      categoryContainer(
-                          context: context,
-                          path: 'assets/Images/m.png',
-                          category: "Manicure")
-                    ],
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        categoryContainer(
+                            context: context,
+                            path: 'assets/Images/cu.png',
+                            category: "Haircuts"),
+                        categoryContainer(
+                            context: context,
+                            path: 'assets/Images/dr.png',
+                            category: "Dreadlocks"),
+                        categoryContainer(
+                            context: context,
+                            path: 'assets/Images/c.png',
+                            category: "Hair Color"),
+                        categoryContainer(
+                            context: context,
+                            path: 'assets/Images/p.png',
+                            category: "Pedicure"),
+                        categoryContainer(
+                            context: context,
+                            path: 'assets/Images/m.png',
+                            category: "Manicure")
+                      ],
+                    ),
                   ),
                   const SizedBox(
                     height: 15,
@@ -363,8 +366,8 @@ class _HomeState extends State<Home> {
 
                           return GridView.builder(
                               gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                      childAspectRatio: 0.66,
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      childAspectRatio: mHeight / 13.55,
                                       mainAxisSpacing: 6,
                                       crossAxisSpacing: 6,
                                       crossAxisCount: 2),
@@ -390,7 +393,7 @@ class _HomeState extends State<Home> {
                                   onTap: () {
                                     bottomSheet(
                                         context: context,
-                                        height: mHeight * 24,
+                                        height: mHeight * 28,
                                         child: favoriteWidget(
                                             context: context,
                                             isFavorite: favorite,

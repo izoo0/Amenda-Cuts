@@ -108,7 +108,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                 ],
                               ),
                               userButton(
-                                  width: width * 30,
+                                  width: width * 40,
                                   name: "Change Profile",
                                   color: Theme.of(context).primaryColor,
                                   onTap: () {},

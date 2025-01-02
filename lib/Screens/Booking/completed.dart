@@ -29,7 +29,7 @@ Container completedContainer(OrderModel data, BuildContext context) {
               ),
               userButton(
                   context: context,
-                  width: mWidth * 20,
+                  width: mWidth * 30,
                   name: "Completed",
                   onTap: () {},
                   color: Colors.green)
@@ -96,7 +96,7 @@ Container completedContainer(OrderModel data, BuildContext context) {
                   ),
                   Container(
                     constraints: BoxConstraints(
-                      maxWidth: mWidth * 60,
+                      maxWidth: mWidth * 50,
                     ),
                     child: Text(
                       maxLines: 2,

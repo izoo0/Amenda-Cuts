@@ -39,6 +39,7 @@ class _ProfileState extends State<Profile> {
             appBar: AppBar(
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               toolbarHeight: mHeight * 10,
+              scrolledUnderElevation: 0,
               title: Row(
                 children: [
                   Container(
@@ -124,7 +125,7 @@ class _ProfileState extends State<Profile> {
                     onTap: () {
                       bottomSheet(
                         context: context,
-                        height: mHeight * 20,
+                        height: mHeight * 26,
                         child: ListView.builder(
                             shrinkWrap: true,
                             physics: const BouncingScrollPhysics(),

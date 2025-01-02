@@ -14,11 +14,15 @@ class _SettingsBackgroundState extends State<SettingsBackground> {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion(
-        value: const SystemUiOverlayStyle(
-            statusBarIconBrightness: Brightness.dark,
-            statusBarColor: ColorConstants.appBackground,
-            systemNavigationBarIconBrightness: Brightness.dark,
-            systemNavigationBarColor: Color(0xfff5f5f5)),
+        value: SystemUiOverlayStyle(
+          statusBarIconBrightness: Brightness.dark,
+          statusBarColor: Colors.transparent,
+          systemNavigationBarIconBrightness:
+              Theme.of(context).brightness == Brightness.dark
+                  ? Brightness.light
+                  : Brightness.dark,
+          systemNavigationBarColor: Theme.of(context).scaffoldBackgroundColor,
+        ),
         child: widget.child);
   }
 }

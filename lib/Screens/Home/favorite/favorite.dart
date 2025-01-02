@@ -19,7 +19,7 @@ Widget favoriteWidget(
       mainAxisSize: MainAxisSize.min,
       children: [
         const SizedBox(
-          height: 15,
+          height: 8,
         ),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -59,8 +59,9 @@ Widget favoriteWidget(
                     height: 8,
                   ),
                   Container(
+                    width: mWidth * 50,
                     constraints: BoxConstraints(
-                      maxWidth: mWidth * 65,
+                      maxWidth: mWidth * 50,
                     ),
                     child: Text(
                       maxLines: 2,
@@ -90,7 +91,7 @@ Widget favoriteWidget(
           ),
         ),
         const SizedBox(
-          height: 15,
+          height: 8,
         ),
         button(
             onTap: () {
