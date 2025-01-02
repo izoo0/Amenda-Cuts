@@ -10,8 +10,8 @@ import 'package:amenda_cuts/Common/Widget/Containers/slider_container.dart';
 import 'package:amenda_cuts/Common/Widget/Drawer/drawer_items.dart';
 import 'package:amenda_cuts/Common/Widget/Rating/rating_widget.dart';
 import 'package:amenda_cuts/Common/Widget/TextField/text_field.dart';
-import 'package:amenda_cuts/Constants/new_app_background.dart';
-import 'package:amenda_cuts/Constants/size_config.dart';
+import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
+import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Models/service_model.dart';
 import 'package:amenda_cuts/Models/users_model.dart';
@@ -82,6 +82,7 @@ class _HomeState extends State<Home> {
         return Scaffold(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           drawer: Drawer(
+            width: mWidth * 55,
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(
@@ -93,7 +94,6 @@ class _HomeState extends State<Home> {
               children: [
                 Container(
                   width: double.infinity,
-                  height: height * 16,
                   color: Theme.of(context).cardColor,
                   child: SafeArea(
                     child: Padding(
@@ -188,13 +188,22 @@ class _HomeState extends State<Home> {
                   child: usersDetails.profile != null
                       ? CachedNetworkImage(
                           imageUrl: usersDetails.profile ?? '',
+<<<<<<< HEAD
                           width: 30,
                           height: 30,
+=======
+                          width: 36,
+                          height: 36,
+>>>>>>> 29104e7fa78fc7c8317c188b0fb96a6de6e54864
                           fit: BoxFit.cover,
                         )
                       : const Image(
                           image: AssetImage('assets/Logo/logo.png'),
+<<<<<<< HEAD
                           width: 30,
+=======
+                          width: 36,
+>>>>>>> 29104e7fa78fc7c8317c188b0fb96a6de6e54864
                         ),
                 ),
                 const SizedBox(
@@ -202,7 +211,7 @@ class _HomeState extends State<Home> {
                 ),
                 Text(
                   'Amenda Cuts',
-                  style: Theme.of(context).textTheme.displayMedium,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 )
               ],
             ),
@@ -227,9 +236,12 @@ class _HomeState extends State<Home> {
                   size: 25,
                 ),
               ),
+<<<<<<< HEAD
               const SizedBox(
                 width: 10,
               ),
+=======
+>>>>>>> 29104e7fa78fc7c8317c188b0fb96a6de6e54864
             ],
           ),
           body: SingleChildScrollView(
@@ -324,31 +336,35 @@ class _HomeState extends State<Home> {
                   const SizedBox(
                     height: 15,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      categoryContainer(
-                          context: context,
-                          path: 'assets/Images/cu.png',
-                          category: "Haircuts"),
-                      categoryContainer(
-                          context: context,
-                          path: 'assets/Images/dr.png',
-                          category: "Dreadlocks"),
-                      categoryContainer(
-                          context: context,
-                          path: 'assets/Images/c.png',
-                          category: "Hair Color"),
-                      categoryContainer(
-                          context: context,
-                          path: 'assets/Images/p.png',
-                          category: "Pedicure"),
-                      categoryContainer(
-                          context: context,
-                          path: 'assets/Images/m.png',
-                          category: "Manicure")
-                    ],
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        categoryContainer(
+                            context: context,
+                            path: 'assets/Images/cu.png',
+                            category: "Haircuts"),
+                        categoryContainer(
+                            context: context,
+                            path: 'assets/Images/dr.png',
+                            category: "Dreadlocks"),
+                        categoryContainer(
+                            context: context,
+                            path: 'assets/Images/c.png',
+                            category: "Hair Color"),
+                        categoryContainer(
+                            context: context,
+                            path: 'assets/Images/p.png',
+                            category: "Pedicure"),
+                        categoryContainer(
+                            context: context,
+                            path: 'assets/Images/m.png',
+                            category: "Manicure")
+                      ],
+                    ),
                   ),
                   const SizedBox(
                     height: 15,
@@ -365,8 +381,8 @@ class _HomeState extends State<Home> {
 
                           return GridView.builder(
                               gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                      childAspectRatio: 0.66,
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      childAspectRatio: mHeight / 13.55,
                                       mainAxisSpacing: 6,
                                       crossAxisSpacing: 6,
                                       crossAxisCount: 2),
@@ -392,7 +408,7 @@ class _HomeState extends State<Home> {
                                   onTap: () {
                                     bottomSheet(
                                         context: context,
-                                        height: mHeight * 24,
+                                        height: mHeight * 28,
                                         child: favoriteWidget(
                                             context: context,
                                             isFavorite: favorite,

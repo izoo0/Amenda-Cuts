@@ -1,8 +1,8 @@
 import 'package:amenda_cuts/Common/Widget/BottomSheet/bottom_sheet.dart';
 import 'package:amenda_cuts/Common/Widget/Listtile/profile_list_tile.dart';
-import 'package:amenda_cuts/Constants/color_constants.dart';
-import 'package:amenda_cuts/Constants/new_app_background.dart';
-import 'package:amenda_cuts/Constants/size_config.dart';
+import 'package:amenda_cuts/Common/Constants/color_constants.dart';
+import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
+import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Functions/Auth/signout/sign_out.dart';
 import 'package:amenda_cuts/Models/users_model.dart';
 import 'package:amenda_cuts/Provider/theme_provider.dart';
@@ -39,6 +39,7 @@ class _ProfileState extends State<Profile> {
             appBar: AppBar(
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               toolbarHeight: mHeight * 10,
+              scrolledUnderElevation: 0,
               title: Row(
                 children: [
                   Container(
@@ -124,7 +125,7 @@ class _ProfileState extends State<Profile> {
                     onTap: () {
                       bottomSheet(
                         context: context,
-                        height: mHeight * 20,
+                        height: mHeight * 26,
                         child: ListView.builder(
                             shrinkWrap: true,
                             physics: const BouncingScrollPhysics(),

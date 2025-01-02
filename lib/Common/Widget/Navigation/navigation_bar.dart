@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:amenda_cuts/Constants/color_constants.dart';
-import 'package:amenda_cuts/Constants/size_config.dart';
+import 'package:amenda_cuts/Common/Constants/color_constants.dart';
+import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Screens/Booking/booking.dart';
 import 'package:amenda_cuts/Screens/Gallery/gallery.dart';
 import 'package:amenda_cuts/Screens/Home/home.dart';

@@ -3,8 +3,8 @@ import 'package:amenda_cuts/Common/Widget/Button/button.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/icon_container.dart';
 import 'package:amenda_cuts/Common/Widget/Preloader/preloader.dart';
 import 'package:amenda_cuts/Common/Widget/TextField/text_field.dart';
-import 'package:amenda_cuts/Constants/new_app_background.dart';
-import 'package:amenda_cuts/Constants/size_config.dart';
+import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
+import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Functions/Auth/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -183,28 +183,32 @@ class _SignInState extends State<SignIn> {
                 const SizedBox(
                   height: 30,
                 ),
-                Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("You Do Not Have An Account ?",
-                          style: Theme.of(context).textTheme.displayMedium),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: (context) => const SignUp()));
-                        },
-                        child: Text("Sign Up",
-                            style: Theme.of(context)
-                                .textTheme
-                                .displaySmall!
-                                .apply(color: Theme.of(context).primaryColor)),
-                      )
-                    ])
+                Container(
+                  width: mWidth * 90,
+                  constraints: BoxConstraints(
+                    maxHeight: mWidth * 90,
+                  ),
+                  child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("You Do Not Have An Account ?",
+                            style: Theme.of(context).textTheme.displayMedium),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) => const SignUp()));
+                          },
+                          child: Text("Sign Up",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displaySmall!
+                                  .apply(
+                                      color: Theme.of(context).primaryColor)),
+                        )
+                      ]),
+                )
               ],
             ),
           ),

@@ -1,7 +1,8 @@
 // ignore_for_file: unnecessary_cast
 
 import 'package:amenda_cuts/Common/Widget/Alerts/alerts.dart';
-import 'package:amenda_cuts/Constants/FirebaseConstants/firebase_collection_constant.dart';
+import 'package:amenda_cuts/Common/Constants/FirebaseConstants/firebase_collection_constant.dart';
+import 'package:amenda_cuts/Common/Widget/Navigation/navigation_bar.dart';
 import 'package:amenda_cuts/Models/order_model.dart';
 import 'package:amenda_cuts/Models/service_model.dart';
 import 'package:amenda_cuts/controller/service_controller.dart';
@@ -80,8 +81,8 @@ class Apis extends ChangeNotifier {
     });
   }
 
-  Future<void> bookNow(
-      String documentId, String userId, date, time, location) async {
+  Future<void> bookNow(String documentId, String userId, date, time, location,
+      BuildContext context) async {
     try {
       await firestore.collection('booking').add({
         'serviceId': documentId,
@@ -94,8 +95,17 @@ class Apis extends ChangeNotifier {
         'location': location,
       });
 
-      const AnimatedAlertDialog(
-          title: "Success", content: "You have made your booking successfully");
+      if (context.mounted) {
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const BottomNavigator()));
+        showDialog(
+            context: context,
+            builder: (context) {
+              return const AnimatedAlertDialog(
+                  title: "Success",
+                  content: "You have made your booking successfully");
+            });
+      }
     } catch (e) {
       const AnimatedAlertDialog(
           title: "Error",

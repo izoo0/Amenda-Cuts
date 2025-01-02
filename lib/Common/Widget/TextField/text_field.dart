@@ -1,4 +1,4 @@
-import 'package:amenda_cuts/Constants/color_constants.dart';
+import 'package:amenda_cuts/Common/Constants/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -29,8 +29,8 @@ Widget commonTextField(
       onChange(value);
     },
     decoration: InputDecoration(
-        fillColor: Theme.of(context).cardColor,
-        filled: true,
+        // fillColor: Theme.of(context).cardColor,
+        // filled: true,
         hintText: text,
         suffixIcon: isPassword
             ? GestureDetector(

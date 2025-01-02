@@ -1,7 +1,7 @@
 import 'package:amenda_cuts/Common/Widget/Button/user_button.dart';
 import 'package:amenda_cuts/Common/Widget/Button/user_button_border.dart';
-import 'package:amenda_cuts/Constants/color_constants.dart';
-import 'package:amenda_cuts/Constants/size_config.dart';
+import 'package:amenda_cuts/Common/Constants/color_constants.dart';
+import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Models/order_model.dart';
 import 'package:amenda_cuts/Screens/Receipt/receipt.dart';
@@ -29,7 +29,7 @@ Container completedContainer(OrderModel data, BuildContext context) {
               ),
               userButton(
                   context: context,
-                  width: mWidth * 20,
+                  width: mWidth * 30,
                   name: "Completed",
                   onTap: () {},
                   color: Colors.green)
@@ -96,7 +96,7 @@ Container completedContainer(OrderModel data, BuildContext context) {
                   ),
                   Container(
                     constraints: BoxConstraints(
-                      maxWidth: mWidth * 60,
+                      maxWidth: mWidth * 50,
                     ),
                     child: Text(
                       maxLines: 2,

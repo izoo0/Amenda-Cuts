@@ -1,4 +1,4 @@
-import 'package:amenda_cuts/Constants/FirebaseConstants/firebase_service_constants.dart';
+import 'package:amenda_cuts/Common/Constants/FirebaseConstants/firebase_service_constants.dart';
 
 class ServiceModel {
   final String documentId;

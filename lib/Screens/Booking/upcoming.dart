@@ -1,7 +1,7 @@
 import 'package:amenda_cuts/Common/Widget/Button/user_button.dart';
 import 'package:amenda_cuts/Common/Widget/Button/user_button_border.dart';
-import 'package:amenda_cuts/Constants/color_constants.dart';
-import 'package:amenda_cuts/Constants/size_config.dart';
+import 'package:amenda_cuts/Common/Constants/color_constants.dart';
+import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Models/order_model.dart';
 import 'package:flutter/material.dart';
@@ -86,7 +86,7 @@ Container upcomingContainer(OrderModel data, BuildContext context,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   const SizedBox(
-                    height: 8,
+                    height: 4,
                   ),
                   Container(
                       constraints: BoxConstraints(
@@ -99,7 +99,7 @@ Container upcomingContainer(OrderModel data, BuildContext context,
                         style: Theme.of(context).textTheme.bodyMedium,
                       )),
                   const SizedBox(
-                    height: 8,
+                    height: 4,
                   ),
                   Text(
                     'Description:',
@@ -110,7 +110,7 @@ Container upcomingContainer(OrderModel data, BuildContext context,
                   ),
                   Container(
                     constraints: BoxConstraints(
-                      maxWidth: mWidth * 60,
+                      maxWidth: mWidth * 50,
                     ),
                     child: Text(
                       maxLines: 2,
@@ -137,13 +137,30 @@ Container upcomingContainer(OrderModel data, BuildContext context,
                 : ColorConstants.blackBackground.withOpacity(0.1),
           ),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text("Location: ${data.location}"),
-            Text("Date: ${instance.dateFormat(date: data.date)}"),
-            Text("Time:${data.time}")
-          ],
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text("Location: ${data.location}"),
+                VerticalDivider(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? ColorConstants.appTextColor.withOpacity(0.1)
+                      : ColorConstants.blackBackground.withOpacity(0.1),
+                ),
+                Text("Date: ${instance.dateFormat(date: data.date)}"),
+                VerticalDivider(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? ColorConstants.appTextColor.withOpacity(0.1)
+                      : ColorConstants.blackBackground.withOpacity(0.1),
+                ),
+                Text("Time:${data.time}")
+              ],
+            ),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(

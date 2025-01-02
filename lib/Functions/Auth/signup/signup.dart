@@ -2,7 +2,7 @@
 
 import 'package:amenda_cuts/Auth/SignIn/sign_in.dart';
 import 'package:amenda_cuts/Common/Widget/Alerts/alerts.dart';
-import 'package:amenda_cuts/Constants/FirebaseConstants/user_details_constants.dart';
+import 'package:amenda_cuts/Common/Constants/FirebaseConstants/user_details_constants.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

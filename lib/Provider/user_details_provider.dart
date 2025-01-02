@@ -1,4 +1,4 @@
-import 'package:amenda_cuts/Constants/FirebaseConstants/firebase_collection_constant.dart';
+import 'package:amenda_cuts/Common/Constants/FirebaseConstants/firebase_collection_constant.dart';
 import 'package:amenda_cuts/Models/users_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';

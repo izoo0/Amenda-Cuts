@@ -1,4 +1,4 @@
-import 'package:amenda_cuts/Constants/new_app_background.dart';
+import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
 import 'package:flutter/material.dart';
 
 class Chats extends StatefulWidget {

@@ -1,4 +1,4 @@
-import 'package:amenda_cuts/Constants/FirebaseConstants/user_details_constants.dart';
+import 'package:amenda_cuts/Common/Constants/FirebaseConstants/user_details_constants.dart';
 
 class UsersModel {
   final String? name;

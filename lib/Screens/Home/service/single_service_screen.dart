@@ -5,15 +5,14 @@ import 'package:amenda_cuts/Common/Widget/Calendar/date_picker_widget.dart';
 import 'package:amenda_cuts/Common/Widget/Navigation/navigation_bar.dart';
 import 'package:amenda_cuts/Common/Widget/Rating/rating_widget.dart';
 import 'package:amenda_cuts/Common/Widget/Time/time_picker_widget.dart';
-import 'package:amenda_cuts/Constants/new_app_background.dart';
-import 'package:amenda_cuts/Constants/size_config.dart';
+import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
+import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Models/service_model.dart';
 import 'package:amenda_cuts/Provider/user_details_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:time_range/time_range.dart';
 
@@ -154,7 +153,7 @@ class _SingleServiceScreenState extends State<SingleServiceScreen> {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                  height: mHeight * 60,
+                  height: mHeight * 58,
                   width: double.infinity,
                   decoration: BoxDecoration(
                       color: Theme.of(context).scaffoldBackgroundColor,
@@ -166,7 +165,7 @@ class _SingleServiceScreenState extends State<SingleServiceScreen> {
                       horizontal: 14.0,
                     ),
                     child: SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
+                      physics: const AlwaysScrollableScrollPhysics(),
                       scrollDirection: Axis.vertical,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -252,6 +251,9 @@ class _SingleServiceScreenState extends State<SingleServiceScreen> {
                                   time = range;
                                 });
                               }),
+                          SizedBox(
+                            height: mHeight * 16,
+                          )
                         ],
                       ),
                     ),
@@ -263,10 +265,12 @@ class _SingleServiceScreenState extends State<SingleServiceScreen> {
                 child: Container(
                   height: mHeight * 10,
                   constraints: BoxConstraints(
-                    maxHeight: mHeight * 15,
+                    minHeight: mHeight * 14,
                   ),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(24),
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(12),
+                        topRight: Radius.circular(12)),
                     color: Theme.of(context).cardColor,
                   ),
                   child: Padding(
@@ -288,7 +292,7 @@ class _SingleServiceScreenState extends State<SingleServiceScreen> {
                         ),
                         userButton(
                             width: double.infinity,
-                            name: "Book Now",
+                            name: "Book",
                             color: Theme.of(context).primaryColor,
                             onTap: () async {
                               if (time != null) {
@@ -297,18 +301,17 @@ class _SingleServiceScreenState extends State<SingleServiceScreen> {
                                     userDetailsProvider.user!.uid,
                                     _selectedTime,
                                     '${time?.start.format(context)}-${time?.end.format(context)}',
-                                    serviceLocation);
-                                if (context.mounted) {
-                                  Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const BottomNavigator()));
-                                }
+                                    serviceLocation,
+                                    context);
                               } else {
-                                const AnimatedAlertDialog(
-                                    title: "Error",
-                                    content: "Please select time");
-                                print("Hello world");
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return const AnimatedAlertDialog(
+                                        title: "Time",
+                                        content: "Please select time",
+                                      );
+                                    });
                               }
                             },
                             context: context)
