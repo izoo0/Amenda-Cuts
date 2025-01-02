@@ -3,8 +3,8 @@
 import 'package:amenda_cuts/Common/Widget/Button/user_button.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/user_details_container.dart';
 import 'package:amenda_cuts/Common/Widget/Listtile/user_details_list_tile.dart';
-import 'package:amenda_cuts/Constants/new_app_background.dart';
-import 'package:amenda_cuts/Constants/size_config.dart';
+import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
+import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Models/users_model.dart';
 import 'package:amenda_cuts/Provider/user_details_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';

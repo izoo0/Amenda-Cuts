@@ -1,7 +1,7 @@
 import 'package:amenda_cuts/Common/Widget/Button/user_button_border.dart';
-import 'package:amenda_cuts/Constants/color_constants.dart';
-import 'package:amenda_cuts/Constants/new_app_background.dart';
-import 'package:amenda_cuts/Constants/size_config.dart';
+import 'package:amenda_cuts/Common/Constants/color_constants.dart';
+import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
+import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 

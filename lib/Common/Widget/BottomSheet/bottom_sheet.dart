@@ -1,4 +1,4 @@
-import 'package:amenda_cuts/Constants/size_config.dart';
+import 'package:amenda_cuts/Common/Constants/size_config.dart';
 
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';

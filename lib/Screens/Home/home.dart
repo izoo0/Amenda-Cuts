@@ -10,8 +10,8 @@ import 'package:amenda_cuts/Common/Widget/Containers/slider_container.dart';
 import 'package:amenda_cuts/Common/Widget/Drawer/drawer_items.dart';
 import 'package:amenda_cuts/Common/Widget/Rating/rating_widget.dart';
 import 'package:amenda_cuts/Common/Widget/TextField/text_field.dart';
-import 'package:amenda_cuts/Constants/new_app_background.dart';
-import 'package:amenda_cuts/Constants/size_config.dart';
+import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
+import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Models/service_model.dart';
 import 'package:amenda_cuts/Models/users_model.dart';
@@ -82,6 +82,7 @@ class _HomeState extends State<Home> {
         return Scaffold(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           drawer: Drawer(
+            width: mWidth * 55,
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(
@@ -188,13 +189,13 @@ class _HomeState extends State<Home> {
                   child: usersDetails.profile != null
                       ? CachedNetworkImage(
                           imageUrl: usersDetails.profile ?? '',
-                          width: 45,
-                          height: 45,
+                          width: 36,
+                          height: 36,
                           fit: BoxFit.cover,
                         )
                       : const Image(
                           image: AssetImage('assets/Logo/logo.png'),
-                          width: 45,
+                          width: 36,
                         ),
                 ),
                 const SizedBox(
@@ -202,7 +203,7 @@ class _HomeState extends State<Home> {
                 ),
                 Text(
                   'Amenda Cuts',
-                  style: Theme.of(context).textTheme.displayMedium,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 )
               ],
             ),
@@ -227,16 +228,6 @@ class _HomeState extends State<Home> {
                   size: 25,
                 ),
               ),
-              const SizedBox(
-                width: 10,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Scaffold.of(context).openDrawer();
-                  // print("Hello");
-                },
-                child: const Icon(Iconsax.menu),
-              )
             ],
           ),
           body: SingleChildScrollView(
