@@ -36,25 +36,32 @@ class _OnBoardingTwoState extends State<OnBoardingTwo> {
     SizeConfig().init(context);
     double mWidth = SizeConfig.blockSizeWidth!;
     return NewAppBackground(
-      color: ColorConstants.appBackground,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: Scaffold(
-          backgroundColor: ColorConstants.appBackground,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image(
-                  image: const AssetImage('assets/Logo/logo.png'),
-                  width: mWidth * 50,
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: Image(
+                    image: Theme.of(context).brightness == Brightness.dark
+                        ? const AssetImage('assets/Logo/logo.png')
+                        : const AssetImage('assets/Logo/logo_light.jpg'),
+                    width: mWidth * 40,
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 const SizedBox(
                   height: 50,
                 ),
                 button(
+                  context: context,
                   onTap: () {},
                   text: '  Continue With Google',
-                  color: ColorConstants.blackBackground,
+                  color: Theme.of(context).cardColor,
                   image: const Image(
                     image: AssetImage(
                       'assets/Images/g.png',
@@ -66,9 +73,10 @@ class _OnBoardingTwoState extends State<OnBoardingTwo> {
                   height: 30,
                 ),
                 button(
+                  context: context,
                   onTap: () {},
                   text: '  Continue With Facebook',
-                  color: ColorConstants.blackBackground,
+                  color: Theme.of(context).cardColor,
                   image: const Image(
                     image: AssetImage(
                       'assets/Images/f.png',
@@ -80,9 +88,10 @@ class _OnBoardingTwoState extends State<OnBoardingTwo> {
                   height: 30,
                 ),
                 button(
+                  context: context,
                   onTap: () {},
                   text: '  Continue With Twitter',
-                  color: ColorConstants.blackBackground,
+                  color: Theme.of(context).cardColor,
                   image: const Image(
                     image: AssetImage(
                       'assets/Images/x.png',
@@ -93,24 +102,24 @@ class _OnBoardingTwoState extends State<OnBoardingTwo> {
                 const SizedBox(
                   height: 30,
                 ),
-                const Row(
+                Row(
                   children: [
                     Expanded(
                       child: Divider(
-                        color: ColorConstants.blackBackground,
+                        color: Theme.of(context).dividerColor,
                         thickness: 2,
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Text(
                         "Or",
-                        style: TextStyle(color: ColorConstants.appTextColor),
+                        style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ),
                     Expanded(
                       child: Divider(
-                        color: ColorConstants.blackBackground,
+                        color: Theme.of(context).dividerColor,
                         thickness: 2,
                       ),
                     ),
@@ -120,6 +129,7 @@ class _OnBoardingTwoState extends State<OnBoardingTwo> {
                   height: 50,
                 ),
                 button(
+                  context: context,
                   onTap: () {
                     Navigator.of(context).pushReplacement(
                         MaterialPageRoute(builder: (_) => const SignIn()));
@@ -134,10 +144,8 @@ class _OnBoardingTwoState extends State<OnBoardingTwo> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
-                        "You Do Not Have An Account ?",
-                        style: TextStyle(color: ColorConstants.appTextColor),
-                      ),
+                      Text("You Do Not Have An Account ?",
+                          style: Theme.of(context).textTheme.bodyMedium),
                       const SizedBox(
                         width: 5,
                       ),

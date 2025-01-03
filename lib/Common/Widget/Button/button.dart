@@ -1,12 +1,11 @@
-import 'package:amenda_cuts/Common/Constants/color_constants.dart';
 import 'package:flutter/material.dart';
 
-Widget button({
-  required Function onTap,
-  required String text,
-  Color? color,
-  Image? image,
-}) {
+Widget button(
+    {required Function onTap,
+    required String text,
+    Color? color,
+    Image? image,
+    required BuildContext context}) {
   return SizedBox(
     width: double.infinity,
     child: TextButton(
@@ -25,12 +24,7 @@ Widget button({
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (image != null) image,
-              Text(
-                text,
-                style: const TextStyle(
-                    color: ColorConstants.appTextColor,
-                    fontWeight: FontWeight.bold),
-              ),
+              Text(text, style: Theme.of(context).textTheme.bodyMedium),
             ],
           ),
         )),

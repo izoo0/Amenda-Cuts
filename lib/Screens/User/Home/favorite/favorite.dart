@@ -94,6 +94,7 @@ Widget favoriteWidget(
           height: 8,
         ),
         button(
+            context: context,
             onTap: () {
               onTap();
             },

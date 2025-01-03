@@ -53,6 +53,7 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     double mWidth = SizeConfig.blockSizeWidth!;
+    double mHeight = SizeConfig.blockSizeHeight!;
     return NewAppBackground(
         child: Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -63,9 +64,15 @@ class _SplashScreenState extends State<SplashScreen>
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image(
-                image: const AssetImage('assets/Logo/logo.png'),
-                width: mWidth * 60,
+              ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: Image(
+                  image: Theme.of(context).brightness == Brightness.dark
+                      ? const AssetImage('assets/Logo/logo.png')
+                      : const AssetImage('assets/Logo/logo_light.jpg'),
+                  width: mWidth * 40,
+                  fit: BoxFit.cover,
+                ),
               ),
               preloader(mWidth * 7, context)
             ],

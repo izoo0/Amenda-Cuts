@@ -64,9 +64,15 @@ class _SignInState extends State<SignIn> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Image(
-                      image: const AssetImage('assets/Logo/logo.png'),
-                      width: mWidth * 50,
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: Image(
+                        image: Theme.of(context).brightness == Brightness.dark
+                            ? const AssetImage('assets/Logo/logo.png')
+                            : const AssetImage('assets/Logo/logo_light.jpg'),
+                        width: mWidth * 40,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                     const SizedBox(
                       height: 30,
@@ -115,6 +121,7 @@ class _SignInState extends State<SignIn> {
                       height: 30,
                     ),
                     button(
+                        context: context,
                         color: Theme.of(context).primaryColor,
                         onTap: () async {
                           if (_formKey.currentState!.validate()) {
