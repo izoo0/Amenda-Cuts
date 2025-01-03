@@ -1,31 +1,5 @@
-import 'package:amenda_cuts/Common/Constants/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-class SettingsBackground extends StatefulWidget {
-  const SettingsBackground({super.key, required this.child});
-  final Widget child;
-
-  @override
-  State<SettingsBackground> createState() => _SettingsBackgroundState();
-}
-
-class _SettingsBackgroundState extends State<SettingsBackground> {
-  @override
-  Widget build(BuildContext context) {
-    return AnnotatedRegion(
-        value: SystemUiOverlayStyle(
-          statusBarIconBrightness: Brightness.dark,
-          statusBarColor: Colors.transparent,
-          systemNavigationBarIconBrightness:
-              Theme.of(context).brightness == Brightness.dark
-                  ? Brightness.light
-                  : Brightness.dark,
-          systemNavigationBarColor: Theme.of(context).scaffoldBackgroundColor,
-        ),
-        child: widget.child);
-  }
-}
 
 class NewAppBackground extends StatefulWidget {
   const NewAppBackground({super.key, this.color, required this.child});
@@ -48,9 +22,9 @@ class _NewAppBackgroundState extends State<NewAppBackground> {
           statusBarColor: Colors.transparent,
           systemNavigationBarIconBrightness:
               Theme.of(context).brightness == Brightness.dark
-                  ? Brightness.dark
-                  : Brightness.light,
-          systemNavigationBarColor: Colors.transparent,
+                  ? Brightness.light
+                  : Brightness.dark,
+          systemNavigationBarColor: Theme.of(context).cardColor,
         ),
         child: widget.child);
   }

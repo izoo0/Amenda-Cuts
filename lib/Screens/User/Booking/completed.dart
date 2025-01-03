@@ -4,7 +4,7 @@ import 'package:amenda_cuts/Common/Constants/color_constants.dart';
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Models/order_model.dart';
-import 'package:amenda_cuts/Screens/Receipt/receipt.dart';
+import 'package:amenda_cuts/Screens/User/Receipt/receipt.dart';
 import 'package:flutter/material.dart';
 
 Container completedContainer(OrderModel data, BuildContext context) {

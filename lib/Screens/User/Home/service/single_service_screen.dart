@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:amenda_cuts/Common/Widget/Alerts/alerts.dart';
 import 'package:amenda_cuts/Common/Widget/Button/user_button.dart';
 import 'package:amenda_cuts/Common/Widget/Calendar/date_picker_widget.dart';
-import 'package:amenda_cuts/Common/Widget/Navigation/navigation_bar.dart';
 import 'package:amenda_cuts/Common/Widget/Rating/rating_widget.dart';
 import 'package:amenda_cuts/Common/Widget/Time/time_picker_widget.dart';
 import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
@@ -16,7 +15,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'package:time_range/time_range.dart';
 
-import '../../../Common/Widget/Radio/radio_button_widget.dart';
+import '../../../../Common/Widget/Radio/radio_button_widget.dart';
 
 class SingleServiceScreen extends StatefulWidget {
   final ServiceModel serviceModel;

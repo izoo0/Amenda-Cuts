@@ -8,7 +8,7 @@ ThemeData whiteTheme() {
       primaryColor: ColorConstants.appColor,
       scaffoldBackgroundColor: ColorConstants.appTextColor,
       cardColor: ColorConstants.cardColor,
-      dividerColor: ColorConstants.blackBackground,
+      dividerColor: ColorConstants.iconColor,
       brightness: Brightness.light,
       checkboxTheme: const CheckboxThemeData(
           side: BorderSide(
@@ -19,6 +19,7 @@ ThemeData whiteTheme() {
       radioTheme: const RadioThemeData(
           fillColor: WidgetStatePropertyAll(ColorConstants.appColor)),
       iconTheme: const IconThemeData(color: ColorConstants.iconColor),
+      shadowColor: ColorConstants.blackBackground,
       textTheme: const TextTheme(
           displayLarge: TextStyle(
             color: ColorConstants.blackBackground,

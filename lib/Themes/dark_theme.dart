@@ -8,6 +8,7 @@ ThemeData darkTheme() {
       cardColor: ColorConstants.blackBackground,
       dividerColor: ColorConstants.blackBackground,
       brightness: Brightness.dark,
+      shadowColor: ColorConstants.blackBackground,
       radioTheme: const RadioThemeData(
           fillColor: WidgetStatePropertyAll<Color>(ColorConstants.appColor)),
       iconTheme: const IconThemeData(color: ColorConstants.iconColor),

@@ -7,7 +7,7 @@ import 'package:amenda_cuts/Functions/Auth/signout/sign_out.dart';
 import 'package:amenda_cuts/Models/users_model.dart';
 import 'package:amenda_cuts/Provider/theme_provider.dart';
 import 'package:amenda_cuts/Provider/user_details_provider.dart';
-import 'package:amenda_cuts/Screens/Profile/user_details_screen.dart';
+import 'package:amenda_cuts/Screens/User/Profile/user_details_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';

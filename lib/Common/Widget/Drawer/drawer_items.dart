@@ -1,3 +1,4 @@
+import 'package:amenda_cuts/Screens/Admin/User/user_list_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -69,20 +70,26 @@ Widget drawerItems(
                 ],
               ),
               const SizedBox(height: 20),
-              const Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    Iconsax.clipboard,
-                    size: 28,
-                  ),
-                  SizedBox(
-                    width: 8,
-                  ),
-                  Text("Users"),
-                ],
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => const UserListScreen()));
+                },
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Iconsax.clipboard,
+                      size: 28,
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text("Users"),
+                  ],
+                ),
               ),
               const SizedBox(height: 20),
               const Row(
@@ -162,7 +169,7 @@ Widget drawerItems(
                   Text("Gallery"),
                 ],
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
               const Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -178,7 +185,7 @@ Widget drawerItems(
             ],
           ),
           const SizedBox(
-            height: 10,
+            height: 20,
           ),
           const Row(
             mainAxisSize: MainAxisSize.min,
