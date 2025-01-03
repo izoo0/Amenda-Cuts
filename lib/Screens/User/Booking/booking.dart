@@ -45,9 +45,14 @@ class _BookingState extends State<Booking> {
                         width: 1,
                         color: ColorConstants.appColor,
                       )),
-                  child: const Image(
-                    image: AssetImage('assets/Logo/logo.png'),
-                    fit: BoxFit.cover,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
+                    child: Image(
+                      image: Theme.of(context).brightness == Brightness.dark
+                          ? const AssetImage('assets/Logo/logo.png')
+                          : const AssetImage('assets/Logo/logo_light.jpg'),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 const SizedBox(

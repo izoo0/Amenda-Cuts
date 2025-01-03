@@ -37,7 +37,7 @@ class _ProfileState extends State<Profile> {
           child: Scaffold(
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             appBar: AppBar(
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              backgroundColor: Theme.of(context).cardColor,
               toolbarHeight: mHeight * 10,
               scrolledUnderElevation: 0,
               title: Row(
