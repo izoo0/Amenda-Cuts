@@ -1,6 +1,7 @@
 import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/admin_service_container.dart';
 import 'package:amenda_cuts/Common/Widget/Navigation/navigation_bar.dart';
+import 'package:amenda_cuts/Common/Widget/Preloader/preloader.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Models/service_model.dart';
 import 'package:amenda_cuts/Screens/Admin/Service/create_service.dart';
@@ -36,12 +37,8 @@ class _ServiceState extends State<Service> {
             body: StreamBuilder<List<ServiceModel>>(
                 stream: instance.fetchServices(),
                 builder: (context, snap) {
-                  final data = snap.data!;
-                  print('_________________________$data');
-                  if (snap.hasError) {
-                    print("_______________________error");
-                  }
-                  if (snap.hasData) {
+                  if (snap.data != null) {
+                    final data = snap.data!;
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4),
                       child: GridView.builder(
@@ -59,11 +56,10 @@ class _ServiceState extends State<Service> {
                             if (index == 0) {
                               return GestureDetector(
                                 onTap: () {
-                                  Navigator.of(context)
-                                      .pushReplacement(MaterialPageRoute(
-                                          builder: (context) => CreateService(
-                                                serviceModel: data,
-                                              )));
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => CreateService(
+                                            serviceModel: data,
+                                          )));
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -94,8 +90,9 @@ class _ServiceState extends State<Service> {
                                 context: context);
                           }),
                     );
+                  } else {
+                    return preloader(16.0, context);
                   }
-                  return const Center(child: Text("Hello there"));
                 })));
   }
 }

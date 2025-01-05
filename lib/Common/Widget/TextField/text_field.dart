@@ -12,6 +12,7 @@ Widget commonTextField(
     required Function validator,
     Function? onTap,
     bool? isSearch,
+    required bool isPrefix,
     required BuildContext context,
     icon}) {
   return TextFormField(
@@ -52,10 +53,12 @@ Widget commonTextField(
                     color: ColorConstants.appColor,
                   )
                 : const SizedBox.shrink(),
-        prefixIcon: Icon(
-          icon,
-          color: const Color.fromARGB(255, 186, 186, 186),
-        ),
+        prefixIcon: isPrefix
+            ? Icon(
+                icon,
+                color: const Color.fromARGB(255, 186, 186, 186),
+              )
+            : null,
         hintStyle: const TextStyle(color: Color.fromARGB(255, 186, 186, 186)),
         focusedBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(8)),

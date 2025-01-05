@@ -8,7 +8,7 @@ Widget listTile(
     required Function onTap,
     required String subtitle,
     required BuildContext context,
-    required traillignicon}) {
+    required trailingIcon}) {
   return GestureDetector(
     onTap: () {
       onTap();
@@ -43,7 +43,7 @@ Widget listTile(
                 ? ColorConstants.appTextColor.withOpacity(0.5)
                 : ColorConstants.blackBackground.withOpacity(0.5)),
       ),
-      trailing: Icon(traillignicon),
+      trailing: Icon(trailingIcon),
     ),
   );
 }

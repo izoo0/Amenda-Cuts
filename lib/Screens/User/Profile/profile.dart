@@ -112,7 +112,7 @@ class _ProfileState extends State<Profile> {
                           builder: (context) => const UserDetailsScreen()));
                     },
                     subtitle: 'Edit Account Details',
-                    traillignicon: Iconsax.arrow_right,
+                    trailingIcon: Iconsax.arrow_right,
                   ),
                   const SizedBox(
                     height: 16,
@@ -149,7 +149,7 @@ class _ProfileState extends State<Profile> {
                       );
                     },
                     subtitle: 'Light theme, Dark theme',
-                    traillignicon: Iconsax.arrow_right,
+                    trailingIcon: Iconsax.arrow_right,
                   ),
                   const SizedBox(
                     height: 16,
@@ -161,7 +161,7 @@ class _ProfileState extends State<Profile> {
                     title: 'Notification',
                     onTap: () {},
                     subtitle: 'Disable Notification',
-                    traillignicon: Iconsax.arrow_right,
+                    trailingIcon: Iconsax.arrow_right,
                   ),
                   const SizedBox(
                     height: 16,
@@ -173,7 +173,7 @@ class _ProfileState extends State<Profile> {
                     title: 'Report Problem',
                     onTap: () {},
                     subtitle: 'Talk To Expert',
-                    traillignicon: Iconsax.arrow_right,
+                    trailingIcon: Iconsax.arrow_right,
                   ),
                   const SizedBox(
                     height: 16,
@@ -184,8 +184,8 @@ class _ProfileState extends State<Profile> {
                     icon: Iconsax.shield,
                     title: 'Privacy',
                     onTap: () {},
-                    subtitle: 'Our Privacy Pollcy',
-                    traillignicon: Iconsax.arrow_right,
+                    subtitle: 'Our Privacy Policy',
+                    trailingIcon: Iconsax.arrow_right,
                   ),
                   listTile(
                     context: context,
@@ -194,7 +194,7 @@ class _ProfileState extends State<Profile> {
                     title: 'Terms And Conditions',
                     onTap: () {},
                     subtitle: 'Read Our Terms',
-                    traillignicon: Iconsax.arrow_right,
+                    trailingIcon: Iconsax.arrow_right,
                   ),
                   const SizedBox(
                     height: 16,
@@ -206,7 +206,7 @@ class _ProfileState extends State<Profile> {
                     title: 'About',
                     onTap: () {},
                     subtitle: 'About Application',
-                    traillignicon: Iconsax.arrow_right,
+                    trailingIcon: Iconsax.arrow_right,
                   ),
                   const SizedBox(
                     height: 16,
@@ -217,8 +217,8 @@ class _ProfileState extends State<Profile> {
                     icon: Iconsax.global,
                     title: 'Help',
                     onTap: () {},
-                    subtitle: 'Assitance',
-                    traillignicon: Iconsax.arrow_right,
+                    subtitle: 'Assistance',
+                    trailingIcon: Iconsax.arrow_right,
                   ),
                   const SizedBox(
                     height: 16,
@@ -232,7 +232,7 @@ class _ProfileState extends State<Profile> {
                       await instance.signOut(context);
                     },
                     subtitle: 'Exit Application',
-                    traillignicon: Iconsax.arrow_right,
+                    trailingIcon: Iconsax.arrow_right,
                   ),
                 ],
               ),

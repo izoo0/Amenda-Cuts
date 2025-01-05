@@ -78,6 +78,7 @@ class _SignInState extends State<SignIn> {
                       height: 30,
                     ),
                     commonTextField(
+                      isPrefix: true,
                       context: context,
                       controller: usernameController,
                       text: "Email",
@@ -98,6 +99,7 @@ class _SignInState extends State<SignIn> {
                       height: 30,
                     ),
                     commonTextField(
+                      isPrefix: true,
                       context: context,
                       controller: passwordController,
                       text: "Password",

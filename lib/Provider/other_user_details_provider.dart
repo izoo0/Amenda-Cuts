@@ -20,7 +20,6 @@ class OtherUserDetailsProvider extends ChangeNotifier {
           _otherUsersModel = data
               .map((doc) => OtherUsersModel.fromFirebase(doc.data(), doc.id))
               .toList();
-          print('______________________________$_otherUsersModel');
           notifyListeners();
         } else {
           _otherUsersModel = [];

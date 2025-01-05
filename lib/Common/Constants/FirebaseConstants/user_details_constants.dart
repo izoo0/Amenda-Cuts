@@ -7,4 +7,5 @@ class UserDetailsConstants {
   static const String phoneNumber = 'phone_number';
   static const String role = "role";
   static const String isExpert = "isExpert";
+  static const String rating = 'rating';
 }

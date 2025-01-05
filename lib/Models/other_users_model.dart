@@ -9,6 +9,7 @@ class OtherUsersModel {
   final String? username;
   final String? role;
   final bool? isExpert;
+  final double? rating;
   OtherUsersModel(
       {this.otherUserId,
       this.name,
@@ -17,7 +18,8 @@ class OtherUsersModel {
       this.profile,
       this.username,
       this.role,
-      this.isExpert});
+      this.isExpert,
+      this.rating});
   @override
   String toString() =>
       'OtherUsersModel(name: $name,email: $email,number: $number,profile:$profile, username: $username,role: $role, isExpert:$isExpert)';
@@ -32,6 +34,7 @@ class OtherUsersModel {
       username: userData[UserDetailsConstants.username] ?? '',
       role: userData[UserDetailsConstants.role] ?? '',
       isExpert: userData[UserDetailsConstants.isExpert] ?? false,
+      rating: userData[UserDetailsConstants.rating] ?? 0,
     );
   }
 }

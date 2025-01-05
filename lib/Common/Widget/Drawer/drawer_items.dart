@@ -1,3 +1,4 @@
+import 'package:amenda_cuts/Functions/Auth/signout/sign_out.dart';
 import 'package:amenda_cuts/Screens/Admin/Service/service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ Widget drawerItems(
     required String userProfile,
     required String userName,
     required BuildContext context}) {
+  SignOut instance = SignOut.instance;
   return SingleChildScrollView(
     physics: const AlwaysScrollableScrollPhysics(),
     scrollDirection: Axis.vertical,
@@ -205,17 +207,22 @@ Widget drawerItems(
           const SizedBox(
             height: 20,
           ),
-          const Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(Iconsax.logout_1),
-              SizedBox(
-                width: 8,
-              ),
-              Text("Logout"),
-            ],
+          InkWell(
+            onTap: () async {
+              await instance.signOut(context);
+            },
+            child: const Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(Iconsax.logout_1),
+                SizedBox(
+                  width: 8,
+                ),
+                Text("Logout"),
+              ],
+            ),
           ),
         ],
       ),

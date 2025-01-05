@@ -9,8 +9,10 @@ import 'package:amenda_cuts/Common/Widget/TextField/text_field.dart';
 import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
+import 'package:amenda_cuts/Models/other_users_model.dart';
 import 'package:amenda_cuts/Models/service_model.dart';
 import 'package:amenda_cuts/Models/users_model.dart';
+import 'package:amenda_cuts/Provider/other_user_details_provider.dart';
 import 'package:amenda_cuts/Provider/user_details_provider.dart';
 import 'package:amenda_cuts/Screens/User/Home/favorite/favorite.dart';
 import 'package:amenda_cuts/Screens/User/Home/service/single_service_screen.dart';
@@ -52,365 +54,393 @@ class _HomeState extends State<Home> {
     double mHeight = SizeConfig.blockSizeHeight!;
     return NewAppBackground(
       color: Theme.of(context).scaffoldBackgroundColor,
-      child: Consumer<UserDetailsProvider>(
-          builder: (context, userDetailsProvider, _) {
-        UsersModel usersDetails = userDetailsProvider.usersModel;
-        SizeConfig().init(context);
-        double height = SizeConfig.blockSizeHeight!;
-        return Scaffold(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          drawer: Drawer(
-            width: mWidth * 55,
+      child: Consumer<OtherUserDetailsProvider>(
+          builder: (context, otherUserProvider, _) {
+        List<OtherUsersModel> expert = otherUserProvider.otherUserModel;
+        List experts = expert.where((x) => x.isExpert == true).toList();
+        return Consumer<UserDetailsProvider>(
+            builder: (context, userDetailsProvider, _) {
+          UsersModel usersDetails = userDetailsProvider.usersModel;
+          SizeConfig().init(context);
+          double height = SizeConfig.blockSizeHeight!;
+          return Scaffold(
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-              Radius.circular(0),
-            )),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: double.infinity,
-                  color: Theme.of(context).cardColor,
-                  child: SafeArea(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(
-                            height: 12,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(30),
-                                child: CachedNetworkImage(
-                                  imageUrl: usersDetails.profile ?? '',
-                                  width: 60,
-                                  height: 60,
-                                  fit: BoxFit.cover,
+            drawer: Drawer(
+              width: mWidth * 55,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                Radius.circular(0),
+              )),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    color: Theme.of(context).cardColor,
+                    child: SafeArea(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(30),
+                                  child: CachedNetworkImage(
+                                    imageUrl: usersDetails.profile ?? '',
+                                    width: 60,
+                                    height: 60,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
-                              ),
-                              IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Iconsax.sun_1))
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    usersDetails.name ?? '',
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
-                                  ),
-                                  const SizedBox(
-                                    height: 2,
-                                  ),
-                                  Text(
-                                    usersDetails.number ?? '',
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  ),
-                                ],
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    isActive = !isActive;
-                                  });
-                                },
-                                icon: Icon(
-                                  !isActive
-                                      ? Iconsax.arrow_down_1
-                                      : Iconsax.arrow_up_2,
+                                IconButton(
+                                    onPressed: () {},
+                                    icon: const Icon(Iconsax.sun_1))
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      usersDetails.name ?? '',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
+                                    ),
+                                    const SizedBox(
+                                      height: 2,
+                                    ),
+                                    Text(
+                                      usersDetails.number ?? '',
+                                      style:
+                                          Theme.of(context).textTheme.bodySmall,
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          )
-                        ],
+                                IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      isActive = !isActive;
+                                    });
+                                  },
+                                  icon: Icon(
+                                    !isActive
+                                        ? Iconsax.arrow_down_1
+                                        : Iconsax.arrow_up_2,
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                drawerItems(
-                  context: context,
-                  isActive: isActive,
-                  userProfile: usersDetails.profile ?? '',
-                  userName: usersDetails.name ?? '',
-                )
-              ],
-            ),
-          ),
-          appBar: AppBar(
-            toolbarHeight: 60,
-            elevation: 0,
-            scrolledUnderElevation: 0,
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            title: Row(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(50),
-                  child: usersDetails.profile != null
-                      ? CachedNetworkImage(
-                          imageUrl: usersDetails.profile ?? '',
-                          width: 36,
-                          height: 36,
-                          fit: BoxFit.cover,
-                        )
-                      : const Image(
-                          image: AssetImage('assets/Logo/logo.png'),
-                          width: 36,
-                        ),
-                ),
-                const SizedBox(width: 5),
-                Text(
-                  'Amenda Cuts',
-                  style: Theme.of(context).textTheme.bodyLarge,
-                )
-              ],
-            ),
-            actions: [
-              const SizedBox(
-                width: 10,
-              ),
-              GestureDetector(
-                onTap: () {},
-                child: const Icon(
-                  Iconsax.notification_bing,
-                  size: 25,
-                ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              GestureDetector(
-                onTap: () {},
-                child: const Icon(
-                  Iconsax.archive_1,
-                  size: 25,
-                ),
-              ),
-            ],
-          ),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  SizedBox(
-                    width: double.infinity,
-                    child: Text("Hello, ${usersDetails.name}👋",
-                        style: Theme.of(context).textTheme.bodyLarge),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  commonTextField(
-                      context: context,
-                      controller: searchController,
-                      text: 'Search',
-                      maxLines: 1,
-                      icon: Iconsax.search_normal,
-                      onChange: (value) {},
-                      isPassword: false,
-                      obscure: false,
-                      isSearch: true,
-                      validator: (value) {}),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Container(
-                    width: double.infinity,
-                    constraints: const BoxConstraints(
-                      maxWidth: double.infinity,
-                      maxHeight: 200,
-                    ),
-                    child: ListView.builder(
-                        itemCount: 5,
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return sliderContainer(
-                            context: context,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 12),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(50),
-                                    child: CachedNetworkImage(
-                                      imageUrl:
-                                          'https://plus.unsplash.com/premium_photo-1658506711778-d56cdeae1b9b?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                                      width: 80,
-                                      height: 80,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    "Gerishom Amenda",
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    "Hair Cut Specialist",
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Row(
-                                    children: [
-                                      ratingBar(
-                                          context: context, initialRating: 4.2),
-                                      const SizedBox(
-                                        width: 4,
-                                      ),
-                                      const Text('4.2')
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
-                        }),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        categoryContainer(
-                            context: context,
-                            path: 'assets/Images/cu.png',
-                            category: "Haircuts"),
-                        categoryContainer(
-                            context: context,
-                            path: 'assets/Images/dr.png',
-                            category: "Dreadlocks"),
-                        categoryContainer(
-                            context: context,
-                            path: 'assets/Images/c.png',
-                            category: "Hair Color"),
-                        categoryContainer(
-                            context: context,
-                            path: 'assets/Images/p.png',
-                            category: "Pedicure"),
-                        categoryContainer(
-                            context: context,
-                            path: 'assets/Images/m.png',
-                            category: "Manicure")
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Divider(height: 2, color: Theme.of(context).cardColor),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  StreamBuilder<List<ServiceModel>>(
-                      stream: instance.fetchServices(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          final service = snapshot.data!;
-                          switch (snapshot.connectionState) {
-                            case ConnectionState.waiting:
-                              return preloader(20.0, context);
-                            default:
-                              return GridView.builder(
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                          childAspectRatio: mHeight / 16.5,
-                                          mainAxisSpacing: 6,
-                                          crossAxisSpacing: 6,
-                                          crossAxisCount: 2),
-                                  shrinkWrap: true,
-                                  itemCount: service.length,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    final data = service[index];
-
-                                    bool favorite = false;
-                                    final documentId = data.documentId;
-                                    var favorites =
-                                        data.favorite.contains(Apis.user?.uid);
-                                    if (favorites) {
-                                      favorite = true;
-                                    }
-                                    bool isDeleted = data.isDeleted;
-                                    return serviceContainer(
-                                      image: data.serviceImage,
-                                      serviceName: data.serviceName,
-                                      description: data.description,
-                                      amount: data.servicePrice,
-                                      onTap: () {
-                                        bottomSheet(
-                                            context: context,
-                                            height: mHeight * 28,
-                                            child: favoriteWidget(
-                                                context: context,
-                                                isFavorite: favorite,
-                                                image: data.serviceImage,
-                                                description: data.description,
-                                                serviceName: data.serviceName,
-                                                price: data.servicePrice,
-                                                onTap: () {
-                                                  instance.userFavorite(
-                                                      favorite,
-                                                      data.documentId,
-                                                      user!.uid);
-                                                  setState(() {});
-                                                  Navigator.pop(context);
-                                                }));
-                                      },
-                                      isFavorite: favorites,
-                                      onTapBook: () {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    SingleServiceScreen(
-                                                      serviceModel: data,
-                                                    )));
-                                      },
-                                      context: context,
-                                    );
-                                  });
-                          }
-                        } else {
-                          return const Text("No data available");
-                        }
-                      })
+                  drawerItems(
+                    context: context,
+                    isActive: isActive,
+                    userProfile: usersDetails.profile ?? '',
+                    userName: usersDetails.name ?? '',
+                  )
                 ],
               ),
             ),
-          ),
-        );
+            appBar: AppBar(
+              toolbarHeight: 60,
+              elevation: 0,
+              scrolledUnderElevation: 0,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              title: Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: usersDetails.profile != null
+                        ? CachedNetworkImage(
+                            imageUrl: usersDetails.profile ?? '',
+                            width: 36,
+                            height: 36,
+                            fit: BoxFit.cover,
+                          )
+                        : const Image(
+                            image: AssetImage('assets/Logo/logo.png'),
+                            width: 36,
+                          ),
+                  ),
+                  const SizedBox(width: 5),
+                  Text(
+                    'Amenda Cuts',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  )
+                ],
+              ),
+              actions: [
+                const SizedBox(
+                  width: 10,
+                ),
+                GestureDetector(
+                  onTap: () {},
+                  child: const Icon(
+                    Iconsax.notification_bing,
+                    size: 25,
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                GestureDetector(
+                  onTap: () {},
+                  child: const Icon(
+                    Iconsax.archive_1,
+                    size: 25,
+                  ),
+                ),
+              ],
+            ),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: Text("Hello, ${usersDetails.name}👋",
+                          style: Theme.of(context).textTheme.bodyLarge),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    commonTextField(
+                        isPrefix: true,
+                        context: context,
+                        controller: searchController,
+                        text: 'Search',
+                        maxLines: 1,
+                        icon: Iconsax.search_normal,
+                        onChange: (value) {},
+                        isPassword: false,
+                        obscure: false,
+                        isSearch: true,
+                        validator: (value) {}),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Container(
+                      width: double.infinity,
+                      constraints: const BoxConstraints(
+                        maxWidth: double.infinity,
+                        maxHeight: 200,
+                      ),
+                      child: ListView.builder(
+                          itemCount: experts.length,
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            final data = experts[index];
+
+                            final intRating = data.rating ?? 0;
+                            double rating = intRating.toDouble();
+                            String ratings = intRating.toString();
+                            return sliderContainer(
+                              context: context,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 12),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: data.profile != null &&
+                                              (data.profile!.length) > 2
+                                          ? CachedNetworkImage(
+                                              imageUrl: data.profile ?? '',
+                                              width: 80,
+                                              height: 80,
+                                              fit: BoxFit.cover,
+                                            )
+                                          : Image(
+                                              image: AssetImage(Theme.of(
+                                                              context)
+                                                          .brightness ==
+                                                      Brightness.dark
+                                                  ? 'assets/Logo/logo.png'
+                                                  : 'assets/Logo/logo_light.jpg'),
+                                              width: 80,
+                                              height: 80,
+                                              fit: BoxFit.cover,
+                                            ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      data.name ?? '',
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      "Hair Cut Specialist",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Row(
+                                      children: [
+                                        ratingBar(
+                                          context: context,
+                                          initialRating: rating,
+                                        ),
+                                        const SizedBox(
+                                          width: 4,
+                                        ),
+                                        Text(ratings)
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            );
+                          }),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          categoryContainer(
+                              context: context,
+                              path: 'assets/Images/cu.png',
+                              category: "Haircuts"),
+                          categoryContainer(
+                              context: context,
+                              path: 'assets/Images/dr.png',
+                              category: "Dreadlocks"),
+                          categoryContainer(
+                              context: context,
+                              path: 'assets/Images/c.png',
+                              category: "Hair Color"),
+                          categoryContainer(
+                              context: context,
+                              path: 'assets/Images/p.png',
+                              category: "Pedicure"),
+                          categoryContainer(
+                              context: context,
+                              path: 'assets/Images/m.png',
+                              category: "Manicure")
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Divider(height: 2, color: Theme.of(context).cardColor),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    StreamBuilder<List<ServiceModel>>(
+                        stream: instance.fetchServices(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            final service = snapshot.data!;
+                            switch (snapshot.connectionState) {
+                              case ConnectionState.waiting:
+                                return preloader(20.0, context);
+                              default:
+                                return GridView.builder(
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                            childAspectRatio: mHeight / 16.5,
+                                            mainAxisSpacing: 6,
+                                            crossAxisSpacing: 6,
+                                            crossAxisCount: 2),
+                                    shrinkWrap: true,
+                                    itemCount: service.length,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      final data = service[index];
+
+                                      bool favorite = false;
+                                      final documentId = data.documentId;
+                                      var favorites = data.favorite
+                                          .contains(Apis.user?.uid);
+                                      if (favorites) {
+                                        favorite = true;
+                                      }
+                                      bool isDeleted = data.isDeleted;
+                                      return serviceContainer(
+                                        image: data.serviceImage,
+                                        serviceName: data.serviceName,
+                                        description: data.description,
+                                        amount: data.servicePrice,
+                                        onTap: () {
+                                          bottomSheet(
+                                              context: context,
+                                              height: mHeight * 28,
+                                              child: favoriteWidget(
+                                                  context: context,
+                                                  isFavorite: favorite,
+                                                  image: data.serviceImage,
+                                                  description: data.description,
+                                                  serviceName: data.serviceName,
+                                                  price: data.servicePrice,
+                                                  onTap: () {
+                                                    instance.userFavorite(
+                                                        favorite,
+                                                        data.documentId,
+                                                        user!.uid);
+                                                    setState(() {});
+                                                    Navigator.pop(context);
+                                                  }));
+                                        },
+                                        isFavorite: favorites,
+                                        onTapBook: () {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      SingleServiceScreen(
+                                                        serviceModel: data,
+                                                      )));
+                                        },
+                                        context: context,
+                                      );
+                                    });
+                            }
+                          } else {
+                            return const Text("No data available");
+                          }
+                        })
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
       }),
     );
   }

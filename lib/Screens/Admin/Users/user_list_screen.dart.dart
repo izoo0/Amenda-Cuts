@@ -53,6 +53,7 @@ class _UserListScreenState extends State<UserListScreen> {
                       style: Theme.of(context).textTheme.bodyLarge,
                     )
                   : commonTextField(
+                      isPrefix: true,
                       controller: controller,
                       text: "Search...",
                       maxLines: 1,

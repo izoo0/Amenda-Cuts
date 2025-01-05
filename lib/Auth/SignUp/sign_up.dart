@@ -83,6 +83,7 @@ class _SignUpState extends State<SignUp> {
                       height: 30,
                     ),
                     commonTextField(
+                      isPrefix: true,
                       context: context,
                       controller: emailController,
                       text: "Email",
@@ -103,6 +104,7 @@ class _SignUpState extends State<SignUp> {
                       height: 30,
                     ),
                     commonTextField(
+                      isPrefix: true,
                       context: context,
                       controller: usernameController,
                       text: "Username",
@@ -121,6 +123,7 @@ class _SignUpState extends State<SignUp> {
                       height: 30,
                     ),
                     commonTextField(
+                      isPrefix: true,
                       context: context,
                       controller: phoneController,
                       text: "Phone number",
@@ -139,6 +142,7 @@ class _SignUpState extends State<SignUp> {
                       height: 30,
                     ),
                     commonTextField(
+                      isPrefix: true,
                       context: context,
                       controller: passwordController,
                       text: "Password",
