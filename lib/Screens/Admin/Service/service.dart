@@ -33,22 +33,31 @@ class _ServiceState extends State<Service> {
                   icon: const Icon(Iconsax.home)),
               title: const Text("Services"),
             ),
-            body: StreamBuilder(
+            body: StreamBuilder<List<ServiceModel>>(
                 stream: instance.fetchServices(),
                 builder: (context, snap) {
-                  List<ServiceModel>? data = snap.data;
-                  return GridView.builder(
-                      itemCount: data!.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 8,
-                        mainAxisSpacing: 8,
-                        childAspectRatio: 0.68,
-                      ),
-                      itemBuilder: (context, index) {
-                        return index == 0
-                            ? GestureDetector(
+                  final data = snap.data!;
+                  print('_________________________$data');
+                  if (snap.hasError) {
+                    print("_______________________error");
+                  }
+                  if (snap.hasData) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      child: GridView.builder(
+                          itemCount: data.length + 1,
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8,
+                            childAspectRatio: 0.66,
+                          ),
+                          itemBuilder: (context, index) {
+                            if (index == 0) {
+                              return GestureDetector(
                                 onTap: () {
                                   Navigator.of(context)
                                       .pushReplacement(MaterialPageRoute(
@@ -59,10 +68,9 @@ class _ServiceState extends State<Service> {
                                 child: Container(
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(4),
-                                      color: Theme.of(context).cardColor,
                                       border: Border.all(
                                         width: 1,
-                                        color: Theme.of(context).cardColor,
+                                        color: Theme.of(context).primaryColor,
                                       )),
                                   child: const Center(
                                     child: Icon(
@@ -71,19 +79,23 @@ class _ServiceState extends State<Service> {
                                     ),
                                   ),
                                 ),
-                              )
-                            : adminServiceContainer(
-                                image:
-                                    'https://plus.unsplash.com/premium_photo-1658506711778-d56cdeae1b9b?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                                serviceName: "Rasta",
-                                description:
-                                    "Aliquam a ante at nunc mattis viverra. Pellentesque rhoncus pharetra.",
-                                amount: 'Ksh 200',
+                              );
+                            }
+                            final serviceIndex = index - 1;
+                            final details = data[serviceIndex];
+                            return adminServiceContainer(
+                                image: details.serviceImage,
+                                serviceName: details.serviceName,
+                                description: details.description,
+                                amount: details.servicePrice,
                                 onTap: () {},
                                 isFavorite: false,
                                 onTapBook: () {},
                                 context: context);
-                      });
+                          }),
+                    );
+                  }
+                  return const Center(child: Text("Hello there"));
                 })));
   }
 }

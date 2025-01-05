@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:amenda_cuts/Common/Constants/color_constants.dart';
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Screens/User/Booking/booking.dart';
-import 'package:amenda_cuts/Screens/Gallery/gallery.dart';
+import 'package:amenda_cuts/Screens/User/Gallery/gallery.dart';
 import 'package:amenda_cuts/Screens/User/Home/home.dart';
 import 'package:amenda_cuts/Screens/User/Profile/profile.dart';
 import 'package:amenda_cuts/Screens/chats/charts.dart';
