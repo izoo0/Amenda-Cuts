@@ -6,4 +6,5 @@ class UserDetailsConstants {
   static const String profilePicture = 'profile';
   static const String phoneNumber = 'phone_number';
   static const String role = "role";
+  static const String isExpert = "isExpert";
 }

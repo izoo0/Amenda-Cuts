@@ -19,7 +19,7 @@ ThemeData whiteTheme() {
       radioTheme: const RadioThemeData(
           fillColor: WidgetStatePropertyAll(ColorConstants.appColor)),
       iconTheme: const IconThemeData(color: ColorConstants.iconColor),
-      shadowColor: ColorConstants.blackBackground,
+      shadowColor: Colors.black12,
       textTheme: const TextTheme(
           displayLarge: TextStyle(
             color: ColorConstants.blackBackground,

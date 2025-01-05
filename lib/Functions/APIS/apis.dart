@@ -172,6 +172,55 @@ class Apis extends ChangeNotifier {
     }
   }
 
+  Future<void> makeAdmin(
+      {required BuildContext context,
+      required String userId,
+      required bool isAdmin}) async {
+    try {
+      DocumentReference documentReference =
+          firestore.collection('users').doc(userId);
+      documentReference.set({
+        'role': isAdmin ? '' : 'admin',
+      }, SetOptions(merge: true));
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AnimatedAlertDialog(
+              title: "Admins",
+              content: isAdmin
+                  ? 'You have removed user as Admin'
+                  : 'You have added user as Admin',
+            );
+          });
+    } catch (e) {
+      //
+    }
+  }
+
+  Future<void> makeExpert(
+      {required BuildContext context,
+      required String userId,
+      required bool isExpert}) async {
+    try {
+      DocumentReference documentReference =
+          firestore.collection('users').doc(userId);
+      documentReference.set({
+        'isExpert': isExpert ? false : true,
+      }, SetOptions(merge: true));
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AnimatedAlertDialog(
+                title: "Experts",
+                content: isExpert
+                    ? 'You have removed user as an Expert'
+                    : 'You have added user as an Expert');
+          });
+    } catch (e) {
+      //
+    }
+  }
+
   String dateFormat({required date}) {
     return DateFormat.yMMMEd().format(date);
   }

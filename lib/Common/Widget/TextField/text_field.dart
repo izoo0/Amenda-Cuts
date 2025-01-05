@@ -17,7 +17,7 @@ Widget commonTextField(
   return TextFormField(
     controller: controller,
     keyboardType: TextInputType.text,
-    style: Theme.of(context).textTheme.bodyLarge,
+    style: Theme.of(context).textTheme.bodySmall,
     expands: false,
     minLines: obscure ? 1 : null,
     obscureText: obscure,

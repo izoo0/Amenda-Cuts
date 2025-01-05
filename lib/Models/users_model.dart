@@ -16,9 +16,7 @@ class UsersModel {
     this.username,
     this.role,
   });
-  @override
-  String toString() =>
-      'UsersModel(name: $name,email: $email,number: $number,profile:$profile, username: $username,role: $role)';
+
   factory UsersModel.fromFirebase(Map<String, dynamic> userData) {
     return UsersModel(
       name: userData[UserDetailsConstants.fullName] ?? '',

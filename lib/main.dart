@@ -1,3 +1,4 @@
+import 'package:amenda_cuts/Provider/other_user_details_provider.dart';
 import 'package:amenda_cuts/Provider/theme_provider.dart';
 import 'package:amenda_cuts/Provider/user_details_provider.dart';
 import 'package:amenda_cuts/Screens/SplashScreen/splash_screen.dart';
@@ -16,7 +17,9 @@ void main() async {
     ),
     ChangeNotifierProvider<UserDetailsProvider>(
       create: (context) => UserDetailsProvider()..init(),
-    )
+    ),
+    ChangeNotifierProvider<OtherUserDetailsProvider>(
+        create: (context) => OtherUserDetailsProvider()..init())
   ], child: const MyApp()));
 }
 
