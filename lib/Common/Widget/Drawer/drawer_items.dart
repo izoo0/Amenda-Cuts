@@ -1,7 +1,8 @@
-import 'package:amenda_cuts/Screens/Admin/User/user_list_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+
+import '../../../Screens/Admin/Users/user_list_screen.dart.dart';
 
 Widget drawerItems(
     {required bool isActive,

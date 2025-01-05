@@ -1,8 +1,3 @@
-import 'package:amenda_cuts/Admin/Category/category.dart';
-import 'package:amenda_cuts/Admin/Charts/charts.dart';
-import 'package:amenda_cuts/Admin/Dashboard/dashboard.dart';
-import 'package:amenda_cuts/Admin/Service/service.dart';
-import 'package:amenda_cuts/Admin/Users/users.dart';
 import 'package:amenda_cuts/Common/Widget/BottomSheet/bottom_sheet.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/category_container.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/service_container.dart';
@@ -17,7 +12,6 @@ import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Models/service_model.dart';
 import 'package:amenda_cuts/Models/users_model.dart';
 import 'package:amenda_cuts/Provider/user_details_provider.dart';
-import 'package:amenda_cuts/Screens/User/Booking/booking.dart';
 import 'package:amenda_cuts/Screens/User/Home/favorite/favorite.dart';
 import 'package:amenda_cuts/Screens/User/Home/service/single_service_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -49,23 +43,6 @@ class _HomeState extends State<Home> {
   void dispose() {
     super.dispose();
     searchController.dispose();
-  }
-
-  int currentIndex = 0;
-
-  List<Widget> screens = [
-    const Dashboard(),
-    const Booking(),
-    const Users(),
-    const Service(),
-    const Category(),
-    const Charts(),
-  ];
-
-  void changePage(int index) {
-    setState(() {
-      currentIndex = index;
-    });
   }
 
   @override
