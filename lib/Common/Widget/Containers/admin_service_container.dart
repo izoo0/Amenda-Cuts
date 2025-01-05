@@ -1,11 +1,9 @@
-import 'package:amenda_cuts/Common/Widget/Button/user_button.dart';
-import 'package:amenda_cuts/Common/Constants/color_constants.dart';
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Models/service_model.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
-Widget serviceContainer({
+Widget adminServiceContainer({
   required String image,
   required serviceName,
   required description,
@@ -62,30 +60,48 @@ Widget serviceContainer({
                   .textTheme
                   .bodyMedium!
                   .apply(color: Theme.of(context).primaryColor)),
+          const SizedBox(
+            height: 10,
+          ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               GestureDetector(
                 onTap: () {
                   onTap();
                 },
-                child: Icon(
-                  !isFavorite ? Iconsax.archive_add : Iconsax.archive_1,
-                  color: !isFavorite
-                      ? Theme.of(context).brightness == Brightness.light
-                          ? Colors.black
-                          : Colors.white
-                      : Theme.of(context).primaryColor,
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  child: Icon(Iconsax.edit,
+                      color: Theme.of(context).brightness == Brightness.light
+                          ? Colors.white
+                          : Colors.white),
                 ),
               ),
-              userButton(
-                  context: context,
-                  width: mWidth * 35,
-                  name: 'Book Now',
-                  onTap: () {
-                    onTapBook();
-                  },
-                  color: ColorConstants.appColor),
+              const SizedBox(
+                width: 8,
+              ),
+              GestureDetector(
+                onTap: () {
+                  onTap();
+                },
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  child: Icon(Iconsax.trash,
+                      color: Theme.of(context).brightness == Brightness.light
+                          ? Colors.white
+                          : Colors.white),
+                ),
+              ),
             ],
           ),
         ],

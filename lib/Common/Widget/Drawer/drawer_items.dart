@@ -1,7 +1,9 @@
+import 'package:amenda_cuts/Screens/Admin/Service/service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
+import '../../../Screens/Admin/Gallery/gallery.dart';
 import '../../../Screens/Admin/Users/user_list_screen.dart.dart';
 
 Widget drawerItems(
@@ -58,17 +60,20 @@ Widget drawerItems(
                     const SizedBox(height: 5),
                   ],
                 ),
-              const Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(Iconsax.user_tag),
-                  SizedBox(
-                    width: 8,
-                  ),
-                  Text("Profile"),
-                ],
+              InkWell(
+                onTap: () {},
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(Iconsax.user_tag),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text("Profile"),
+                  ],
+                ),
               ),
               const SizedBox(height: 20),
               InkWell(
@@ -82,7 +87,7 @@ Widget drawerItems(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Icon(
-                      Iconsax.clipboard,
+                      Iconsax.people,
                       size: 28,
                     ),
                     SizedBox(
@@ -93,20 +98,26 @@ Widget drawerItems(
                 ),
               ),
               const SizedBox(height: 20),
-              const Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    Iconsax.people,
-                    size: 28,
-                  ),
-                  SizedBox(
-                    width: 8,
-                  ),
-                  Text("Services"),
-                ],
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => const Service()));
+                },
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Iconsax.clipboard,
+                      size: 28,
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text("Services"),
+                  ],
+                ),
               ),
               const SizedBox(height: 5),
               Divider(
@@ -158,17 +169,23 @@ Widget drawerItems(
                 color: Theme.of(context).cardColor.withOpacity(0.3),
               ),
               const SizedBox(height: 5),
-              const Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(Iconsax.gallery),
-                  SizedBox(
-                    width: 8,
-                  ),
-                  Text("Gallery"),
-                ],
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => const AdminGallery()));
+                },
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(Iconsax.gallery),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text("Gallery"),
+                  ],
+                ),
               ),
               const SizedBox(height: 20),
               const Row(

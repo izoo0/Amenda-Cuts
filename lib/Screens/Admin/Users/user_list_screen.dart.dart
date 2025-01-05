@@ -1,7 +1,8 @@
 import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
+
 import 'package:amenda_cuts/Common/Widget/Navigation/navigation_bar.dart';
 import 'package:amenda_cuts/Common/Widget/TextField/text_field.dart';
-import 'package:amenda_cuts/Screens/User/Home/home.dart';
+
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -75,9 +76,6 @@ class _UserListScreenState extends State<UserListScreen> {
                         : Iconsax.close_circle))
               ],
             ),
-            body: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                child: userContainer(context: context))));
+            body: userContainer(context: context)));
   }
 }

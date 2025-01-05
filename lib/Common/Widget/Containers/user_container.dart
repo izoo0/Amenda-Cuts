@@ -1,14 +1,10 @@
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Common/Widget/Button/user_button.dart';
-
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Models/other_users_model.dart';
-
 import 'package:amenda_cuts/Provider/other_user_details_provider.dart';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 
 Widget userContainer({required BuildContext context}) {
@@ -32,7 +28,7 @@ Widget userContainer({required BuildContext context}) {
           }
 
           return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
+            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 4),
               decoration: BoxDecoration(
@@ -41,7 +37,7 @@ Widget userContainer({required BuildContext context}) {
                 boxShadow: [
                   BoxShadow(
                       offset: const Offset(3, 4),
-                      color: Theme.of(context).shadowColor.withOpacity(0.5),
+                      color: Theme.of(context).shadowColor.withOpacity(0.3),
                       spreadRadius: 2,
                       blurRadius: 8)
                 ],
@@ -120,8 +116,6 @@ Widget userContainer({required BuildContext context}) {
                     )
                   ],
                 ),
-                trailing: IconButton(
-                    onPressed: () {}, icon: const Icon(Iconsax.trash)),
               ),
             ),
           );

@@ -7,15 +7,15 @@ class UsersModel {
   final String? profile;
   final String? username;
   final String? role;
-
-  UsersModel({
-    this.name,
-    this.email,
-    this.number,
-    this.profile,
-    this.username,
-    this.role,
-  });
+  final bool? isExpert;
+  UsersModel(
+      {this.name,
+      this.email,
+      this.number,
+      this.profile,
+      this.username,
+      this.role,
+      this.isExpert});
 
   factory UsersModel.fromFirebase(Map<String, dynamic> userData) {
     return UsersModel(
@@ -25,6 +25,7 @@ class UsersModel {
       profile: userData[UserDetailsConstants.profilePicture] ?? '',
       username: userData[UserDetailsConstants.username] ?? '',
       role: userData[UserDetailsConstants.role] ?? '',
+      isExpert: userData[UserDetailsConstants.isExpert] ?? false,
     );
   }
 }
