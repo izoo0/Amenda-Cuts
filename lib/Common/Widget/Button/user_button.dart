@@ -19,7 +19,7 @@ Widget userButton({
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
         ),
         child: Text(name,
-            style: Theme.of(context).textTheme.bodyMedium!.apply(
+            style: Theme.of(context).textTheme.bodySmall!.apply(
                 color: Theme.of(context).brightness == Brightness.dark
                     ? ColorConstants.blackBackground
                     : ColorConstants.appTextColor))),

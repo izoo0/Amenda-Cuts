@@ -10,10 +10,9 @@ const storage = multer.diskStorage({
     cb(null, 'uploads/'); // Specify the directory to save files
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    const ext = path.extname(file.originalname); // Get the file extension
-    const baseName = path.basename(file.originalname, ext); // Get the original file name without extension
-    cb(null, `${baseName}-${uniqueSuffix}${ext}`); // Save with the new unique name
+    const ext = path.extname(file.originalname);
+    const baseName = path.basename(file.originalname, ext); 
+    cb(null, `${baseName}-${ext}`); 
   }
 });
 
@@ -48,7 +47,6 @@ app.post('/upload_image', upload.single('image'), (req, res) => {
   });
 });
 
-// Static route to serve images from the 'uploads' directory
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.listen(8080, () => {

@@ -10,4 +10,5 @@ class FirebaseServiceConstants {
   static const serviceReserveDate = 'reserveDate';
   static const serviceTimeRange = 'timeRange';
   static const serviceFavorite = 'favorite';
+  static const serviceCategory = 'category';
 }

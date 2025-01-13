@@ -32,6 +32,7 @@ Widget adminServiceContainer({
               child: Image(
                 image: NetworkImage(image),
                 fit: BoxFit.cover,
+                width: double.infinity,
                 height: mHeight * 18,
               )),
           const SizedBox(

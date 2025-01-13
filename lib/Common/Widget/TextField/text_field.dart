@@ -68,6 +68,10 @@ Widget commonTextField(
           borderRadius: BorderRadius.all(Radius.circular(8)),
           borderSide: BorderSide(color: Colors.redAccent),
         ),
+        focusedErrorBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderSide: BorderSide(color: Colors.redAccent),
+        ),
         border: OutlineInputBorder(
             borderRadius: const BorderRadius.all(Radius.circular(8)),
             borderSide: BorderSide(color: Colors.grey.withOpacity(0.4)))),

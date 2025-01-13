@@ -35,6 +35,7 @@ Widget serviceContainer({
                 image: NetworkImage(image),
                 fit: BoxFit.cover,
                 height: mHeight * 18,
+                width: double.infinity,
               )),
           const SizedBox(
             height: 8,

@@ -58,6 +58,7 @@ class Apis extends ChangeNotifier {
             description: '',
             favorite: [],
             documentId: '',
+            serviceCategory: '',
             isDeleted: false);
         if (serviceSnapshot.exists) {
           Map<String, dynamic> serviceData =

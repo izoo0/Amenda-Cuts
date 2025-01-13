@@ -3,10 +3,14 @@ import 'dart:io';
 import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Common/Widget/Button/user_button_border.dart';
+import 'package:amenda_cuts/Common/Widget/Preloader/preloader.dart';
 import 'package:amenda_cuts/Common/Widget/TextField/text_field.dart';
+import 'package:amenda_cuts/Functions/NodeAPI/node_api.dart';
+import 'package:amenda_cuts/Models/category_model.dart';
 import 'package:amenda_cuts/Models/other_users_model.dart';
 import 'package:amenda_cuts/Models/service_model.dart';
 import 'package:amenda_cuts/Provider/other_user_details_provider.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
@@ -22,12 +26,13 @@ class CreateService extends StatefulWidget {
 
 class _CreateServiceState extends State<CreateService> {
   String expertId = '';
+  String selectedCategory = '';
   File serviceImage = File('');
   late bool imageIsEmpty;
   late TextEditingController serviceNameController;
   late TextEditingController priceController;
   late TextEditingController descriptionController;
-
+  NodeApi instance = NodeApi.instance;
   final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
@@ -50,6 +55,7 @@ class _CreateServiceState extends State<CreateService> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     double height = SizeConfig.blockSizeHeight!;
+    double width = SizeConfig.blockSizeWidth!;
     return Consumer<OtherUserDetailsProvider>(
         builder: (context, otherUserDetailsProvider, _) {
       List<OtherUsersModel> users = otherUserDetailsProvider.otherUserModel;
@@ -78,37 +84,61 @@ class _CreateServiceState extends State<CreateService> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () async {
-                          await pickImage();
-                        },
-                        child: Container(
-                          width: 70,
-                          height: 70,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Theme.of(context).cardColor,
-                          ),
-                          child: const Icon(Iconsax.add),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        serviceImage.path.isEmpty
-                            ? "Select Image"
-                            : "Replace selected image",
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      )
-                    ],
-                  ),
                   const SizedBox(
                     height: 8,
                   ),
+                  DropdownButtonFormField<CategoryModel>(
+                    borderRadius: BorderRadius.circular(4),
+                    icon: const Icon(Iconsax.arrow_circle_down),
+                    hint: const Text("Select Category"),
+                    dropdownColor: Theme.of(context).cardColor,
+                    validator: (value) {
+                      if (value == null) {
+                        return 'Category is required';
+                      }
+                      return null;
+                    },
+                    items: categories
+                        .map((user) => DropdownMenuItem<CategoryModel>(
+                              value: user,
+                              child: Text(user.categoryName),
+                            ))
+                        .toList(),
+                    onChanged: (CategoryModel? val) {
+                      if (val != null) {
+                        setState(() {
+                          selectedCategory = val.categoryName;
+                        });
+                      }
+                    },
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(
+                              width: 1, color: Theme.of(context).cardColor),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide:
+                                const BorderSide(width: 1, color: Colors.red)),
+                        focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide:
+                                const BorderSide(width: 1, color: Colors.red)),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                                width: 1,
+                                color: Theme.of(context).primaryColor))),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   DropdownButtonFormField<OtherUsersModel>(
+                    icon: const Icon(Iconsax.arrow_circle_down),
+                    alignment: Alignment.bottomCenter,
+                    dropdownColor: Theme.of(context).cardColor,
+                    hint: const Text("Select Expert"),
                     validator: (value) {
                       if (value == null) {
                         return 'Expert is required';
@@ -129,56 +159,113 @@ class _CreateServiceState extends State<CreateService> {
                       }
                     },
                     decoration: InputDecoration(
-                        hintText: "Select Expert",
-                        border: OutlineInputBorder(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide(
+                            width: 1, color: Theme.of(context).cardColor),
+                      ),
+                      focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide: BorderSide(
-                              width: 1, color: Theme.of(context).cardColor),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                width: 1,
-                                color: Theme.of(context).primaryColor))),
+                              width: 1, color: Theme.of(context).primaryColor)),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide:
+                              const BorderSide(width: 1, color: Colors.red)),
+                      focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide:
+                              const BorderSide(width: 1, color: Colors.red)),
+                    ),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
-                  Container(
-                    width: double.infinity,
-                    height: height * 30,
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 2,
-                          color: !imageIsEmpty
-                              ? Theme.of(context).cardColor
-                              : Colors.red,
-                        ),
-                        borderRadius: BorderRadius.circular(8)),
-                    child: serviceImage.path.isNotEmpty
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.file(
-                              serviceImage,
-                              height: height * 30,
-                              width: double.infinity,
-                              fit: BoxFit.cover,
-                            ),
-                          )
-                        : Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                  DottedBorder(
+                    strokeWidth: 3,
+                    borderType: BorderType.RRect,
+                    radius: const Radius.circular(8),
+                    dashPattern: const [6, 5],
+                    color: !imageIsEmpty
+                        ? Theme.of(context).cardColor
+                        : Colors.red,
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: height * 30,
+                      child: serviceImage.path.isNotEmpty
+                          ? Stack(
                               children: [
-                                const Icon(Iconsax.gallery),
-                                const SizedBox(width: 10),
-                                Text(
-                                  "Selected image will appear here",
-                                  style: Theme.of(context).textTheme.bodySmall,
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: Image.file(
+                                    serviceImage,
+                                    height: height * 30,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
+                                Positioned(
+                                  top: 2,
+                                  left: 2,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        serviceImage = File('');
+                                      });
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8, vertical: 8),
+                                      decoration: BoxDecoration(
+                                          color: Theme.of(context).cardColor,
+                                          shape: BoxShape.circle),
+                                      child: const Icon(Iconsax.close_circle),
+                                    ),
+                                  ),
+                                )
                               ],
+                            )
+                          : GestureDetector(
+                              onTap: () {
+                                pickImage();
+                              },
+                              child: Center(
+                                child: DottedBorder(
+                                  radius: const Radius.circular(8),
+                                  borderType: BorderType.RRect,
+                                  color: Theme.of(context).cardColor,
+                                  strokeWidth: 2,
+                                  dashPattern: const [6, 5],
+                                  borderPadding:
+                                      const EdgeInsets.symmetric(horizontal: 2),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 12),
+                                    width: width * 35,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const Icon(Iconsax.gallery),
+                                        const SizedBox(width: 10),
+                                        Text(
+                                          "Selected image",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
+                    ),
                   ),
+                  if (imageIsEmpty)
+                    const SizedBox(
+                      height: 4,
+                    ),
                   if (imageIsEmpty)
                     Padding(
                       padding: const EdgeInsets.symmetric(
@@ -256,7 +343,7 @@ class _CreateServiceState extends State<CreateService> {
                   userButtonOutline(
                       width: double.infinity,
                       name: "Create Service",
-                      onTap: () {
+                      onTap: () async {
                         _formKey.currentState!.save();
                         if (serviceImage.path.isEmpty) {
                           setState(() {
@@ -267,7 +354,34 @@ class _CreateServiceState extends State<CreateService> {
                             imageIsEmpty = false;
                           });
                         }
-                        if (_formKey.currentState!.validate()) {}
+
+                        if (_formKey.currentState!.validate()) {
+                          showDialog(
+                              context: context,
+                              builder: (_) {
+                                return Center(
+                                  child: SizedBox(
+                                    width: 30,
+                                    height: 30,
+                                    child: preloader(20.0, context),
+                                  ),
+                                );
+                              });
+                          await instance.createService(
+                              context: context,
+                              image: serviceImage,
+                              expertId: expertId,
+                              selectedCategory: selectedCategory,
+                              name: serviceNameController.text.trim(),
+                              price: priceController.text.trim(),
+                              description: descriptionController.text.trim());
+                          serviceNameController.clear();
+                          priceController.clear();
+                          descriptionController.clear();
+                          setState(() {
+                            serviceImage = File('');
+                          });
+                        }
                       },
                       context: context)
                 ],

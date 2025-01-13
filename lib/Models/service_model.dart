@@ -9,15 +9,18 @@ class ServiceModel {
   final String description;
   final List<String> favorite;
   final bool isDeleted;
-  ServiceModel(
-      {required this.serviceName,
-      required this.serviceImage,
-      required this.serviceRatings,
-      required this.servicePrice,
-      required this.description,
-      required this.favorite,
-      required this.documentId,
-      required this.isDeleted});
+  final String serviceCategory;
+  ServiceModel({
+    required this.serviceName,
+    required this.serviceImage,
+    required this.serviceRatings,
+    required this.servicePrice,
+    required this.description,
+    required this.favorite,
+    required this.documentId,
+    required this.isDeleted,
+    required this.serviceCategory,
+  });
   @override
   String toString() =>
       'ServiceModel(serviceName: $serviceName, serviceImage: $serviceImage, serviceRatings: $serviceRatings, servicePrice: $servicePrice, description: $description, favorite: $favorite, isDeleted: $isDeleted)';
@@ -32,14 +35,14 @@ class ServiceModel {
     }
 
     return ServiceModel(
-      serviceName: serviceData[FirebaseServiceConstants.serviceName],
-      serviceImage: serviceData[FirebaseServiceConstants.serviceImage],
-      serviceRatings: serviceData[FirebaseServiceConstants.serviceRatings],
-      servicePrice: serviceData[FirebaseServiceConstants.servicePrice],
-      description: serviceData[FirebaseServiceConstants.serviceDescription],
-      favorite: favoriteList,
-      isDeleted: serviceData[FirebaseServiceConstants.serviceIsDeleted],
-      documentId: documentId ?? '',
-    );
+        serviceName: serviceData[FirebaseServiceConstants.serviceName],
+        serviceImage: serviceData[FirebaseServiceConstants.serviceImage],
+        serviceRatings: serviceData[FirebaseServiceConstants.serviceRatings],
+        servicePrice: serviceData[FirebaseServiceConstants.servicePrice],
+        description: serviceData[FirebaseServiceConstants.serviceDescription],
+        favorite: favoriteList,
+        isDeleted: serviceData[FirebaseServiceConstants.serviceIsDeleted],
+        documentId: documentId ?? '',
+        serviceCategory: serviceData[FirebaseServiceConstants.serviceCategory]);
   }
 }

@@ -40,7 +40,10 @@ class _ServiceState extends State<Service> {
                   if (snap.data != null) {
                     final data = snap.data!;
                     return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 4,
+                        vertical: 8,
+                      ),
                       child: GridView.builder(
                           itemCount: data.length + 1,
                           scrollDirection: Axis.vertical,
