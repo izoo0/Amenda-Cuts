@@ -9,6 +9,7 @@ import 'package:amenda_cuts/controller/service_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
 class Apis extends ChangeNotifier {
@@ -51,6 +52,7 @@ class Apis extends ChangeNotifier {
             await firestore.collection('services').doc(serviceId).get();
 
         ServiceModel serviceModel = ServiceModel(
+            expertId: '',
             serviceName: '',
             serviceImage: '',
             serviceRatings: 0,
@@ -103,15 +105,25 @@ class Apis extends ChangeNotifier {
         showDialog(
             context: context,
             builder: (context) {
-              return const AnimatedAlertDialog(
+              return AnimatedAlertDialog(
                   title: "Success",
+                  icon: Icon(
+                    Iconsax.tick_circle,
+                    color: Theme.of(context).primaryColor,
+                  ),
                   content: "You have made your booking successfully");
             });
       }
     } catch (e) {
-      const AnimatedAlertDialog(
-          title: "Error",
-          content: "An error occurred while creating your booking");
+      if (context.mounted) {
+        AnimatedAlertDialog(
+            title: "Error",
+            icon: Icon(
+              Iconsax.info_circle,
+              color: Theme.of(context).primaryColor,
+            ),
+            content: "An error occurred while creating your booking");
+      }
     }
   }
 
@@ -189,6 +201,8 @@ class Apis extends ChangeNotifier {
           builder: (context) {
             return AnimatedAlertDialog(
               title: "Admins",
+              icon: Icon(Iconsax.tick_circle,
+                  color: Theme.of(context).primaryColor),
               content: isAdmin
                   ? 'You have removed user as Admin'
                   : 'You have added user as Admin',
@@ -213,6 +227,8 @@ class Apis extends ChangeNotifier {
           context: context,
           builder: (context) {
             return AnimatedAlertDialog(
+                icon: Icon(Iconsax.tick_circle,
+                    color: Theme.of(context).primaryColor),
                 title: "Experts",
                 content: isExpert
                     ? 'You have removed user as an Expert'

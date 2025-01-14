@@ -42,6 +42,7 @@ class _ServiceState extends State<Service> {
                     final data = snap.data!;
                     ServiceModel createData = ServiceModel(
                         serviceName: '',
+                        expertId: '',
                         serviceImage: '',
                         serviceRatings: 0,
                         imageId: '',

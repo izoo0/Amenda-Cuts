@@ -11,6 +11,7 @@ class ServiceModel {
   final bool isDeleted;
   final String serviceCategory;
   final String imageId;
+  final String expertId;
   ServiceModel(
       {required this.serviceName,
       required this.serviceImage,
@@ -21,7 +22,8 @@ class ServiceModel {
       required this.documentId,
       required this.isDeleted,
       required this.serviceCategory,
-      required this.imageId});
+      required this.imageId,
+      required this.expertId});
   @override
   String toString() =>
       'ServiceModel(serviceName: $serviceName, serviceImage: $serviceImage, serviceRatings: $serviceRatings, servicePrice: $servicePrice, description: $description, favorite: $favorite, isDeleted: $isDeleted)';
@@ -44,6 +46,7 @@ class ServiceModel {
         favorite: favoriteList,
         isDeleted: serviceData[FirebaseServiceConstants.serviceIsDeleted],
         documentId: documentId,
+        expertId: serviceData['expertId'],
         imageId: serviceData['image_id'],
         serviceCategory: serviceData[FirebaseServiceConstants.serviceCategory]);
   }

@@ -5,6 +5,7 @@ import 'package:amenda_cuts/Screens/OnBoarding/on_boarding_two.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 
 class SignOut {
   static SignOut instance = SignOut._construct();
@@ -20,7 +21,11 @@ class SignOut {
       showDialog(
         context: context,
         builder: (_) {
-          return const AnimatedAlertDialog(
+          return AnimatedAlertDialog(
+            icon: Icon(
+              Iconsax.tick_circle,
+              color: Theme.of(context).primaryColor,
+            ),
             title: 'Sign Out',
             content: "You have signed out successfully",
           );

@@ -29,10 +29,12 @@ class _HomeState extends State<Home> {
 
   final Apis instance = Apis.instance;
   bool isActive = false;
+  late bool isSearchEnabled;
   @override
   void initState() {
     super.initState();
     searchController = TextEditingController();
+    isSearchEnabled = false;
   }
 
   @override
@@ -188,21 +190,18 @@ class _HomeState extends State<Home> {
                   width: 10,
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    setState(() {
+                      isSearchEnabled = !isSearchEnabled;
+                    });
+                  },
                   child: const Icon(
-                    Iconsax.notification_bing,
+                    Iconsax.search_normal,
                     size: 25,
                   ),
                 ),
                 const SizedBox(
                   width: 10,
-                ),
-                GestureDetector(
-                  onTap: () {},
-                  child: const Icon(
-                    Iconsax.archive_1,
-                    size: 25,
-                  ),
                 ),
               ],
             ),
@@ -210,8 +209,8 @@ class _HomeState extends State<Home> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const SizedBox(
                       height: 10,
@@ -221,21 +220,23 @@ class _HomeState extends State<Home> {
                       child: Text("Hello, ${usersDetails.name}👋",
                           style: Theme.of(context).textTheme.bodyLarge),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    commonTextField(
-                        isPrefix: true,
-                        context: context,
-                        controller: searchController,
-                        text: 'Search',
-                        maxLines: 1,
-                        icon: Iconsax.search_normal,
-                        onChange: (value) {},
-                        isPassword: false,
-                        obscure: false,
-                        isSearch: true,
-                        validator: (value) {}),
+                    if (isSearchEnabled)
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    if (isSearchEnabled)
+                      commonTextField(
+                          isPrefix: true,
+                          context: context,
+                          controller: searchController,
+                          text: 'Search',
+                          maxLines: 1,
+                          icon: Iconsax.search_normal,
+                          onChange: (value) {},
+                          isPassword: false,
+                          obscure: false,
+                          isSearch: true,
+                          validator: (value) {}),
                     const SizedBox(
                       height: 15,
                     ),
@@ -266,79 +267,31 @@ class _HomeState extends State<Home> {
                       height: 8,
                     ),
                     allServiceSection(mHeight: mHeight),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Divider(height: 2, color: Theme.of(context).cardColor),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    categoryButton(
-                        context: context, mWidth: mWidth, title: "Haircuts"),
-                    const SizedBox(
-                      height: 8,
-                    ),
                     categoryDataSection(
-                        mHeight: mHeight, mWidth: mWidth, cate: "Haircuts"),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Divider(height: 2, color: Theme.of(context).cardColor),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    categoryButton(
-                        context: context, mWidth: mWidth, title: "Dreadlocks"),
-                    const SizedBox(
-                      height: 8,
-                    ),
+                        context: context,
+                        mHeight: mHeight,
+                        mWidth: mWidth,
+                        cate: "Haircuts"),
                     categoryDataSection(
-                        mHeight: mHeight, mWidth: mWidth, cate: "Dreadlocks"),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Divider(height: 2, color: Theme.of(context).cardColor),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    categoryButton(
-                        context: context, mWidth: mWidth, title: "Hair Color"),
-                    const SizedBox(
-                      height: 8,
-                    ),
+                        context: context,
+                        mHeight: mHeight,
+                        mWidth: mWidth,
+                        cate: "Dreadlocks"),
                     categoryDataSection(
-                        mHeight: mHeight, mWidth: mWidth, cate: "Hair Color"),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Divider(height: 2, color: Theme.of(context).cardColor),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    categoryButton(
-                        context: context, mWidth: mWidth, title: "Pedicure"),
-                    const SizedBox(
-                      height: 8,
-                    ),
+                        context: context,
+                        mHeight: mHeight,
+                        mWidth: mWidth,
+                        cate: "Hair Color"),
                     categoryDataSection(
-                        mHeight: mHeight, mWidth: mWidth, cate: "Pedicure"),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Divider(height: 2, color: Theme.of(context).cardColor),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    categoryButton(
-                        context: context, mWidth: mWidth, title: "Manicure"),
-                    const SizedBox(
-                      height: 8,
-                    ),
+                        context: context,
+                        mHeight: mHeight,
+                        mWidth: mWidth,
+                        cate: "Pedicure"),
                     categoryDataSection(
-                        mHeight: mHeight, mWidth: mWidth, cate: "Manicure"),
+                        context: context,
+                        mHeight: mHeight,
+                        mWidth: mWidth,
+                        cate: "Manicure"),
                     const SizedBox(
                       height: 8,
                     ),

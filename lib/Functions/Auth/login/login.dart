@@ -6,6 +6,7 @@ import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Provider/user_details_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 
 class Login {
@@ -26,8 +27,13 @@ class Login {
       return showDialog(
           context: context,
           builder: (_) {
-            return const AnimatedAlertDialog(
-                title: 'Error', content: 'Incorrect username or password');
+            return AnimatedAlertDialog(
+                icon: Icon(
+                  Iconsax.info_circle,
+                  color: Theme.of(context).primaryColor,
+                ),
+                title: 'Error',
+                content: 'Incorrect username or password');
           });
     }
   }

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
@@ -32,6 +30,8 @@ class _CategoryServiceState extends State<CategoryService> {
         child: Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
+        elevation: 0,
+        scrolledUnderElevation: 0,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         title: Text(
           widget.category == "View all" ? "Services" : widget.category,
@@ -58,60 +58,64 @@ class _CategoryServiceState extends State<CategoryService> {
                 case ConnectionState.waiting:
                   return Center(child: preloader(20.0, context));
                 default:
-                  return GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          childAspectRatio: mHeight / 16.5,
-                          mainAxisSpacing: 6,
-                          crossAxisSpacing: 6,
-                          crossAxisCount: 2),
-                      shrinkWrap: true,
-                      itemCount: finalList.length,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        final data = finalList[index];
-                        finalList.shuffle(Random());
-                        bool favorite = false;
-                        final documentId = data.documentId;
-                        var favorites = data.favorite.contains(Apis.user?.uid);
-                        if (favorites) {
-                          favorite = true;
-                        }
-                        bool isDeleted = data.isDeleted;
-                        print(data.serviceCategory);
-                        return serviceContainer(
-                          image: data.serviceImage,
-                          serviceName: data.serviceName,
-                          description: data.description,
-                          amount: data.servicePrice,
-                          onTap: () {
-                            bottomSheet(
-                                context: context,
-                                height: mHeight * 28,
-                                child: favoriteWidget(
-                                  context: context,
-                                  isFavorite: favorite,
-                                  image: data.serviceImage,
-                                  description: data.description,
-                                  serviceName: data.serviceName,
-                                  price: data.servicePrice,
-                                  onTap: () async {
-                                    await instance.userFavorite(
-                                        favorite, data.documentId, user!.uid);
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 12.0),
+                    child: GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            childAspectRatio: mHeight / 16.5,
+                            mainAxisSpacing: 6,
+                            crossAxisSpacing: 6,
+                            crossAxisCount: 2),
+                        shrinkWrap: true,
+                        itemCount: finalList.length,
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          final data = finalList[index];
 
-                                    Navigator.pop(context);
-                                  },
-                                ));
-                          },
-                          isFavorite: favorites,
-                          onTapBook: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => SingleServiceScreen(
-                                      serviceModel: data,
-                                    )));
-                          },
-                          context: context,
-                        );
-                      });
+                          bool favorite = false;
+                          final documentId = data.documentId;
+                          var favorites =
+                              data.favorite.contains(Apis.user?.uid);
+                          if (favorites) {
+                            favorite = true;
+                          }
+                          bool isDeleted = data.isDeleted;
+                          print(data.serviceCategory);
+                          return serviceContainer(
+                            image: data.serviceImage,
+                            serviceName: data.serviceName,
+                            description: data.description,
+                            amount: data.servicePrice,
+                            onTap: () {
+                              bottomSheet(
+                                  context: context,
+                                  height: mHeight * 28,
+                                  child: favoriteWidget(
+                                    context: context,
+                                    isFavorite: favorite,
+                                    image: data.serviceImage,
+                                    description: data.description,
+                                    serviceName: data.serviceName,
+                                    price: data.servicePrice,
+                                    onTap: () async {
+                                      await instance.userFavorite(
+                                          favorite, data.documentId, user!.uid);
+
+                                      Navigator.pop(context);
+                                    },
+                                  ));
+                            },
+                            isFavorite: favorites,
+                            onTapBook: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => SingleServiceScreen(
+                                        serviceModel: data,
+                                      )));
+                            },
+                            context: context,
+                          );
+                        }),
+                  );
               }
             } else {
               return const Text("No data available");

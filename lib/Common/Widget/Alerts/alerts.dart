@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 class AnimatedAlertDialog extends StatefulWidget {
   final String title;
   final String content;
+  final Icon icon;
   const AnimatedAlertDialog({
     super.key,
     required this.title,
     required this.content,
+    required this.icon,
   });
 
   @override
@@ -42,49 +44,68 @@ class _AnimatedAlertDialogState extends State<AnimatedAlertDialog>
       child: ScaleTransition(
         scale: _scaleAnimation,
         child: AlertDialog(
-          backgroundColor: Colors.transparent,
-          content: Card(
-            color: Theme.of(context).cardColor,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 6),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+          backgroundColor: Theme.of(context).cardColor,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(
+                height: 2,
+              ),
+              Text(
+                widget.title,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .apply(color: Theme.of(context).primaryColor),
+              ),
+              const SizedBox(
+                height: 4,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  widget.icon,
                   const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    widget.title,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  const SizedBox(
-                    height: 10,
+                    width: 4,
                   ),
                   Text(
                     widget.content,
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall!
+                        .apply(color: Theme.of(context).primaryColor),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      TextButton(
-                        child: const Text("Close"),
-                        onPressed: () {
-                          // Reverse the animation and close the dialog
-                          _controller.reverse();
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                  )
                 ],
               ),
-            ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  TextButton(
+                    style: TextButton.styleFrom(
+                        backgroundColor: Theme.of(context).primaryColor,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 4, vertical: 8),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4))),
+                    onPressed: () {
+                      // Reverse the animation and close the dialog
+                      _controller.reverse();
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      "Close",
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ),
+                ],
+              )
+            ],
           ),
-          actions: const <Widget>[],
         ),
       ),
     );

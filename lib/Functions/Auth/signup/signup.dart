@@ -6,6 +6,7 @@ import 'package:amenda_cuts/Common/Constants/FirebaseConstants/user_details_cons
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 
 class Signup {
   static Future<User?> registerWithEmailAndPassword(
@@ -32,7 +33,11 @@ class Signup {
       showDialog(
           context: context,
           builder: (_) {
-            return const AnimatedAlertDialog(
+            return AnimatedAlertDialog(
+              icon: Icon(
+                Iconsax.info_circle,
+                color: Theme.of(context).primaryColor,
+              ),
               title: 'Sign Up',
               content: "Your account has been registered successfully",
             );
