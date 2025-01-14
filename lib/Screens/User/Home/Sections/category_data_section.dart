@@ -10,17 +10,20 @@ import '../../../../Models/service_model.dart';
 import '../favorite/favorite.dart';
 import '../service/single_service_screen.dart';
 
-Widget categoryDataSection(
-    {required double mHeight, required String cate, required double mWidth}) {
+Widget categoryDataSection({
+  required double mHeight,
+  required String cate,
+  required double mWidth,
+}) {
   final Apis instance = Apis.instance;
   User? user = FirebaseAuth.instance.currentUser;
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 4),
     child: Container(
-      height: mHeight * 20,
       width: mWidth * 100,
+      height: mHeight * 18,
       constraints: BoxConstraints(
-        minHeight: mHeight * 20,
+        minHeight: mHeight * 18,
         minWidth: mWidth * 100,
       ),
       child: StreamBuilder<List<ServiceModel>>(

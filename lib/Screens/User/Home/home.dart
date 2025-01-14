@@ -260,7 +260,6 @@ class _HomeState extends State<Home> {
                     categoryButton(
                       context: context,
                       mWidth: mWidth,
-                      onTap: () {},
                       title: "View all",
                     ),
                     const SizedBox(
@@ -275,10 +274,7 @@ class _HomeState extends State<Home> {
                       height: 8,
                     ),
                     categoryButton(
-                        context: context,
-                        mWidth: mWidth,
-                        onTap: () {},
-                        title: "Haircuts"),
+                        context: context, mWidth: mWidth, title: "Haircuts"),
                     const SizedBox(
                       height: 8,
                     ),
@@ -291,19 +287,11 @@ class _HomeState extends State<Home> {
                     const SizedBox(
                       height: 8,
                     ),
-                    allServiceSection(mHeight: mHeight),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Divider(height: 2, color: Theme.of(context).cardColor),
                     const SizedBox(
                       height: 8,
                     ),
                     categoryButton(
-                        context: context,
-                        mWidth: mWidth,
-                        onTap: () {},
-                        title: "Dreadlocks"),
+                        context: context, mWidth: mWidth, title: "Dreadlocks"),
                     const SizedBox(
                       height: 8,
                     ),
@@ -316,19 +304,8 @@ class _HomeState extends State<Home> {
                     const SizedBox(
                       height: 8,
                     ),
-                    allServiceSection(mHeight: mHeight),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Divider(height: 2, color: Theme.of(context).cardColor),
-                    const SizedBox(
-                      height: 8,
-                    ),
                     categoryButton(
-                        context: context,
-                        mWidth: mWidth,
-                        onTap: () {},
-                        title: "Hair Color"),
+                        context: context, mWidth: mWidth, title: "Hair Color"),
                     const SizedBox(
                       height: 8,
                     ),
@@ -341,19 +318,8 @@ class _HomeState extends State<Home> {
                     const SizedBox(
                       height: 8,
                     ),
-                    allServiceSection(mHeight: mHeight),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Divider(height: 2, color: Theme.of(context).cardColor),
-                    const SizedBox(
-                      height: 8,
-                    ),
                     categoryButton(
-                        context: context,
-                        mWidth: mWidth,
-                        onTap: () {},
-                        title: "Pedicure"),
+                        context: context, mWidth: mWidth, title: "Pedicure"),
                     const SizedBox(
                       height: 8,
                     ),
@@ -366,19 +332,8 @@ class _HomeState extends State<Home> {
                     const SizedBox(
                       height: 8,
                     ),
-                    allServiceSection(mHeight: mHeight),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Divider(height: 2, color: Theme.of(context).cardColor),
-                    const SizedBox(
-                      height: 8,
-                    ),
                     categoryButton(
-                        context: context,
-                        mWidth: mWidth,
-                        onTap: () {},
-                        title: "Manicure"),
+                        context: context, mWidth: mWidth, title: "Manicure"),
                     const SizedBox(
                       height: 8,
                     ),

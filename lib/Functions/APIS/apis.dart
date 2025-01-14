@@ -54,6 +54,7 @@ class Apis extends ChangeNotifier {
             serviceName: '',
             serviceImage: '',
             serviceRatings: 0,
+            imageId: '',
             servicePrice: '',
             description: '',
             favorite: [],

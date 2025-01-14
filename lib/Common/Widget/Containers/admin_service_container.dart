@@ -9,9 +9,9 @@ Widget adminServiceContainer({
   required description,
   required amount,
   ServiceModel? serviceModel,
-  required Function onTap,
+  required Function onTapDelete,
   required bool isFavorite,
-  required Function onTapBook,
+  required Function onTapEdit,
   required BuildContext context,
 }) {
   SizeConfig().init(context);
@@ -68,19 +68,18 @@ Widget adminServiceContainer({
             children: [
               GestureDetector(
                 onTap: () {
-                  onTap();
+                  onTapEdit();
                 },
                 child: Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Theme.of(context).primaryColor,
+                    color: Theme.of(context).scaffoldBackgroundColor,
                   ),
-                  child: Icon(Iconsax.edit,
-                      color: Theme.of(context).brightness == Brightness.light
-                          ? Colors.white
-                          : Colors.white),
+                  child: const Icon(
+                    Iconsax.edit,
+                  ),
                 ),
               ),
               const SizedBox(
@@ -88,19 +87,18 @@ Widget adminServiceContainer({
               ),
               GestureDetector(
                 onTap: () {
-                  onTap();
+                  onTapDelete();
                 },
                 child: Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Theme.of(context).primaryColor,
+                    color: Theme.of(context).scaffoldBackgroundColor,
                   ),
-                  child: Icon(Iconsax.trash,
-                      color: Theme.of(context).brightness == Brightness.light
-                          ? Colors.white
-                          : Colors.white),
+                  child: const Icon(
+                    Iconsax.trash,
+                  ),
                 ),
               ),
             ],

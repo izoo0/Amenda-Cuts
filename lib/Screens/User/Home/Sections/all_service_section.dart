@@ -18,7 +18,7 @@ Widget allServiceSection({required double mHeight}) {
         if (snapshot.hasData) {
           final service = snapshot.data!;
           service.shuffle(Random());
-          final finalList = service.take(4).toList();
+          final finalList = service.take(8).toList();
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
               return Center(child: preloader(20.0, context));

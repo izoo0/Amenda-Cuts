@@ -24,22 +24,25 @@ Widget newAlert({
                 .apply(color: Theme.of(context).primaryColor),
           ),
         ),
-        Center(
-          child: Row(
-            children: [
-              Icon(
-                icon,
-                color: Theme.of(context).primaryColor,
-              ),
-              Text(
-                body,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall!
-                    .apply(color: Theme.of(context).primaryColor),
-              ),
-            ],
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              color: Theme.of(context).primaryColor,
+            ),
+            const SizedBox(
+              width: 8,
+            ),
+            Text(
+              body,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall!
+                  .apply(color: Theme.of(context).primaryColor),
+            ),
+          ],
         ),
         const SizedBox(
           height: 10,

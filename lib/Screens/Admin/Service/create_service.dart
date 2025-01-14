@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Common/Widget/Button/user_button_border.dart';
@@ -10,6 +9,7 @@ import 'package:amenda_cuts/Models/category_model.dart';
 import 'package:amenda_cuts/Models/other_users_model.dart';
 import 'package:amenda_cuts/Models/service_model.dart';
 import 'package:amenda_cuts/Provider/other_user_details_provider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -17,8 +17,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class CreateService extends StatefulWidget {
-  final List<ServiceModel>? serviceModel;
-  const CreateService({super.key, this.serviceModel});
+  final ServiceModel serviceModel;
+  const CreateService({super.key, required this.serviceModel});
 
   @override
   State<CreateService> createState() => _CreateServiceState();
@@ -26,8 +26,8 @@ class CreateService extends StatefulWidget {
 
 class _CreateServiceState extends State<CreateService> {
   String expertId = '';
-  String selectedCategory = '';
-  File serviceImage = File('');
+  String? selectedCategory;
+  String serviceImage = '';
   late bool imageIsEmpty;
   late TextEditingController serviceNameController;
   late TextEditingController priceController;
@@ -37,9 +37,18 @@ class _CreateServiceState extends State<CreateService> {
   @override
   void initState() {
     super.initState();
-    serviceNameController = TextEditingController();
-    priceController = TextEditingController();
-    descriptionController = TextEditingController();
+    selectedCategory = widget.serviceModel.serviceCategory.isEmpty
+        ? ''
+        : widget.serviceModel.serviceCategory;
+    serviceNameController = widget.serviceModel.serviceName.isEmpty
+        ? TextEditingController()
+        : TextEditingController(text: widget.serviceModel.serviceName);
+    priceController = widget.serviceModel.servicePrice.isEmpty
+        ? TextEditingController()
+        : TextEditingController(text: widget.serviceModel.servicePrice);
+    descriptionController = widget.serviceModel.description.isEmpty
+        ? TextEditingController()
+        : TextEditingController(text: widget.serviceModel.description);
     imageIsEmpty = false;
   }
 
@@ -56,6 +65,7 @@ class _CreateServiceState extends State<CreateService> {
     SizeConfig().init(context);
     double height = SizeConfig.blockSizeHeight!;
     double width = SizeConfig.blockSizeWidth!;
+
     return Consumer<OtherUserDetailsProvider>(
         builder: (context, otherUserDetailsProvider, _) {
       List<OtherUsersModel> users = otherUserDetailsProvider.otherUserModel;
@@ -69,7 +79,9 @@ class _CreateServiceState extends State<CreateService> {
           scrolledUnderElevation: 0,
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           title: Text(
-            "Create Service",
+            widget.serviceModel.documentId.isNotEmpty
+                ? "Edit Service"
+                : "Create Service",
             style: Theme.of(context).textTheme.bodyLarge,
           ),
         ),
@@ -192,17 +204,34 @@ class _CreateServiceState extends State<CreateService> {
                     child: SizedBox(
                       width: double.infinity,
                       height: height * 30,
-                      child: serviceImage.path.isNotEmpty
+                      child: serviceImage.isNotEmpty
                           ? Stack(
                               children: [
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(8),
-                                  child: Image.file(
-                                    serviceImage,
-                                    height: height * 30,
-                                    width: double.infinity,
-                                    fit: BoxFit.cover,
-                                  ),
+                                  child: serviceImage.isNotEmpty
+                                      ? Image.file(
+                                          File(serviceImage),
+                                          height: height * 30,
+                                          width: double.infinity,
+                                          fit: BoxFit.cover,
+                                        )
+                                      : serviceImage.isEmpty &&
+                                              widget.serviceModel.serviceImage
+                                                  .isNotEmpty
+                                          ? CachedNetworkImage(
+                                              imageUrl: widget
+                                                  .serviceModel.serviceImage,
+                                              height: height * 30,
+                                              width: double.infinity,
+                                              fit: BoxFit.cover,
+                                            )
+                                          : Image.file(
+                                              File(serviceImage),
+                                              height: height * 30,
+                                              width: double.infinity,
+                                              fit: BoxFit.cover,
+                                            ),
                                 ),
                                 Positioned(
                                   top: 2,
@@ -210,7 +239,7 @@ class _CreateServiceState extends State<CreateService> {
                                   child: GestureDetector(
                                     onTap: () {
                                       setState(() {
-                                        serviceImage = File('');
+                                        serviceImage = '';
                                       });
                                     },
                                     child: Container(
@@ -228,6 +257,7 @@ class _CreateServiceState extends State<CreateService> {
                           : GestureDetector(
                               onTap: () {
                                 pickImage();
+                                setState(() {});
                               },
                               child: Center(
                                 child: DottedBorder(
@@ -342,10 +372,12 @@ class _CreateServiceState extends State<CreateService> {
                   ),
                   userButtonOutline(
                       width: double.infinity,
-                      name: "Create Service",
+                      name: widget.serviceModel.documentId.isEmpty
+                          ? "Create Service"
+                          : "Edit Service",
                       onTap: () async {
                         _formKey.currentState!.save();
-                        if (serviceImage.path.isEmpty) {
+                        if (serviceImage.isEmpty) {
                           setState(() {
                             imageIsEmpty = true;
                           });
@@ -367,19 +399,32 @@ class _CreateServiceState extends State<CreateService> {
                                   ),
                                 );
                               });
-                          await instance.createService(
-                              context: context,
-                              image: serviceImage,
-                              expertId: expertId,
-                              selectedCategory: selectedCategory,
-                              name: serviceNameController.text.trim(),
-                              price: priceController.text.trim(),
-                              description: descriptionController.text.trim());
+                          if (widget.serviceModel.documentId.isEmpty) {
+                            await instance.createService(
+                                context: context,
+                                image: serviceImage,
+                                expertId: expertId,
+                                selectedCategory: selectedCategory ?? '',
+                                name: serviceNameController.text.trim(),
+                                price: priceController.text.trim(),
+                                description: descriptionController.text.trim());
+                          } else {
+                            await instance.updateService(
+                                image: serviceImage,
+                                name: serviceNameController.text.trim(),
+                                price: priceController.text.trim(),
+                                description: descriptionController.text.trim(),
+                                expertId: expertId,
+                                selectedCategory: selectedCategory ?? '',
+                                context: context,
+                                serviceId: widget.serviceModel.imageId,
+                                docId: widget.serviceModel.documentId);
+                          }
                           serviceNameController.clear();
                           priceController.clear();
                           descriptionController.clear();
                           setState(() {
-                            serviceImage = File('');
+                            serviceImage = '';
                           });
                         }
                       },
@@ -401,7 +446,7 @@ class _CreateServiceState extends State<CreateService> {
           await picker.pickImage(source: ImageSource.gallery);
       if (imageFile != null) {
         setState(() {
-          serviceImage = File(imageFile.path);
+          serviceImage = imageFile.path;
         });
       }
     } catch (e) {

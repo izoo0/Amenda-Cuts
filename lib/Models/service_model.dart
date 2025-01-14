@@ -10,17 +10,18 @@ class ServiceModel {
   final List<String> favorite;
   final bool isDeleted;
   final String serviceCategory;
-  ServiceModel({
-    required this.serviceName,
-    required this.serviceImage,
-    required this.serviceRatings,
-    required this.servicePrice,
-    required this.description,
-    required this.favorite,
-    required this.documentId,
-    required this.isDeleted,
-    required this.serviceCategory,
-  });
+  final String imageId;
+  ServiceModel(
+      {required this.serviceName,
+      required this.serviceImage,
+      required this.serviceRatings,
+      required this.servicePrice,
+      required this.description,
+      required this.favorite,
+      required this.documentId,
+      required this.isDeleted,
+      required this.serviceCategory,
+      required this.imageId});
   @override
   String toString() =>
       'ServiceModel(serviceName: $serviceName, serviceImage: $serviceImage, serviceRatings: $serviceRatings, servicePrice: $servicePrice, description: $description, favorite: $favorite, isDeleted: $isDeleted)';
@@ -42,7 +43,8 @@ class ServiceModel {
         description: serviceData[FirebaseServiceConstants.serviceDescription],
         favorite: favoriteList,
         isDeleted: serviceData[FirebaseServiceConstants.serviceIsDeleted],
-        documentId: documentId ?? '',
+        documentId: documentId,
+        imageId: serviceData['image_id'],
         serviceCategory: serviceData[FirebaseServiceConstants.serviceCategory]);
   }
 }

@@ -12,7 +12,7 @@ const storage = multer.diskStorage({
   filename: function (req, file, cb) {
     const ext = path.extname(file.originalname);
     const baseName = path.basename(file.originalname, ext); 
-    cb(null, `${baseName}-${ext}`); 
+    cb(null, `${baseName}${ext}`); 
   }
 });
 
@@ -38,6 +38,24 @@ app.post('/upload_image', upload.single('image'), (req, res) => {
   const imageUrl = `http://192.168.33.213:8080/uploads/${req.file.filename}`;
   
   const query = "INSERT INTO services_images (service_id, image_url) VALUES (?, ?)";
+  con.query(query, [serviceId, imageUrl], (err, result) => {
+    if (err) {
+      console.error('Database Error:', err);
+      return res.status(500).json({ error: 'Database query failed' });
+    }
+    return res.json({ success: true, image_url: imageUrl });
+  });
+});
+
+
+
+app.post('/edit_image', upload.single('image'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: 'No file uploaded' });
+  }
+  const serviceId = req.body.serviceId || null;
+  const imageUrl = `http://192.168.33.213:8080/uploads/${req.file.filename}`;
+  const query = "UPDATE services_images SET image_url = ? WHERE service_id = ?";
   con.query(query, [serviceId, imageUrl], (err, result) => {
     if (err) {
       console.error('Database Error:', err);

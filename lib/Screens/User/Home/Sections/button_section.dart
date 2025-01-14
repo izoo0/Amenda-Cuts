@@ -1,3 +1,4 @@
+import 'package:amenda_cuts/Screens/User/Home/service/category_service.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../Common/Widget/Gradient/gradient_widget.dart';
@@ -5,14 +6,15 @@ import '../../../../Common/Widget/Gradient/gradient_widget.dart';
 Widget categoryButton({
   required BuildContext context,
   required double mWidth,
-  required Function onTap,
   required String title,
 }) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 4.0),
     child: GestureDetector(
       onTap: () {
-        onTap();
+        print(title);
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => CategoryService(category: title)));
       },
       child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),

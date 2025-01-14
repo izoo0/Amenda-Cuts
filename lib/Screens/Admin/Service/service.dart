@@ -5,6 +5,7 @@ import 'package:amenda_cuts/Common/Widget/Preloader/preloader.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Models/service_model.dart';
 import 'package:amenda_cuts/Screens/Admin/Service/create_service.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -39,6 +40,17 @@ class _ServiceState extends State<Service> {
                 builder: (context, snap) {
                   if (snap.data != null) {
                     final data = snap.data!;
+                    ServiceModel createData = ServiceModel(
+                        serviceName: '',
+                        serviceImage: '',
+                        serviceRatings: 0,
+                        imageId: '',
+                        servicePrice: '',
+                        description: '',
+                        favorite: [],
+                        documentId: '',
+                        isDeleted: false,
+                        serviceCategory: '');
                     return Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 4,
@@ -61,20 +73,24 @@ class _ServiceState extends State<Service> {
                                 onTap: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => CreateService(
-                                            serviceModel: data,
+                                            serviceModel: createData,
                                           )));
                                 },
-                                child: Container(
-                                  decoration: BoxDecoration(
+                                child: DottedBorder(
+                                  strokeWidth: 3,
+                                  dashPattern: const [6, 4],
+                                  color: Theme.of(context).primaryColor,
+                                  borderType: BorderType.RRect,
+                                  radius: const Radius.circular(8),
+                                  child: Container(
+                                    decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(4),
-                                      border: Border.all(
-                                        width: 1,
-                                        color: Theme.of(context).primaryColor,
-                                      )),
-                                  child: const Center(
-                                    child: Icon(
-                                      Iconsax.add,
-                                      size: 28,
+                                    ),
+                                    child: const Center(
+                                      child: Icon(
+                                        Iconsax.add,
+                                        size: 28,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -87,9 +103,14 @@ class _ServiceState extends State<Service> {
                                 serviceName: details.serviceName,
                                 description: details.description,
                                 amount: details.servicePrice,
-                                onTap: () {},
+                                onTapEdit: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => CreateService(
+                                            serviceModel: details,
+                                          )));
+                                },
                                 isFavorite: false,
-                                onTapBook: () {},
+                                onTapDelete: () {},
                                 context: context);
                           }),
                     );
