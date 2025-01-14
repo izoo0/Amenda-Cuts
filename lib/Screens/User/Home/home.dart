@@ -24,17 +24,16 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   late TextEditingController searchController;
 
   final Apis instance = Apis.instance;
   bool isActive = false;
-  late bool isSearchEnabled;
+  bool isSearchEnabled = false;
   @override
   void initState() {
     super.initState();
     searchController = TextEditingController();
-    isSearchEnabled = false;
   }
 
   @override
@@ -45,6 +44,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     SizeConfig().init(context);
     double mWidth = SizeConfig.blockSizeWidth!;
     double mHeight = SizeConfig.blockSizeHeight!;
@@ -304,4 +304,7 @@ class _HomeState extends State<Home> {
       }),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

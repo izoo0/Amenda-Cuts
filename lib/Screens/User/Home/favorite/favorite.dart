@@ -34,58 +34,47 @@ Widget favoriteWidget(
                 borderRadius: BorderRadius.circular(4),
                 child: Image(
                   image: NetworkImage(image),
-                  width: 100,
-                  height: 100,
+                  width: mWidth * 20,
                   fit: BoxFit.cover,
                 ),
               ),
               const SizedBox(
                 width: 10,
               ),
-              Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    serviceName,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      color: ColorConstants.appTextColor,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Container(
-                    width: mWidth * 50,
-                    constraints: BoxConstraints(
-                      maxWidth: mWidth * 50,
-                    ),
-                    child: Text(
+              SizedBox(
+                width: mWidth * 62,
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      description,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontStyle: FontStyle.italic,
-                        color: ColorConstants.appTextColor.withOpacity(0.7),
+                      serviceName,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        color: ColorConstants.appTextColor,
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    ' Ksh $price',
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: ColorConstants.appColor,
-                      fontWeight: FontWeight.w500,
+                    const SizedBox(
+                      height: 8,
                     ),
-                  ),
-                ],
+                    Text(
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        description,
+                        style: Theme.of(context).textTheme.bodySmall!.apply(
+                            color: ColorConstants.appTextColor.withOpacity(0.7),
+                            fontStyle: FontStyle.italic)),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(' Ksh $price',
+                        style: Theme.of(context).textTheme.bodySmall!.apply(
+                              color: ColorConstants.appColor,
+                            )),
+                  ],
+                ),
               ),
             ],
           ),

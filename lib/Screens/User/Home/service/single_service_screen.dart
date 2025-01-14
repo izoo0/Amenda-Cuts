@@ -7,7 +7,6 @@ import 'package:amenda_cuts/Common/Widget/Time/time_picker_widget.dart';
 import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
-import 'package:amenda_cuts/Models/other_users_model.dart';
 import 'package:amenda_cuts/Models/service_model.dart';
 import 'package:amenda_cuts/Provider/other_user_details_provider.dart';
 import 'package:amenda_cuts/Provider/user_details_provider.dart';

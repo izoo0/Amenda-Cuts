@@ -50,7 +50,7 @@ Widget allServiceSection({required double mHeight}) {
                       onTap: () {
                         bottomSheet(
                             context: context,
-                            height: mHeight * 28,
+                            height: mHeight * 20,
                             child: favoriteWidget(
                               context: context,
                               isFavorite: favorite,
@@ -62,7 +62,9 @@ Widget allServiceSection({required double mHeight}) {
                                 await instance.userFavorite(
                                     favorite, data.documentId, user!.uid);
 
-                                Navigator.pop(context);
+                                if (context.mounted) {
+                                  Navigator.pop(context);
+                                }
                               },
                             ));
                       },

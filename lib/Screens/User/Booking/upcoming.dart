@@ -14,16 +14,17 @@ Container upcomingContainer(OrderModel data, BuildContext context,
   final Apis instance = Apis.instance;
   SizeConfig().init(context);
   double mWidth = SizeConfig.blockSizeWidth!;
+  double height = SizeConfig.blockSizeHeight!;
   return Container(
     width: double.infinity,
     decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(4)),
-    child: Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
-          child: Row(
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      child: Column(
+        children: [
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
@@ -36,7 +37,7 @@ Container upcomingContainer(OrderModel data, BuildContext context,
                     "Remind Me",
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
-                  Switch(
+                  Switch.adaptive(
                     activeColor: ColorConstants.appColor,
                     inactiveThumbColor:
                         ColorConstants.appTextColor.withOpacity(0.8),
@@ -49,22 +50,11 @@ Container upcomingContainer(OrderModel data, BuildContext context,
               ),
             ],
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Divider(
-            color: Theme.of(context).brightness == Brightness.dark
-                ? ColorConstants.appTextColor.withOpacity(0.1)
-                : ColorConstants.blackBackground.withOpacity(0.1),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
-          child: Row(
+          const Divider(),
+          Row(
             children: [
               Container(
-                width: 120,
-                height: 120,
+                width: mWidth * 28,
                 decoration:
                     BoxDecoration(borderRadius: BorderRadius.circular(10)),
                 child: ClipRRect(
@@ -78,68 +68,49 @@ Container upcomingContainer(OrderModel data, BuildContext context,
               const SizedBox(
                 width: 10,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Hair Cut",
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  Container(
-                      constraints: BoxConstraints(
-                        maxWidth: mWidth * 90,
-                      ),
-                      child: Text(
-                        data.serviceModel!.serviceName,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      )),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  Text(
-                    'Description:',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    constraints: BoxConstraints(
-                      maxWidth: mWidth * 50,
+              SizedBox(
+                width: mWidth * 62,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Hair Cut",
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
-                    child: Text(
-                      maxLines: 2,
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Text(
+                      data.serviceModel!.serviceName,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Text(
+                      'Description:',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                       data.serviceModel!.description,
-                      style: Theme.of(context).textTheme.bodyMedium!.apply(
+                      style: Theme.of(context).textTheme.bodySmall!.apply(
                           color: Theme.of(context).primaryColor,
                           fontStyle: FontStyle.italic),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               )
             ],
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 8,
-          ),
-          child: Divider(
-            color: Theme.of(context).brightness == Brightness.dark
-                ? ColorConstants.appTextColor.withOpacity(0.1)
-                : ColorConstants.blackBackground.withOpacity(0.1),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: SingleChildScrollView(
+          const Divider(),
+          SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             scrollDirection: Axis.horizontal,
             child: Row(
@@ -161,25 +132,9 @@ Container upcomingContainer(OrderModel data, BuildContext context,
               ],
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 8,
-          ),
-          child: Divider(
-            color: Theme.of(context).brightness == Brightness.dark
-                ? ColorConstants.appTextColor.withOpacity(0.1)
-                : ColorConstants.blackBackground.withOpacity(0.1),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 8.0,
-            vertical: 16,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          const Divider(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               userButtonOutline(
                 context: context,
@@ -198,9 +153,9 @@ Container upcomingContainer(OrderModel data, BuildContext context,
                     openReceipt();
                   }),
             ],
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     ),
   );
 }

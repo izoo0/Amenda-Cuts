@@ -50,7 +50,7 @@ Widget serviceContainer({
             height: 8,
           ),
           Text(
-            maxLines: 2,
+            maxLines: 3,
             overflow: TextOverflow.ellipsis,
             description,
             style: Theme.of(context).textTheme.bodySmall,

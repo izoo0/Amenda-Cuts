@@ -12,7 +12,6 @@ Widget categoryButton({
     padding: const EdgeInsets.symmetric(horizontal: 4.0),
     child: GestureDetector(
       onTap: () {
-        print(title);
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => CategoryService(category: title)));
       },

@@ -80,7 +80,7 @@ class _CategoryServiceState extends State<CategoryService> {
                             favorite = true;
                           }
                           bool isDeleted = data.isDeleted;
-                          print(data.serviceCategory);
+
                           return serviceContainer(
                             image: data.serviceImage,
                             serviceName: data.serviceName,
@@ -89,7 +89,7 @@ class _CategoryServiceState extends State<CategoryService> {
                             onTap: () {
                               bottomSheet(
                                   context: context,
-                                  height: mHeight * 28,
+                                  height: mHeight * 20,
                                   child: favoriteWidget(
                                     context: context,
                                     isFavorite: favorite,
@@ -101,7 +101,9 @@ class _CategoryServiceState extends State<CategoryService> {
                                       await instance.userFavorite(
                                           favorite, data.documentId, user!.uid);
 
-                                      Navigator.pop(context);
+                                      if (context.mounted) {
+                                        Navigator.pop(context);
+                                      }
                                     },
                                   ));
                             },
