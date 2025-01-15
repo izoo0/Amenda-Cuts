@@ -25,7 +25,7 @@ Widget allServiceSection({required double mHeight}) {
             default:
               return GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      childAspectRatio: mHeight / 16.5,
+                      childAspectRatio: mHeight / 17.3,
                       mainAxisSpacing: 6,
                       crossAxisSpacing: 6,
                       crossAxisCount: 2),
