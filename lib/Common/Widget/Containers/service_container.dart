@@ -1,135 +1,96 @@
 import 'package:amenda_cuts/Common/Widget/Button/user_button.dart';
-import 'package:amenda_cuts/Constants/color_constants.dart';
+import 'package:amenda_cuts/Common/Constants/color_constants.dart';
+import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Models/service_model.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
 Widget serviceContainer({
-  required image,
+  required String image,
   required serviceName,
   required description,
   required amount,
-  required maxWidth,
   ServiceModel? serviceModel,
   required Function onTap,
   required bool isFavorite,
   required Function onTapBook,
+  required BuildContext context,
 }) {
+  SizeConfig().init(context);
+  double mWidth = SizeConfig.blockSizeWidth!;
+  double mHeight = SizeConfig.blockSizeHeight!;
+
   return Container(
-    width: double.infinity,
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(8),
-      gradient: LinearGradient(
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-          colors: [
-            ColorConstants.blackBackground.withOpacity(0.5),
-            ColorConstants.blackBackground.withOpacity(0.2),
-          ],
-          stops: const [
-            0.0,
-            0.1
-          ]),
-    ),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8),
-          child: SizedBox(
-            height: 120,
-            width: 120,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(8),
+        color: Theme.of(context).cardColor),
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+              borderRadius: BorderRadius.circular(8),
               child: Image(
                 image: NetworkImage(image),
                 fit: BoxFit.cover,
-              ),
-            ),
+                height: mHeight * 18,
+                width: double.infinity,
+              )),
+          const SizedBox(
+            height: 8,
           ),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(
-              height: 8,
-            ),
-            Text(
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              serviceName,
-              style: const TextStyle(
-                fontSize: 18,
-                color: ColorConstants.appTextColor,
-              ),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Container(
-              constraints: BoxConstraints(
-                maxWidth: maxWidth,
-              ),
-              child: Text(
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                description,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontStyle: FontStyle.italic,
-                  color: ColorConstants.appTextColor.withOpacity(0.7),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  ' Ksh $amount',
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: ColorConstants.appColor,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(
-                  width: 170,
-                ),
-                userButtton(
-                    width: 80.0,
-                    name: 'Book Now',
-                    onTap: () {
-                      onTapBook();
-                    },
-                    color: ColorConstants.appColor)
-              ],
-            )
-          ],
-        ),
-        const SizedBox(
-          height: 12,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4.0),
-          child: GestureDetector(
-            onTap: () {
-              onTap();
-            },
-            child: Icon(
-              !isFavorite ? Iconsax.archive_add : Iconsax.archive_1,
-              color: !isFavorite
-                  ? ColorConstants.appTextColor
-                  : ColorConstants.appColor,
-            ),
+          Text(
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            serviceName,
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
-        )
-      ],
+          const SizedBox(
+            height: 8,
+          ),
+          Text(
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+            description,
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          Text(' Ksh $amount',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .apply(color: Theme.of(context).primaryColor)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  onTap();
+                },
+                child: Icon(
+                  !isFavorite ? Iconsax.archive_add : Iconsax.archive_1,
+                  color: !isFavorite
+                      ? Theme.of(context).brightness == Brightness.light
+                          ? Colors.black
+                          : Colors.white
+                      : Theme.of(context).primaryColor,
+                ),
+              ),
+              userButton(
+                  context: context,
+                  width: mWidth * 35,
+                  name: 'Book Now',
+                  onTap: () {
+                    onTapBook();
+                  },
+                  color: ColorConstants.appColor),
+            ],
+          ),
+        ],
+      ),
     ),
   );
 }

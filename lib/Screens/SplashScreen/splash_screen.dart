@@ -1,11 +1,10 @@
 import 'package:amenda_cuts/Common/Widget/Navigation/navigation_bar.dart';
 import 'package:amenda_cuts/Common/Widget/Preloader/preloader.dart';
-import 'package:amenda_cuts/Constants/new_app_background.dart';
-import 'package:amenda_cuts/Constants/size_config.dart';
+import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
+import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Screens/OnBoarding/on_boarding.dart';
 import 'package:flutter/material.dart';
-import 'package:amenda_cuts/Constants/color_constants.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -46,7 +45,6 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _controller.dispose();
   }
@@ -55,9 +53,10 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     double mWidth = SizeConfig.blockSizeWidth!;
+    double mHeight = SizeConfig.blockSizeHeight!;
     return NewAppBackground(
         child: Scaffold(
-      backgroundColor: ColorConstants.appBackground,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Center(
         child: FadeTransition(
           opacity: _animation,
@@ -65,11 +64,17 @@ class _SplashScreenState extends State<SplashScreen>
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image(
-                image: const AssetImage('assets/Logo/logo.png'),
-                width: mWidth * 60,
+              ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: Image(
+                  image: Theme.of(context).brightness == Brightness.dark
+                      ? const AssetImage('assets/Logo/logo.png')
+                      : const AssetImage('assets/Logo/logo_light.jpg'),
+                  width: mWidth * 40,
+                  fit: BoxFit.cover,
+                ),
               ),
-              preloader(mWidth * 7)
+              preloader(mWidth * 7, context)
             ],
           ),
         ),

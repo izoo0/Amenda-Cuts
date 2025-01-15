@@ -1,4 +1,4 @@
-import 'package:amenda_cuts/Constants/color_constants.dart';
+import 'package:amenda_cuts/Common/Constants/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -12,11 +12,13 @@ Widget commonTextField(
     required Function validator,
     Function? onTap,
     bool? isSearch,
+    required bool isPrefix,
+    required BuildContext context,
     icon}) {
   return TextFormField(
     controller: controller,
     keyboardType: TextInputType.text,
-    style: const TextStyle(color: ColorConstants.appTextColor),
+    style: Theme.of(context).textTheme.bodySmall,
     expands: false,
     minLines: obscure ? 1 : null,
     obscureText: obscure,
@@ -28,8 +30,8 @@ Widget commonTextField(
       onChange(value);
     },
     decoration: InputDecoration(
-        fillColor: ColorConstants.blackBackground,
-        filled: true,
+        // fillColor: Theme.of(context).cardColor,
+        // filled: true,
         hintText: text,
         suffixIcon: isPassword
             ? GestureDetector(
@@ -41,11 +43,9 @@ Widget commonTextField(
                 child: obscure
                     ? const Icon(
                         Iconsax.eye,
-                        color: Color.fromARGB(255, 186, 186, 186),
                       )
                     : const Icon(
                         Iconsax.eye_slash,
-                        color: Color.fromARGB(255, 186, 186, 186),
                       ))
             : isSearch != null
                 ? const Icon(
@@ -53,16 +53,22 @@ Widget commonTextField(
                     color: ColorConstants.appColor,
                   )
                 : const SizedBox.shrink(),
-        prefixIcon: Icon(
-          icon,
-          color: const Color.fromARGB(255, 186, 186, 186),
-        ),
+        prefixIcon: isPrefix
+            ? Icon(
+                icon,
+                color: const Color.fromARGB(255, 186, 186, 186),
+              )
+            : null,
         hintStyle: const TextStyle(color: Color.fromARGB(255, 186, 186, 186)),
         focusedBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(8)),
           borderSide: BorderSide(color: ColorConstants.appColor),
         ),
         errorBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderSide: BorderSide(color: Colors.redAccent),
+        ),
+        focusedErrorBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(8)),
           borderSide: BorderSide(color: Colors.redAccent),
         ),

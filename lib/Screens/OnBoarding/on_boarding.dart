@@ -1,4 +1,4 @@
-import 'package:amenda_cuts/Screens/OnBoarding/on_boardig_two.dart';
+import 'package:amenda_cuts/Screens/OnBoarding/on_boarding_two.dart';
 import 'package:amenda_cuts/Screens/OnBoarding/on_boarding_one.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,7 +22,7 @@ class _OnBoardingState extends State<OnBoarding> {
       child: PageView(
         children: const [
           OnBoardingOne(),
-          OnBoardigTwo(),
+          OnBoardingTwo(),
         ],
       ),
     );

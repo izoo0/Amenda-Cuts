@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:amenda_cuts/Constants/color_constants.dart';
-import 'package:amenda_cuts/Constants/size_config.dart';
-import 'package:amenda_cuts/Screens/Booking/booking.dart';
-import 'package:amenda_cuts/Screens/Gallery/gallery.dart';
-import 'package:amenda_cuts/Screens/Home/home.dart';
-import 'package:amenda_cuts/Screens/Profile/profile.dart';
+import 'package:amenda_cuts/Common/Constants/color_constants.dart';
+import 'package:amenda_cuts/Common/Constants/size_config.dart';
+import 'package:amenda_cuts/Screens/User/Booking/booking.dart';
+import 'package:amenda_cuts/Screens/User/Gallery/gallery.dart';
+import 'package:amenda_cuts/Screens/User/Home/home.dart';
+import 'package:amenda_cuts/Screens/User/Profile/profile.dart';
 import 'package:amenda_cuts/Screens/chats/charts.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -32,54 +32,57 @@ class _BottomNavigatorState extends State<BottomNavigator> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: ColorConstants.appColor,
-        unselectedItemColor: ColorConstants.appTextColor.withOpacity(0.5),
-        showUnselectedLabels: true,
+        selectedItemColor: Theme.of(context).primaryColor,
+        unselectedItemColor: Theme.of(context).brightness == Brightness.light
+            ? ColorConstants.blackBackground.withOpacity(0.5)
+            : ColorConstants.appTextColor.withOpacity(0.5),
+        showUnselectedLabels: false,
         iconSize: 28,
-        selectedFontSize: 12,
+        type: BottomNavigationBarType.fixed,
+        selectedFontSize: 0,
         currentIndex: myCurrentIndex,
-        backgroundColor: ColorConstants.blackBackground,
+        backgroundColor: Theme.of(context).cardColor,
         useLegacyColorScheme: false,
         onTap: (int index) {
           setState(() {
             myCurrentIndex = index;
           });
         },
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            backgroundColor: ColorConstants.blackBackground,
-            icon: Icon(
+            backgroundColor: Theme.of(context).cardColor,
+            icon: const Icon(
               Iconsax.home,
             ),
-            label: 'Home',
+            label: '.',
           ),
           BottomNavigationBarItem(
-            backgroundColor: ColorConstants.blackBackground,
-            icon: Icon(
+            backgroundColor: Theme.of(context).cardColor,
+            icon: const Icon(
               Iconsax.gallery,
             ),
-            label: 'Gallery',
+            label: '.',
           ),
           BottomNavigationBarItem(
-            backgroundColor: ColorConstants.blackBackground,
-            icon: Icon(
+            backgroundColor: Theme.of(context).cardColor,
+            icon: const Icon(
               Iconsax.book,
             ),
-            label: 'My Booking',
+            label: '.',
           ),
           BottomNavigationBarItem(
-            backgroundColor: ColorConstants.blackBackground,
-            icon: Icon(
+            backgroundColor: Theme.of(context).cardColor,
+            icon: const Icon(
               Iconsax.message,
             ),
-            label: 'Inbox',
+            label: '.',
           ),
           BottomNavigationBarItem(
-            backgroundColor: ColorConstants.blackBackground,
-            icon: Icon(
-              Iconsax.user,
+            backgroundColor: Theme.of(context).cardColor,
+            icon: const Icon(
+              Iconsax.setting,
             ),
-            label: 'Profile',
+            label: '.',
           ),
         ],
       ),

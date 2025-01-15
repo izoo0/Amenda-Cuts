@@ -7,22 +7,34 @@ class OrderModel {
   final String status;
   ServiceModel? serviceModel;
   final String orderId;
+  final String? time;
+  final DateTime date;
   bool? remindMe;
+  final String? location;
   OrderModel(
       {required this.timestamp,
       required this.serviceId,
       required this.status,
       required this.serviceModel,
       this.remindMe,
-      required this.orderId});
+      required this.orderId,
+      required this.date,
+      this.time,
+      this.location});
 
   static Future<OrderModel> fromFirebase(
       {required Map<String, dynamic> orderModel,
       required String orderId}) async {
+    DateTime arrivalDate = DateTime(1950);
     DateTime bookingTime = DateTime(1950);
     var newTime = orderModel['timestamp'];
     if (newTime != null && newTime is Timestamp) {
       bookingTime = newTime.toDate();
+    }
+
+    var newDate = orderModel['date'];
+    if (newDate != null && newDate is Timestamp) {
+      arrivalDate = newDate.toDate();
     }
 
     String serviceId = orderModel['serviceId'];
@@ -36,7 +48,8 @@ class OrderModel {
     if (serviceSnapshot.exists) {
       Map<String, dynamic> serviceData =
           serviceSnapshot.data() as Map<String, dynamic>;
-      serviceModel = ServiceModel.fromFirebase(serviceData: serviceData);
+      serviceModel = ServiceModel.fromFirebase(
+          serviceData: serviceData, documentId: serviceSnapshot.id);
     }
     return OrderModel(
         timestamp: bookingTime,
@@ -44,6 +57,9 @@ class OrderModel {
         status: orderModel['status'],
         serviceModel: serviceModel,
         remindMe: orderModel['remindMe'],
-        orderId: orderId);
+        orderId: orderId,
+        date: arrivalDate,
+        time: orderModel['time'],
+        location: orderModel['location']);
   }
 }

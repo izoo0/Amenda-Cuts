@@ -1,16 +1,29 @@
+// ignore_for_file: unnecessary_cast
+
+import 'package:amenda_cuts/Common/Widget/Alerts/alerts.dart';
+import 'package:amenda_cuts/Common/Constants/FirebaseConstants/firebase_collection_constant.dart';
+import 'package:amenda_cuts/Common/Widget/Navigation/navigation_bar.dart';
 import 'package:amenda_cuts/Models/order_model.dart';
 import 'package:amenda_cuts/Models/service_model.dart';
+import 'package:amenda_cuts/controller/service_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
-class Apis {
-  static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+class Apis extends ChangeNotifier {
+  static Apis instance = Apis._constructor();
+  Apis._constructor();
+  static final FirebaseFirestore firestore = FirebaseFirestore.instance;
   static final FirebaseAuth auth = FirebaseAuth.instance;
   static final user = FirebaseAuth.instance.currentUser;
 
   Stream<List<ServiceModel>> fetchServices() {
-    return _firestore.collection('services').snapshots().map((snapshot) {
+    return firestore
+        .collection(FirebaseCollectionConstant.serviceCollection)
+        .snapshots()
+        .map((snapshot) {
       return snapshot.docs.map((doc) {
         return ServiceModel.fromFirebase(
             serviceData: doc.data() as Map<String, dynamic>,
@@ -20,7 +33,7 @@ class Apis {
   }
 
   Stream<List<OrderModel>> fetchBooking() {
-    return _firestore
+    return firestore
         .collection('booking')
         .where('userId', isEqualTo: user?.uid)
         .snapshots()
@@ -30,17 +43,26 @@ class Apis {
       for (var doc in snapshot.docs) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
 
-        // Extract basic order details
-        DateTime timestamp = (data['timestamp'] as Timestamp).toDate();
+        Future<OrderModel> orderModel =
+            OrderModel.fromFirebase(orderModel: data, orderId: doc.id);
         String serviceId = data['serviceId'];
-        String status = data['status'];
-        bool? remindMe = data['remindMe'];
-        String orderId = doc.id;
+
         // Fetch the associated service model
         DocumentSnapshot serviceSnapshot =
-            await _firestore.collection('services').doc(serviceId).get();
+            await firestore.collection('services').doc(serviceId).get();
 
-        ServiceModel? serviceModel;
+        ServiceModel serviceModel = ServiceModel(
+            expertId: '',
+            serviceName: '',
+            serviceImage: '',
+            serviceRatings: 0,
+            imageId: '',
+            servicePrice: '',
+            description: '',
+            favorite: [],
+            documentId: '',
+            serviceCategory: '',
+            isDeleted: false);
         if (serviceSnapshot.exists) {
           Map<String, dynamic> serviceData =
               serviceSnapshot.data() as Map<String, dynamic>;
@@ -50,36 +72,69 @@ class Apis {
           );
         }
 
-        // Add OrderModel with populated serviceModel to the list
-        orders.add(OrderModel(
-            timestamp: timestamp,
-            serviceId: serviceId,
-            status: status,
-            serviceModel: serviceModel,
-            remindMe: remindMe,
-            orderId: orderId));
+        // Use the corrected getSingleService
+        List<OrderModel> singleServiceOrders = await getSingleService(
+          serviceModel: serviceModel,
+          orderModel: orderModel,
+        );
+
+        // Add the result to the list
+        orders.addAll(singleServiceOrders);
       }
       return orders;
     });
   }
 
-  Future<dynamic> bookNow(String documentId, String userId) {
-    return _firestore.collection('booking').add({
-      'serviceId': documentId,
-      'userId': userId,
-      'timestamp': Timestamp.now(),
-      'status': 'upcoming',
-      'remindMe': false,
-    });
+  Future<void> bookNow(String documentId, String userId, date, time, location,
+      BuildContext context) async {
+    try {
+      await firestore.collection('booking').add({
+        'serviceId': documentId,
+        'userId': userId,
+        'timestamp': Timestamp.now(),
+        'status': 'upcoming',
+        'remindMe': false,
+        'date': date,
+        'time': time,
+        'location': location,
+      });
+
+      if (context.mounted) {
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const BottomNavigator()));
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AnimatedAlertDialog(
+                  title: "Success",
+                  icon: Icon(
+                    Iconsax.tick_circle,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  content: "You have made your booking successfully");
+            });
+      }
+    } catch (e) {
+      if (context.mounted) {
+        AnimatedAlertDialog(
+            title: "Error",
+            icon: Icon(
+              Iconsax.info_circle,
+              color: Theme.of(context).primaryColor,
+            ),
+            content: "An error occurred while creating your booking");
+      }
+    }
   }
 
-  String GetDateString(DateTime date) {
+  String getDateString(DateTime date) {
     DateTime now = DateTime.now();
     DateTime todayStart = DateTime(now.year, now.month, now.day, 0, 0, 0);
     DateTime endOfToday =
         DateTime(now.year, now.month, now.day, 23, 59, 59, 999);
-    DateTime startOfYesterday = todayStart.subtract(Duration(days: 1));
-    DateTime endOfYesterday = todayStart.subtract(Duration(milliseconds: 1));
+    DateTime startOfYesterday = todayStart.subtract(const Duration(days: 1));
+    DateTime endOfYesterday =
+        todayStart.subtract(const Duration(milliseconds: 1));
     if (date == DateTime(1980)) {
       return '';
     } else if (date.isAfter(todayStart) && date.isBefore(endOfToday)) {
@@ -92,23 +147,18 @@ class Apis {
     }
   }
 
-  Future<void> remidMe(bool value, String docId) async {
+  Future<void> remindMe(bool value, String docId) async {
     try {
-      DocumentReference docRef = _firestore.collection('booking').doc(docId);
+      DocumentReference docRef = firestore.collection('booking').doc(docId);
       await docRef.update({'remindMe': !value});
-
-      print("_________________________________");
-      print("Reminder status updated to ${!value}");
     } catch (e) {
-      print("_________________________________");
-      print("Error updating reminder: ${e.toString()}");
-      print(docId);
+//
     }
   }
 
   Future<void> userFavorite(bool favorite, String docId, String userId) async {
     try {
-      DocumentReference docRef = _firestore.collection('services').doc(docId);
+      DocumentReference docRef = firestore.collection('services').doc(docId);
 
       if (favorite == true) {
         await docRef.update({
@@ -120,21 +170,76 @@ class Apis {
         });
       }
     } catch (e) {
-      print("_________________________________");
-      print("Error updating favorite: ${e.toString()}");
-      print(favorite);
+      //
     }
   }
 
   Future<void> userCancel({required String docId}) async {
     try {
-      DocumentReference docRef = _firestore.collection("booking").doc(docId);
+      DocumentReference docRef = firestore.collection("booking").doc(docId);
 
       await docRef.update({
         "status": "cancel",
       });
     } catch (e) {
-      print("Failed to cancle order ${e.toString()}");
+      //
     }
+  }
+
+  Future<void> makeAdmin(
+      {required BuildContext context,
+      required String userId,
+      required bool isAdmin}) async {
+    try {
+      DocumentReference documentReference =
+          firestore.collection('users').doc(userId);
+      documentReference.set({
+        'role': isAdmin ? '' : 'admin',
+      }, SetOptions(merge: true));
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AnimatedAlertDialog(
+              title: "Admins",
+              icon: Icon(Iconsax.tick_circle,
+                  color: Theme.of(context).primaryColor),
+              content: isAdmin
+                  ? 'You have removed user as Admin'
+                  : 'You have added user as Admin',
+            );
+          });
+    } catch (e) {
+      //
+    }
+  }
+
+  Future<void> makeExpert(
+      {required BuildContext context,
+      required String userId,
+      required bool isExpert}) async {
+    try {
+      DocumentReference documentReference =
+          firestore.collection('users').doc(userId);
+      documentReference.set({
+        'isExpert': isExpert ? false : true,
+      }, SetOptions(merge: true));
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AnimatedAlertDialog(
+                icon: Icon(Iconsax.tick_circle,
+                    color: Theme.of(context).primaryColor),
+                title: "Experts",
+                content: isExpert
+                    ? 'You have removed user as an Expert'
+                    : 'You have added user as an Expert');
+          });
+    } catch (e) {
+      //
+    }
+  }
+
+  String dateFormat({required date}) {
+    return DateFormat.yMMMEd().format(date);
   }
 }

@@ -1,5 +1,4 @@
-import 'package:amenda_cuts/Constants/color_constants.dart';
-import 'package:amenda_cuts/Constants/new_app_background.dart';
+import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
 import 'package:flutter/material.dart';
 
 class Chats extends StatefulWidget {
@@ -13,16 +12,13 @@ class _ChatsState extends State<Chats> {
   @override
   Widget build(BuildContext context) {
     return NewAppBackground(
-      color: ColorConstants.appBackground,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: Scaffold(
-        backgroundColor: ColorConstants.appBackground,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
-          backgroundColor: ColorConstants.appBackground,
-          title: const Text(
-            'Chats',
-            style: TextStyle(color: ColorConstants.appTextColor),
-          ),
-          centerTitle: true,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          title:
+              Text('Chats', style: Theme.of(context).textTheme.displayMedium),
         ),
       ),
     );

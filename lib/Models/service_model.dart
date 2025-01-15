@@ -1,44 +1,53 @@
+import 'package:amenda_cuts/Common/Constants/FirebaseConstants/firebase_service_constants.dart';
+
 class ServiceModel {
   final String documentId;
   final String serviceName;
   final String serviceImage;
   final num serviceRatings;
   final String servicePrice;
-  final String discreption;
+  final String description;
   final List<String> favorite;
   final bool isDeleted;
+  final String serviceCategory;
+  final String imageId;
+  final String expertId;
   ServiceModel(
       {required this.serviceName,
       required this.serviceImage,
       required this.serviceRatings,
       required this.servicePrice,
-      required this.discreption,
+      required this.description,
       required this.favorite,
       required this.documentId,
-      required this.isDeleted});
+      required this.isDeleted,
+      required this.serviceCategory,
+      required this.imageId,
+      required this.expertId});
   @override
   String toString() =>
-      'ServiceModel(serviceName: $serviceName, serviceImage: $serviceImage, serviceRatings: $serviceRatings, servicePrice: $servicePrice, discreption: $discreption, favorite: $favorite, isDeleted: $isDeleted)';
+      'ServiceModel(serviceName: $serviceName, serviceImage: $serviceImage, serviceRatings: $serviceRatings, servicePrice: $servicePrice, description: $description, favorite: $favorite, isDeleted: $isDeleted)';
   factory ServiceModel.fromFirebase(
-      {required Map<String, dynamic> serviceData, documentId}) {
+      {required Map<String, dynamic> serviceData, required documentId}) {
     List<String> favoriteList = [];
-    var newFavorite = serviceData['favorite'];
+    var newFavorite = serviceData[FirebaseServiceConstants.serviceFavorite];
     if (newFavorite != null && newFavorite is List) {
-      newFavorite.forEach((id) {
+      for (var id in newFavorite) {
         favoriteList.add(id);
-      });
+      }
     }
 
     return ServiceModel(
-        serviceName: serviceData['name'],
-        serviceImage: serviceData['image'],
-        serviceRatings: serviceData['ratings'],
-        servicePrice: serviceData['price'],
-        discreption: serviceData['description'],
+        serviceName: serviceData[FirebaseServiceConstants.serviceName],
+        serviceImage: serviceData[FirebaseServiceConstants.serviceImage],
+        serviceRatings: serviceData[FirebaseServiceConstants.serviceRatings],
+        servicePrice: serviceData[FirebaseServiceConstants.servicePrice],
+        description: serviceData[FirebaseServiceConstants.serviceDescription],
         favorite: favoriteList,
-        isDeleted: serviceData['isDeleted'],
-        documentId: documentId);
+        isDeleted: serviceData[FirebaseServiceConstants.serviceIsDeleted],
+        documentId: documentId,
+        expertId: serviceData['expertId'],
+        imageId: serviceData['image_id'],
+        serviceCategory: serviceData[FirebaseServiceConstants.serviceCategory]);
   }
 }
-
-List<ServiceModel> service = [];
