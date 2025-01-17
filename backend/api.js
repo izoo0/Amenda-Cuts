@@ -54,7 +54,7 @@ app.post('/edit_image', upload.single('image'), (req, res) => {
     return res.status(400).json({ error: 'No file uploaded' });
   }
   const serviceId = req.body.serviceId || null;
-  const imageUrl = `http://192.168.33.213:8080/uploads/${req.file.filename}`;
+  const imageUrl = `http://192.168.219.210:8080/uploads/${req.file.filename}`;
   const query = "UPDATE services_images SET image_url = ? WHERE service_id = ?";
   con.query(query, [serviceId, imageUrl], (err, result) => {
     if (err) {

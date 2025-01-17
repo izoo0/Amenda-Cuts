@@ -93,149 +93,145 @@ Widget categoryDataSection(
                                               fit: BoxFit.cover,
                                             )),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 4, horizontal: 4),
-                                        child: SizedBox(
-                                          width: mWidth * 46,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                data.serviceName,
+                                      const SizedBox(
+                                        width: 4,
+                                      ),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              data.serviceName,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall,
+                                            ),
+                                            const SizedBox(
+                                              height: 6,
+                                            ),
+                                            Text(
+                                              data.serviceCategory,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall,
+                                            ),
+                                            const SizedBox(
+                                              height: 6,
+                                            ),
+                                            Text(
+                                              'Ksh ${data.servicePrice}',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium!
+                                                  .apply(
+                                                      color: Theme.of(context)
+                                                          .primaryColor),
+                                            ),
+                                            const SizedBox(
+                                              height: 6,
+                                            ),
+                                            Text(data.description,
+                                                maxLines: 4,
+                                                overflow: TextOverflow.ellipsis,
                                                 style: Theme.of(context)
                                                     .textTheme
-                                                    .bodySmall,
-                                              ),
-                                              const SizedBox(
-                                                height: 6,
-                                              ),
-                                              Text(
-                                                data.serviceCategory,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodySmall,
-                                              ),
-                                              const SizedBox(
-                                                height: 6,
-                                              ),
-                                              Text(
-                                                'Ksh ${data.servicePrice}',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyMedium!
-                                                    .apply(
-                                                        color: Theme.of(context)
-                                                            .primaryColor),
-                                              ),
-                                              const SizedBox(
-                                                height: 6,
-                                              ),
-                                              Text(data.description,
-                                                  maxLines: 4,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodySmall),
-                                              const SizedBox(
-                                                height: 6,
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      bottomSheet(
+                                                    .bodySmall),
+                                            const SizedBox(
+                                              height: 6,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    bottomSheet(
+                                                        context: context,
+                                                        height: mHeight * 28,
+                                                        child: favoriteWidget(
                                                           context: context,
-                                                          height: mHeight * 28,
-                                                          child: favoriteWidget(
-                                                            context: context,
-                                                            isFavorite:
-                                                                favorite,
-                                                            image: data
-                                                                .serviceImage,
-                                                            description: data
-                                                                .description,
-                                                            serviceName: data
-                                                                .serviceName,
-                                                            price: data
-                                                                .servicePrice,
-                                                            onTap: () async {
-                                                              await instance
-                                                                  .userFavorite(
-                                                                      favorite,
-                                                                      data
-                                                                          .documentId,
-                                                                      user!
-                                                                          .uid);
+                                                          isFavorite: favorite,
+                                                          image:
+                                                              data.serviceImage,
+                                                          description:
+                                                              data.description,
+                                                          serviceName:
+                                                              data.serviceName,
+                                                          price:
+                                                              data.servicePrice,
+                                                          onTap: () async {
+                                                            await instance
+                                                                .userFavorite(
+                                                                    favorite,
+                                                                    data.documentId,
+                                                                    user!.uid);
 
-                                                              if (context
-                                                                  .mounted) {
-                                                                Navigator.pop(
-                                                                    context);
-                                                              }
-                                                            },
-                                                          ));
-                                                    },
-                                                    child: Icon(
-                                                      !favorite
-                                                          ? Iconsax.archive_add
-                                                          : Iconsax.archive_1,
-                                                      color: !favorite
-                                                          ? Theme.of(context)
-                                                                      .brightness ==
-                                                                  Brightness
-                                                                      .light
-                                                              ? Colors.black
-                                                              : Colors.white
-                                                          : Theme.of(context)
-                                                              .primaryColor,
-                                                    ),
+                                                            if (context
+                                                                .mounted) {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            }
+                                                          },
+                                                        ));
+                                                  },
+                                                  child: Icon(
+                                                    !favorite
+                                                        ? Iconsax.archive_add
+                                                        : Iconsax.archive_1,
+                                                    color: !favorite
+                                                        ? Theme.of(context)
+                                                                    .brightness ==
+                                                                Brightness.light
+                                                            ? Colors.black
+                                                            : Colors.white
+                                                        : Theme.of(context)
+                                                            .primaryColor,
                                                   ),
-                                                  SizedBox(
-                                                    width: mWidth * 35,
-                                                    child: TextButton(
-                                                        onPressed: () {
-                                                          Navigator.of(context).push(
-                                                              MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          SingleServiceScreen(
-                                                                            serviceModel:
-                                                                                data,
-                                                                          )));
-                                                        },
-                                                        style: TextButton.styleFrom(
-                                                            backgroundColor:
-                                                                Theme.of(
-                                                                        context)
-                                                                    .primaryColor,
-                                                            shape: RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            4))),
-                                                        child: Text(
-                                                          "Book Now",
-                                                          style: Theme.of(
-                                                                  context)
-                                                              .textTheme
-                                                              .bodySmall!
-                                                              .apply(
-                                                                  color: Colors
-                                                                      .black),
-                                                        )),
-                                                  )
-                                                ],
-                                              )
-                                            ],
-                                          ),
+                                                ),
+                                                const SizedBox(
+                                                  width: 6,
+                                                ),
+                                                Expanded(
+                                                  child: TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context).push(
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        SingleServiceScreen(
+                                                                          serviceModel:
+                                                                              data,
+                                                                        )));
+                                                      },
+                                                      style: TextButton.styleFrom(
+                                                          backgroundColor:
+                                                              Theme.of(context)
+                                                                  .primaryColor,
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          4))),
+                                                      child: Text(
+                                                        "Book Now",
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodySmall!
+                                                            .apply(
+                                                                color: Colors
+                                                                    .black),
+                                                      )),
+                                                ),
+                                                const SizedBox(
+                                                  width: 8,
+                                                )
+                                              ],
+                                            )
+                                          ],
                                         ),
                                       )
                                     ],

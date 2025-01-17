@@ -1,4 +1,5 @@
 import 'package:amenda_cuts/Functions/Auth/signout/sign_out.dart';
+import 'package:amenda_cuts/Screens/Admin/Bookings/bookings.dart';
 import 'package:amenda_cuts/Screens/Admin/Service/service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -140,17 +141,26 @@ Widget drawerItems(
                 ],
               ),
               const SizedBox(height: 20),
-              const Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(Iconsax.book),
-                  SizedBox(
-                    width: 8,
-                  ),
-                  Text("Bookings"),
-                ],
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => const Bookings(),
+                    ),
+                  );
+                },
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(Iconsax.book),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text("Bookings"),
+                  ],
+                ),
               ),
               const SizedBox(height: 20),
               const Row(

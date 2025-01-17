@@ -5,6 +5,7 @@ import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Models/order_model.dart';
 import 'package:amenda_cuts/Screens/User/Receipt/receipt.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 Container completedContainer(OrderModel data, BuildContext context) {
@@ -43,18 +44,16 @@ Container completedContainer(OrderModel data, BuildContext context) {
                 decoration:
                     BoxDecoration(borderRadius: BorderRadius.circular(10)),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image(
-                    image: NetworkImage(data.serviceModel!.serviceImage),
-                    fit: BoxFit.cover,
-                  ),
-                ),
+                    borderRadius: BorderRadius.circular(10),
+                    child: CachedNetworkImage(
+                      imageUrl: data.serviceModel!.serviceImage,
+                      fit: BoxFit.cover,
+                    )),
               ),
               const SizedBox(
                 width: 10,
               ),
-              SizedBox(
-                width: mWidth * 62,
+              Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
