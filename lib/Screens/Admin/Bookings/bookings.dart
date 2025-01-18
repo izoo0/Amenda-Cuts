@@ -1,5 +1,3 @@
-import 'package:amenda_cuts/Common/Widget/BottomSheet/bottom_sheet.dart';
-import 'package:amenda_cuts/Common/Widget/Button/user_button.dart';
 import 'package:amenda_cuts/Common/Widget/Navigation/navigation_bar.dart';
 import 'package:amenda_cuts/Common/Widget/Preloader/preloader.dart';
 import 'package:amenda_cuts/Common/Constants/color_constants.dart';
@@ -9,11 +7,11 @@ import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Models/order_model.dart';
 import 'package:amenda_cuts/Screens/User/Booking/canceled.dart';
 import 'package:amenda_cuts/Screens/User/Booking/completed.dart';
-import 'package:amenda_cuts/Screens/User/Booking/upcoming.dart';
-import 'package:amenda_cuts/Screens/User/Receipt/receipt.dart';
 import 'package:flutter/material.dart';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:iconsax/iconsax.dart';
+
+import '../../../Common/Widget/Containers/admin_booking.dart';
 
 class Bookings extends StatefulWidget {
   const Bookings({super.key});
@@ -156,108 +154,20 @@ class _BookingsState extends State<Bookings> {
                                                     const EdgeInsets.symmetric(
                                                         horizontal: 8.0,
                                                         vertical: 10),
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            4),
-                                                    color: Theme.of(context)
-                                                        .cardColor,
-                                                  ),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 8.0,
-                                                        vertical: 8.0),
-                                                    child: Row(
-                                                      children: [
-                                                        ClipRect(
-                                                          child: Image(
-                                                            image: const AssetImage(
-                                                                'assets/Logo/logo.png'),
-                                                            width: mWidth * 20,
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 4,
-                                                        ),
-                                                        Expanded(
-                                                          child: Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              const Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  Text(
-                                                                      "Service Name"),
-                                                                  const SizedBox(
-                                                                    height: 4,
-                                                                  ),
-                                                                  Text(
-                                                                      "Number1011"),
-                                                                  const SizedBox(
-                                                                    height: 4,
-                                                                  ),
-                                                                  Text(
-                                                                      "Hello there"),
-                                                                  const SizedBox(
-                                                                    height: 4,
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              const Text(
-                                                                  "Category"),
-                                                              const SizedBox(
-                                                                height: 4,
-                                                              ),
-                                                              const Text(
-                                                                  "Date to come"),
-                                                              const SizedBox(
-                                                                height: 4,
-                                                              ),
-                                                              const Text(
-                                                                  "Time to come"),
-                                                              const SizedBox(
-                                                                height: 4,
-                                                              ),
-                                                              const Text(
-                                                                  "Amount"),
-                                                              const SizedBox(
-                                                                height: 4,
-                                                              ),
-                                                              TextButton(
-                                                                  style: TextButton
-                                                                      .styleFrom(
-                                                                    shape: RoundedRectangleBorder(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(4)),
-                                                                    backgroundColor:
-                                                                        Theme.of(context)
-                                                                            .primaryColor,
-                                                                  ),
-                                                                  onPressed:
-                                                                      () {},
-                                                                  child: Text(
-                                                                    "Completed",
-                                                                    style: Theme.of(
-                                                                            context)
-                                                                        .textTheme
-                                                                        .bodySmall,
-                                                                  ))
-                                                            ],
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ))
+                                                child: adminBookings(
+                                                  context: context,
+                                                  serviceImage: "serviceImage",
+                                                  serviceName: "serviceName",
+                                                  userName: "userName",
+                                                  userNumber: "userNumber",
+                                                  serviceCategory:
+                                                      "serviceCategory",
+                                                  time: "2:00-3:00",
+                                                  date: "11-12-2024",
+                                                  amount: "100",
+                                                  onTap: () {},
+                                                ),
+                                              )
                                             : const SizedBox.shrink();
                                       });
                                 } else {
