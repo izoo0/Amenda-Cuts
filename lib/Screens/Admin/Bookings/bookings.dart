@@ -151,10 +151,54 @@ class _BookingsState extends State<Bookings> {
                                         bool light1 = data.remindMe ?? false;
 
                                         return status == 'upcoming'
-                                            ? const Padding(
-                                                padding: EdgeInsets.only(
+                                            ? Padding(
+                                                padding: const EdgeInsets.only(
                                                     bottom: 8.0, top: 10),
-                                                child: Text("Hello there"))
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            4),
+                                                    color: Theme.of(context)
+                                                        .cardColor,
+                                                  ),
+                                                  child: Row(
+                                                    children: [
+                                                      SizedBox(
+                                                        width: 4,
+                                                      ),
+                                                      ClipRect(
+                                                        child: Image(
+                                                          image: AssetImage(
+                                                              'assets/Logo/logo.png'),
+                                                          width: mWidth * 20,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 4,
+                                                      ),
+                                                      Expanded(
+                                                          child: Column(
+                                                        children: [
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                  "Hello there "),
+                                                              Text(
+                                                                  "Hello there")
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ))
+                                                    ],
+                                                  ),
+                                                ))
                                             : const SizedBox.shrink();
                                       });
                                 } else {
