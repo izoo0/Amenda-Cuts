@@ -152,8 +152,10 @@ class _BookingsState extends State<Bookings> {
 
                                         return status == 'upcoming'
                                             ? Padding(
-                                                padding: const EdgeInsets.only(
-                                                    bottom: 8.0, top: 10),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 8.0,
+                                                        vertical: 10),
                                                 child: Container(
                                                   decoration: BoxDecoration(
                                                     borderRadius:
@@ -162,41 +164,98 @@ class _BookingsState extends State<Bookings> {
                                                     color: Theme.of(context)
                                                         .cardColor,
                                                   ),
-                                                  child: Row(
-                                                    children: [
-                                                      SizedBox(
-                                                        width: 4,
-                                                      ),
-                                                      ClipRect(
-                                                        child: Image(
-                                                          image: AssetImage(
-                                                              'assets/Logo/logo.png'),
-                                                          width: mWidth * 20,
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 8.0,
+                                                        vertical: 8.0),
+                                                    child: Row(
+                                                      children: [
+                                                        ClipRect(
+                                                          child: Image(
+                                                            image: const AssetImage(
+                                                                'assets/Logo/logo.png'),
+                                                            width: mWidth * 20,
+                                                          ),
                                                         ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 4,
-                                                      ),
-                                                      Expanded(
+                                                        const SizedBox(
+                                                          width: 4,
+                                                        ),
+                                                        Expanded(
                                                           child: Column(
-                                                        children: [
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
                                                             crossAxisAlignment:
                                                                 CrossAxisAlignment
                                                                     .start,
                                                             children: [
-                                                              Text(
-                                                                  "Hello there "),
-                                                              Text(
-                                                                  "Hello there")
+                                                              const Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Text(
+                                                                      "Service Name"),
+                                                                  const SizedBox(
+                                                                    height: 4,
+                                                                  ),
+                                                                  Text(
+                                                                      "Number1011"),
+                                                                  const SizedBox(
+                                                                    height: 4,
+                                                                  ),
+                                                                  Text(
+                                                                      "Hello there"),
+                                                                  const SizedBox(
+                                                                    height: 4,
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              const Text(
+                                                                  "Category"),
+                                                              const SizedBox(
+                                                                height: 4,
+                                                              ),
+                                                              const Text(
+                                                                  "Date to come"),
+                                                              const SizedBox(
+                                                                height: 4,
+                                                              ),
+                                                              const Text(
+                                                                  "Time to come"),
+                                                              const SizedBox(
+                                                                height: 4,
+                                                              ),
+                                                              const Text(
+                                                                  "Amount"),
+                                                              const SizedBox(
+                                                                height: 4,
+                                                              ),
+                                                              TextButton(
+                                                                  style: TextButton
+                                                                      .styleFrom(
+                                                                    shape: RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(4)),
+                                                                    backgroundColor:
+                                                                        Theme.of(context)
+                                                                            .primaryColor,
+                                                                  ),
+                                                                  onPressed:
+                                                                      () {},
+                                                                  child: Text(
+                                                                    "Completed",
+                                                                    style: Theme.of(
+                                                                            context)
+                                                                        .textTheme
+                                                                        .bodySmall,
+                                                                  ))
                                                             ],
-                                                          )
-                                                        ],
-                                                      ))
-                                                    ],
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
                                                   ),
                                                 ))
                                             : const SizedBox.shrink();
