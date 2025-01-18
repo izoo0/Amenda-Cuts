@@ -86,7 +86,7 @@ class Apis extends ChangeNotifier {
   }
 
   Future<void> bookNow(String documentId, String userId, date, time, location,
-      BuildContext context) async {
+      otherUserId, BuildContext context) async {
     try {
       await firestore.collection('booking').add({
         'serviceId': documentId,
@@ -97,6 +97,7 @@ class Apis extends ChangeNotifier {
         'date': date,
         'time': time,
         'location': location,
+        'expertId': otherUserId
       });
 
       if (context.mounted) {

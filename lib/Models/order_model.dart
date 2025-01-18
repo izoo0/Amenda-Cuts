@@ -11,20 +11,25 @@ class OrderModel {
   final DateTime date;
   bool? remindMe;
   final String? location;
-  OrderModel(
-      {required this.timestamp,
-      required this.serviceId,
-      required this.status,
-      required this.serviceModel,
-      this.remindMe,
-      required this.orderId,
-      required this.date,
-      this.time,
-      this.location});
+  final String? expertId;
 
-  static Future<OrderModel> fromFirebase(
-      {required Map<String, dynamic> orderModel,
-      required String orderId}) async {
+  OrderModel({
+    required this.timestamp,
+    required this.serviceId,
+    required this.status,
+    required this.serviceModel,
+    this.remindMe,
+    required this.orderId,
+    required this.date,
+    this.time,
+    this.location,
+    this.expertId,
+  });
+
+  static Future<OrderModel> fromFirebase({
+    required Map<String, dynamic> orderModel,
+    required String orderId,
+  }) async {
     DateTime arrivalDate = DateTime(1950);
     DateTime bookingTime = DateTime(1950);
     var newTime = orderModel['timestamp'];
@@ -51,15 +56,18 @@ class OrderModel {
       serviceModel = ServiceModel.fromFirebase(
           serviceData: serviceData, documentId: serviceSnapshot.id);
     }
+
     return OrderModel(
-        timestamp: bookingTime,
-        serviceId: serviceId,
-        status: orderModel['status'],
-        serviceModel: serviceModel,
-        remindMe: orderModel['remindMe'],
-        orderId: orderId,
-        date: arrivalDate,
-        time: orderModel['time'],
-        location: orderModel['location']);
+      timestamp: bookingTime,
+      serviceId: serviceId,
+      status: orderModel['status'],
+      serviceModel: serviceModel,
+      remindMe: orderModel['remindMe'],
+      orderId: orderId,
+      date: arrivalDate,
+      time: orderModel['time'],
+      location: orderModel['location'],
+      expertId: orderModel['expertId'],
+    );
   }
 }

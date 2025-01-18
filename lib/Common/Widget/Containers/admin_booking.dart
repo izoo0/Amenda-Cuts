@@ -1,20 +1,16 @@
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
+import 'package:amenda_cuts/Models/order_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-Container adminBookings(
-    {required BuildContext context,
-    required String serviceImage,
-    required String serviceName,
-    required String userName,
-    required String userNumber,
-    required String serviceCategory,
-    required String time,
-    required String date,
-    required String amount,
-    required Function onTap}) {
+Container adminBookings({
+  required BuildContext context,
+  required OrderModel orderModel,
+  required Function onTap,
+}) {
   SizeConfig().init(context);
   double mWidth = SizeConfig.blockSizeWidth!;
+  double mHeight = SizeConfig.blockSizeHeight!;
   return Container(
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(4),
@@ -24,11 +20,14 @@ Container adminBookings(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
       child: Row(
         children: [
-          ClipRect(
+          ClipRRect(
+              borderRadius: BorderRadius.circular(4),
               child: CachedNetworkImage(
-            imageUrl: serviceImage,
-            width: mWidth * 20,
-          )),
+                imageUrl: orderModel.serviceModel!.serviceImage,
+                width: mWidth * 25,
+                height: mHeight * 15,
+                fit: BoxFit.cover,
+              )),
           const SizedBox(
             width: 4,
           ),
@@ -40,33 +39,33 @@ Container adminBookings(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(serviceName),
+                    Text(orderModel.serviceModel!.serviceName),
                     const SizedBox(
                       height: 4,
                     ),
-                    Text(userNumber),
+                    const Text("userNumber"),
                     const SizedBox(
                       height: 4,
                     ),
-                    Text(userName),
+                    const Text("userName"),
                     const SizedBox(
                       height: 4,
                     ),
                   ],
                 ),
-                Text(serviceCategory),
+                Text(orderModel.serviceModel!.serviceCategory),
                 const SizedBox(
                   height: 4,
                 ),
-                Text(date),
+                const Text("orderModel.date"),
                 const SizedBox(
                   height: 4,
                 ),
-                Text(time),
+                Text(orderModel.time ?? ''),
                 const SizedBox(
                   height: 4,
                 ),
-                Text(amount),
+                Text('Ksh ${orderModel.serviceModel!.servicePrice}'),
                 const SizedBox(
                   height: 4,
                 ),
@@ -80,7 +79,7 @@ Container adminBookings(
                       onTap();
                     },
                     child: Text(
-                      "Completed",
+                      "Mark as completed",
                       style: Theme.of(context).textTheme.bodySmall,
                     ))
               ],

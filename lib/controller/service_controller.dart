@@ -10,15 +10,15 @@ Future<List<OrderModel>> getSingleService({
   bool isFavorite = serviceModel.favorite.contains(Apis.user?.uid);
   return [
     OrderModel(
-      timestamp: order.timestamp,
-      serviceId: order.serviceId,
-      status: order.status,
-      serviceModel: serviceModel,
-      remindMe: order.remindMe,
-      orderId: order.orderId,
-      time: order.time,
-      date: order.date,
-      location: order.location,
-    )
+        timestamp: order.timestamp,
+        serviceId: order.serviceId,
+        status: order.status,
+        serviceModel: serviceModel,
+        remindMe: order.remindMe,
+        orderId: order.orderId,
+        time: order.time,
+        date: order.date,
+        location: order.location,
+        expertId: order.expertId)
   ];
 }

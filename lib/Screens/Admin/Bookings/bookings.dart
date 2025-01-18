@@ -7,6 +7,7 @@ import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Models/order_model.dart';
 import 'package:amenda_cuts/Screens/User/Booking/canceled.dart';
 import 'package:amenda_cuts/Screens/User/Booking/completed.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:iconsax/iconsax.dart';
@@ -22,6 +23,7 @@ class Bookings extends StatefulWidget {
 
 class _BookingsState extends State<Bookings> {
   final Apis instance = Apis.instance;
+  User? user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -139,12 +141,18 @@ class _BookingsState extends State<Bookings> {
                                 }
                                 if (snapshot.hasData && snapshot.data != null) {
                                   final service = snapshot.data!;
+                                  List<OrderModel> myBooking = service
+                                      .where(
+                                          (data) => data.expertId == user?.uid)
+                                      .toList();
+
                                   return ListView.builder(
                                       shrinkWrap: true,
                                       physics: const BouncingScrollPhysics(),
-                                      itemCount: service.length,
+                                      itemCount: myBooking.length,
                                       itemBuilder: (context, index) {
-                                        final data = service[index];
+                                        final data = myBooking[index];
+
                                         final status = data.status;
                                         bool light1 = data.remindMe ?? false;
 
@@ -156,15 +164,7 @@ class _BookingsState extends State<Bookings> {
                                                         vertical: 10),
                                                 child: adminBookings(
                                                   context: context,
-                                                  serviceImage: "serviceImage",
-                                                  serviceName: "serviceName",
-                                                  userName: "userName",
-                                                  userNumber: "userNumber",
-                                                  serviceCategory:
-                                                      "serviceCategory",
-                                                  time: "2:00-3:00",
-                                                  date: "11-12-2024",
-                                                  amount: "100",
+                                                  orderModel: data,
                                                   onTap: () {},
                                                 ),
                                               )
