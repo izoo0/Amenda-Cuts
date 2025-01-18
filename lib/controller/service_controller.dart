@@ -19,6 +19,7 @@ Future<List<OrderModel>> getSingleService({
         time: order.time,
         date: order.date,
         location: order.location,
-        expertId: order.expertId)
+        expertId: order.expertId,
+        userId: order.userId)
   ];
 }
