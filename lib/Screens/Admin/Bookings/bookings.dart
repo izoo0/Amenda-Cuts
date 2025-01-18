@@ -145,7 +145,6 @@ class _BookingsState extends State<Bookings> {
                                       .where(
                                           (data) => data.expertId == user?.uid)
                                       .toList();
-
                                   return ListView.builder(
                                       shrinkWrap: true,
                                       physics: const BouncingScrollPhysics(),
@@ -161,7 +160,7 @@ class _BookingsState extends State<Bookings> {
                                                 padding:
                                                     const EdgeInsets.symmetric(
                                                         horizontal: 8.0,
-                                                        vertical: 10),
+                                                        vertical: 4),
                                                 child: adminBookings(
                                                   context: context,
                                                   orderModel: data,
@@ -181,27 +180,42 @@ class _BookingsState extends State<Bookings> {
                           child: StreamBuilder<List<OrderModel>>(
                               stream: instance.fetchBooking(),
                               builder: (context, snapshot) {
+                                if (snapshot.hasError) {
+                                  //
+                                }
                                 if (snapshot.hasData && snapshot.data != null) {
                                   final service = snapshot.data!;
+                                  List<OrderModel> myBooking = service
+                                      .where(
+                                          (data) => data.expertId == user?.uid)
+                                      .toList();
                                   return ListView.builder(
                                       shrinkWrap: true,
                                       physics: const BouncingScrollPhysics(),
-                                      itemCount: service.length,
+                                      itemCount: myBooking.length,
                                       itemBuilder: (context, index) {
-                                        final data = service[index];
+                                        final data = myBooking[index];
+
                                         final status = data.status;
+                                        bool light1 = data.remindMe ?? false;
+
                                         return status == 'completed'
                                             ? Padding(
-                                                padding: const EdgeInsets.only(
-                                                    bottom: 8.0, top: 10),
-                                                child: completedContainer(
-                                                    data, context))
-                                            : const SizedBox();
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 8.0,
+                                                        vertical: 4),
+                                                child: adminBookings(
+                                                  context: context,
+                                                  orderModel: data,
+                                                  onTap: () {},
+                                                ),
+                                              )
+                                            : const SizedBox.shrink();
                                       });
                                 } else {
                                   return Center(
-                                    child: preloader(30.0, context),
-                                  );
+                                      child: preloader(30.0, context));
                                 }
                               }),
                         ),
@@ -210,34 +224,42 @@ class _BookingsState extends State<Bookings> {
                           child: StreamBuilder<List<OrderModel>>(
                               stream: instance.fetchBooking(),
                               builder: (context, snapshot) {
-                                final service = snapshot.data;
+                                if (snapshot.hasError) {
+                                  //
+                                }
                                 if (snapshot.hasData && snapshot.data != null) {
+                                  final service = snapshot.data!;
+                                  List<OrderModel> myBooking = service
+                                      .where(
+                                          (data) => data.expertId == user?.uid)
+                                      .toList();
                                   return ListView.builder(
                                       shrinkWrap: true,
                                       physics: const BouncingScrollPhysics(),
-                                      itemCount: service?.length,
+                                      itemCount: myBooking.length,
                                       itemBuilder: (context, index) {
-                                        final data = service?[index];
-                                        final status = data?.status;
-                                        if (snapshot.hasData &&
-                                            snapshot.data != null) {
-                                          return status == 'cancel'
-                                              ? Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          bottom: 8.0, top: 10),
-                                                  child: cancelledContainer(
-                                                      data!, context),
-                                                )
-                                              : const SizedBox.shrink();
-                                        } else {
-                                          return null;
-                                        }
+                                        final data = myBooking[index];
+
+                                        final status = data.status;
+                                        bool light1 = data.remindMe ?? false;
+
+                                        return status == 'cancel'
+                                            ? Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 8.0,
+                                                        vertical: 4),
+                                                child: adminBookings(
+                                                  context: context,
+                                                  orderModel: data,
+                                                  onTap: () {},
+                                                ),
+                                              )
+                                            : const SizedBox.shrink();
                                       });
                                 } else {
                                   return Center(
-                                    child: preloader(30.0, context),
-                                  );
+                                      child: preloader(30.0, context));
                                 }
                               }),
                         ),

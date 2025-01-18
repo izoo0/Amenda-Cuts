@@ -24,12 +24,12 @@ Container adminBookings({
               borderRadius: BorderRadius.circular(4),
               child: CachedNetworkImage(
                 imageUrl: orderModel.serviceModel!.serviceImage,
-                width: mWidth * 25,
+                width: mWidth * 28,
                 height: mHeight * 15,
                 fit: BoxFit.cover,
               )),
           const SizedBox(
-            width: 4,
+            width: 8,
           ),
           Expanded(
             child: Column(

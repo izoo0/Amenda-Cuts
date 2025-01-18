@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:amenda_cuts/Common/Widget/Alerts/alerts.dart';
 import 'package:amenda_cuts/Common/Widget/Button/user_button.dart';
 import 'package:amenda_cuts/Common/Widget/Calendar/date_picker_widget.dart';
+import 'package:amenda_cuts/Common/Widget/Preloader/preloader.dart';
 import 'package:amenda_cuts/Common/Widget/Rating/rating_widget.dart';
 import 'package:amenda_cuts/Common/Widget/Time/time_picker_widget.dart';
 import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
@@ -278,7 +279,7 @@ class _SingleServiceScreenState extends State<SingleServiceScreen> {
                   child: Container(
                     height: mHeight * 10,
                     constraints: BoxConstraints(
-                      minHeight: mHeight * 14,
+                      minHeight: mHeight * 10,
                     ),
                     decoration: BoxDecoration(
                       borderRadius: const BorderRadius.only(
@@ -308,6 +309,17 @@ class _SingleServiceScreenState extends State<SingleServiceScreen> {
                               name: "Book",
                               color: Theme.of(context).primaryColor,
                               onTap: () async {
+                                showDialog(
+                                    context: context,
+                                    builder: (_) {
+                                      return Center(
+                                        child: SizedBox(
+                                          width: 30,
+                                          height: 30,
+                                          child: preloader(20.0, context),
+                                        ),
+                                      );
+                                    });
                                 if (time != null) {
                                   await instance.bookNow(
                                     widget.serviceModel.documentId,
