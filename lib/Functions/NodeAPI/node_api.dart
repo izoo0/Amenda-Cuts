@@ -22,7 +22,7 @@ class NodeApi {
       required String expertId,
       required String selectedCategory,
       required BuildContext context}) async {
-    final uri = Uri.parse('http://192.168.33.213:8080/upload_image');
+    final uri = Uri.parse('http://192.168.219.210:8080/upload_image');
     try {
       final request = http.MultipartRequest('POST', uri);
       request.files.add(await http.MultipartFile.fromPath('image', image));
@@ -87,7 +87,7 @@ class NodeApi {
       required BuildContext context,
       required String serviceId,
       required String docId}) async {
-    final uri = Uri.parse('http://192.168.33.213:8080/edit_image');
+    final uri = Uri.parse('http://192.168.219.210:8080/edit_image');
     final request = http.MultipartRequest('POST', uri);
     request.files.add(await http.MultipartFile.fromPath('image', image));
     request.fields['serviceId'] = serviceId;

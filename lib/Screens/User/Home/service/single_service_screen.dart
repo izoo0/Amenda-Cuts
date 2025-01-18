@@ -310,12 +310,14 @@ class _SingleServiceScreenState extends State<SingleServiceScreen> {
                               onTap: () async {
                                 if (time != null) {
                                   await instance.bookNow(
-                                      widget.serviceModel.documentId,
-                                      userDetailsProvider.user!.uid,
-                                      _selectedTime,
-                                      '${time?.start.format(context)}-${time?.end.format(context)}',
-                                      serviceLocation,
-                                      context);
+                                    widget.serviceModel.documentId,
+                                    userDetailsProvider.user!.uid,
+                                    _selectedTime,
+                                    '${time?.start.format(context)}-${time?.end.format(context)}',
+                                    serviceLocation,
+                                    otherUserDetail.otherUserId ?? '',
+                                    context,
+                                  );
                                 } else {
                                   showDialog(
                                       context: context,
