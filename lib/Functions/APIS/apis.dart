@@ -187,6 +187,30 @@ class Apis extends ChangeNotifier {
     }
   }
 
+  Future<void> adminComplete(
+      {required String docId, required BuildContext context}) async {
+    try {
+      DocumentReference docRef = firestore.collection("booking").doc(docId);
+
+      await docRef.update({
+        "status": "completed",
+      });
+      if (context.mounted) {
+        Navigator.pop(context);
+        showDialog(
+            context: context,
+            builder: (context) {
+              return const AnimatedAlertDialog(
+                  title: "Success",
+                  content: "Booking has been marked as completed",
+                  icon: Icon(Iconsax.tick_circle));
+            });
+      }
+    } catch (e) {
+      //
+    }
+  }
+
   Future<void> makeAdmin(
       {required BuildContext context,
       required String userId,

@@ -71,7 +71,7 @@ class _BookingsState extends State<Bookings> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: GestureDetector(
-                  onTap: () {},
+                  onTap: () async {},
                   child: const Icon(
                     Iconsax.search_normal,
                   ),
@@ -162,7 +162,6 @@ class _BookingsState extends State<Bookings> {
                                                 child: adminBookings(
                                                   context: context,
                                                   orderModel: data,
-                                                  onTap: () {},
                                                 ),
                                               )
                                             : const SizedBox.shrink();
@@ -206,7 +205,6 @@ class _BookingsState extends State<Bookings> {
                                                 child: adminBookings(
                                                   context: context,
                                                   orderModel: data,
-                                                  onTap: () {},
                                                 ),
                                               )
                                             : const SizedBox.shrink();
@@ -250,7 +248,6 @@ class _BookingsState extends State<Bookings> {
                                                 child: adminBookings(
                                                   context: context,
                                                   orderModel: data,
-                                                  onTap: () {},
                                                 ),
                                               )
                                             : const SizedBox.shrink();

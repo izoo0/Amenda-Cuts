@@ -1,19 +1,22 @@
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
+import 'package:amenda_cuts/Common/Widget/Preloader/preloader.dart';
+import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Models/order_model.dart';
 import 'package:amenda_cuts/Models/other_users_model.dart';
 import 'package:amenda_cuts/Provider/other_user_details_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 Widget adminBookings({
   required BuildContext context,
   required OrderModel orderModel,
-  required Function onTap,
 }) {
   SizeConfig().init(context);
   double mWidth = SizeConfig.blockSizeWidth!;
   double mHeight = SizeConfig.blockSizeHeight!;
+  Apis instance = Apis.instance;
   return Consumer<OtherUserDetailsProvider>(
       builder: (context, otherUserDetail, _) {
     String? otherUserName({required String otherUserId}) {
@@ -84,7 +87,7 @@ Widget adminBookings({
                   const SizedBox(
                     height: 4,
                   ),
-                  const Text("orderModel.date"),
+                  Text(formattedDate(date: orderModel.date)),
                   const SizedBox(
                     height: 4,
                   ),
@@ -96,19 +99,40 @@ Widget adminBookings({
                   const SizedBox(
                     height: 4,
                   ),
-                  TextButton(
-                      style: TextButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(4)),
-                        backgroundColor: Theme.of(context).primaryColor,
-                      ),
-                      onPressed: () {
-                        onTap();
-                      },
-                      child: Text(
-                        "Mark as completed",
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ))
+                  orderModel.status == "upcoming"
+                      ? TextButton(
+                          style: TextButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4)),
+                            backgroundColor: Theme.of(context).primaryColor,
+                          ),
+                          onPressed: () async {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return preloader(20.0, context);
+                                });
+                            await instance.adminComplete(
+                                context: context, docId: orderModel.orderId);
+                          },
+                          child: Text(
+                            "Mark as completed",
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ))
+                      : Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                              color: orderModel.status == "completed"
+                                  ? Colors.green
+                                  : Colors.red,
+                              borderRadius: BorderRadius.circular(4)),
+                          child: Text(
+                            orderModel.status == "completed"
+                                ? "Completed"
+                                : "Canceled",
+                          ),
+                        )
                 ],
               ),
             )
@@ -117,4 +141,8 @@ Widget adminBookings({
       ),
     );
   });
+}
+
+String formattedDate({required date}) {
+  return DateFormat("y-mM-d").format(date);
 }
