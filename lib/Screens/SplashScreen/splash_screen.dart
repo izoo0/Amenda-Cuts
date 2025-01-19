@@ -1,10 +1,16 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:amenda_cuts/Common/Widget/Navigation/navigation_bar.dart';
 import 'package:amenda_cuts/Common/Widget/Preloader/preloader.dart';
 import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
+import 'package:amenda_cuts/Provider/user_details_provider.dart';
 import 'package:amenda_cuts/Screens/OnBoarding/on_boarding.dart';
+
+import 'package:amenda_cuts/Screens/User/Home/home.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -29,16 +35,20 @@ class _SplashScreenState extends State<SplashScreen>
       parent: _controller,
       curve: Curves.easeIn,
     );
+    UserDetailsProvider userDetails = Provider.of(context, listen: false);
     Future.delayed(const Duration(seconds: 6), () {
-      // ignore: unnecessary_null_comparison
-      if (Apis.user != null) {
-        // ignore: use_build_context_synchronously
+      print('________________________________${userDetails.usersModel.role}');
+      if (Apis.user != null && userDetails.usersModel.role == "admin") {
+        Navigator.of(context)
+            .pushReplacement(MaterialPageRoute(builder: (_) => const Home()));
+      } else if (Apis.user != null) {
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => const BottomNavigator()));
+            MaterialPageRoute(builder: (context) => const BottomNavigator()));
       } else {
-        // ignore: use_build_context_synchronously
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const OnBoarding()));
+        if (context.mounted) {
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const OnBoarding()));
+        }
       }
     });
   }

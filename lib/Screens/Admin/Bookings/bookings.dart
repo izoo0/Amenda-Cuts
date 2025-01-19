@@ -1,10 +1,10 @@
-import 'package:amenda_cuts/Common/Widget/Navigation/navigation_bar.dart';
 import 'package:amenda_cuts/Common/Widget/Preloader/preloader.dart';
 import 'package:amenda_cuts/Common/Constants/color_constants.dart';
 import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Models/order_model.dart';
+import 'package:amenda_cuts/Screens/User/Home/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
@@ -35,8 +35,8 @@ class _BookingsState extends State<Bookings> {
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             leading: IconButton(
                 onPressed: () {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => const BottomNavigator()));
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => const Home()));
                 },
                 icon: const Icon(Iconsax.home)),
             title: Row(

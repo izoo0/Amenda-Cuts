@@ -16,7 +16,7 @@ class UsersModel {
       this.username,
       this.role,
       this.isExpert});
-
+  @override
   factory UsersModel.fromFirebase(Map<String, dynamic> userData) {
     return UsersModel(
       name: userData[UserDetailsConstants.fullName] ?? '',

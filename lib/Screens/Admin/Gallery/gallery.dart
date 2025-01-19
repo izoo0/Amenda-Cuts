@@ -1,8 +1,8 @@
 import 'package:amenda_cuts/Common/Constants/color_constants.dart';
 import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
-import 'package:amenda_cuts/Common/Widget/Navigation/navigation_bar.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Models/service_model.dart';
+import 'package:amenda_cuts/Screens/User/Home/home.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -29,8 +29,8 @@ class _AdminGalleryState extends State<AdminGallery> {
               style: Theme.of(context).textTheme.displaySmall),
           leading: IconButton(
               onPressed: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const BottomNavigator()));
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => const Home()));
               },
               icon: const Icon(Iconsax.home)),
         ),

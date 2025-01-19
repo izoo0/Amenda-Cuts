@@ -1,12 +1,15 @@
 import 'package:amenda_cuts/Functions/Auth/signout/sign_out.dart';
 import 'package:amenda_cuts/Screens/Admin/Bookings/bookings.dart';
 import 'package:amenda_cuts/Screens/Admin/Service/service.dart';
+import 'package:amenda_cuts/Screens/User/Profile/profile.dart';
+import 'package:amenda_cuts/Screens/User/Profile/user_details_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../Screens/Admin/Gallery/gallery.dart';
 import '../../../Screens/Admin/Users/user_list_screen.dart.dart';
+import '../Preloader/preloader.dart';
 
 Widget drawerItems(
     {required bool isActive,
@@ -64,7 +67,11 @@ Widget drawerItems(
                   ],
                 ),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const UserDetailsScreen()));
+                },
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -133,11 +140,11 @@ Widget drawerItems(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Icon(Iconsax.scissor),
+                  Icon(Iconsax.messages_3),
                   SizedBox(
                     width: 8,
                   ),
-                  Text("Experts"),
+                  Text("Messages"),
                 ],
               ),
               const SizedBox(height: 20),
@@ -168,7 +175,7 @@ Widget drawerItems(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Icon(Iconsax.message_notif),
+                  Icon(Iconsax.notification_status),
                   SizedBox(
                     width: 8,
                   ),
@@ -200,17 +207,24 @@ Widget drawerItems(
                 ),
               ),
               const SizedBox(height: 20),
-              const Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(Iconsax.setting),
-                  SizedBox(
-                    width: 8,
-                  ),
-                  Text("Settings"),
-                ],
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => const Profile()));
+                },
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(Iconsax.setting),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text("Settings"),
+                  ],
+                ),
               ),
             ],
           ),
@@ -219,6 +233,19 @@ Widget drawerItems(
           ),
           InkWell(
             onTap: () async {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return Row(
+                      children: [
+                        Text(
+                          "Logging out",
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                        preloader(15.0, context)
+                      ],
+                    );
+                  });
               await instance.signOut(context);
             },
             child: const Row(

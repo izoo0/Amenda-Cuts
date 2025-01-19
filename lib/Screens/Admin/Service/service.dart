@@ -1,10 +1,10 @@
 import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Common/Widget/Containers/admin_service_container.dart';
-import 'package:amenda_cuts/Common/Widget/Navigation/navigation_bar.dart';
 import 'package:amenda_cuts/Common/Widget/Preloader/preloader.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Models/service_model.dart';
 import 'package:amenda_cuts/Screens/Admin/Service/create_service.dart';
+import 'package:amenda_cuts/Screens/User/Home/home.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -29,8 +29,8 @@ class _ServiceState extends State<Service> {
               scrolledUnderElevation: 0,
               leading: IconButton(
                   onPressed: () {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => const BottomNavigator()));
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => const Home()));
                   },
                   icon: const Icon(Iconsax.home)),
               title: const Text("Services"),
