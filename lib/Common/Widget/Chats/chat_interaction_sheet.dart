@@ -47,7 +47,7 @@ chatInteractionSheet({
                         message,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ),
                   ),
@@ -58,7 +58,10 @@ chatInteractionSheet({
                         final data = reactionList[index];
                         return ListTile(
                           leading: data.leading,
-                          title: Text(data.title),
+                          title: Text(
+                            data.title,
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
                         );
                       }),
                   const SizedBox(
