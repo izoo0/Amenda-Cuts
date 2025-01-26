@@ -28,7 +28,7 @@ chatInteractionSheet({
                     width: 50,
                     height: 4,
                     decoration: BoxDecoration(
-                        color: Colors.grey,
+                        color: Theme.of(context).primaryColor,
                         borderRadius: BorderRadius.circular(2)),
                   ),
                   const SizedBox(
@@ -38,10 +38,10 @@ chatInteractionSheet({
                     padding: const EdgeInsets.symmetric(horizontal: 12.0),
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 4, vertical: 6),
+                          horizontal: 8, vertical: 6),
                       width: double.infinity,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(4),
                           color: Colors.black12),
                       child: Text(
                         message,
