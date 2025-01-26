@@ -52,15 +52,11 @@ class _ChatsState extends State<Chats> {
               ],
             ),
           ),
-          body: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            physics: const BouncingScrollPhysics(),
-            child: ListView.builder(
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return const ListTile();
-                }),
-          ),
+          body: ListView.builder(
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return const ListTile();
+              }),
         );
       }),
     );
