@@ -1,6 +1,7 @@
 import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Provider/user_details_provider.dart';
+import 'package:amenda_cuts/Screens/chats/Pages/chat_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -57,7 +58,13 @@ class _ChatsState extends State<Chats> {
             shrinkWrap: true,
             itemCount: 2,
             itemBuilder: (context, index) {
-              return chatContainer(context: context);
+              return chatContainer(
+                context: context,
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const ChatPage()));
+                },
+              );
             },
           ),
         );
