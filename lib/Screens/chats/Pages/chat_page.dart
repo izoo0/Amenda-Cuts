@@ -1,5 +1,6 @@
 import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
+import 'package:amenda_cuts/Common/Widget/Chats/chat_interaction_sheet.dart';
 import 'package:amenda_cuts/Models/message.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
@@ -49,9 +50,10 @@ class _ChatPageState extends State<ChatPage> {
                         : Alignment.centerLeft,
                     child: GestureDetector(
                       onTap: () {
-                        setState(() {
-                          replyMsg = msg.message;
-                        });
+                        chatInteractionSheet(
+                          context: context,
+                          message: msg.message,
+                        );
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -115,6 +117,7 @@ class _ChatPageState extends State<ChatPage> {
                       children: [
                         if (replyMsg.isNotEmpty)
                           replyWidget(
+                            name: "Isaiah",
                             context: context,
                             text: replyMsg,
                             onTap: () {
@@ -174,6 +177,7 @@ class _ChatPageState extends State<ChatPage> {
 Widget replyWidget(
     {required BuildContext context,
     required String text,
+    required String name,
     required Function onTap}) {
   return IntrinsicHeight(
     child: Container(
@@ -202,11 +206,22 @@ Widget replyWidget(
           ),
           Expanded(
             child: SizedBox(
-              child: Text(
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                text,
-                style: Theme.of(context).textTheme.bodySmall,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    name,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  Text(
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    text,
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ],
               ),
             ),
           ),
