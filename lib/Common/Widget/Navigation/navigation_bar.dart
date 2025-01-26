@@ -5,7 +5,7 @@ import 'package:amenda_cuts/Screens/User/Booking/booking.dart';
 import 'package:amenda_cuts/Screens/User/Gallery/gallery.dart';
 import 'package:amenda_cuts/Screens/User/Home/home.dart';
 import 'package:amenda_cuts/Screens/User/Profile/profile.dart';
-import 'package:amenda_cuts/Screens/chats/charts.dart';
+import 'package:amenda_cuts/Screens/chats/chats.dart';
 import 'package:iconsax/iconsax.dart';
 
 class BottomNavigator extends StatefulWidget {

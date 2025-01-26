@@ -1,6 +1,7 @@
 import 'package:amenda_cuts/Common/Widget/Button/button.dart';
 import 'package:amenda_cuts/Common/Constants/color_constants.dart';
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 Widget favoriteWidget(
@@ -13,6 +14,7 @@ Widget favoriteWidget(
     required BuildContext context}) {
   SizeConfig().init(context);
   double mWidth = SizeConfig.blockSizeWidth!;
+  double mHeight = SizeConfig.blockSizeHeight!;
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 12.0),
     child: Column(
@@ -30,13 +32,15 @@ Widget favoriteWidget(
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(4),
-                child: Image(
-                  image: NetworkImage(image),
-                  width: mWidth * 20,
-                  fit: BoxFit.cover,
-                ),
+              SizedBox(
+                width: mWidth * 24,
+                height: mHeight * 10,
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(4),
+                    child: CachedNetworkImage(
+                      imageUrl: image,
+                      fit: BoxFit.cover,
+                    )),
               ),
               const SizedBox(
                 width: 10,

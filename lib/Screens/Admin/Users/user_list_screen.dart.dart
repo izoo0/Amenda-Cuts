@@ -1,7 +1,6 @@
 import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
-
-import 'package:amenda_cuts/Common/Widget/Navigation/navigation_bar.dart';
 import 'package:amenda_cuts/Common/Widget/TextField/text_field.dart';
+import 'package:amenda_cuts/Screens/User/Home/home.dart';
 
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -43,8 +42,8 @@ class _UserListScreenState extends State<UserListScreen> {
               elevation: 0,
               leading: IconButton(
                   onPressed: () {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => const BottomNavigator()));
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => const Home()));
                   },
                   icon: const Icon(Iconsax.home)),
               title: !searchText

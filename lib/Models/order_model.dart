@@ -12,19 +12,19 @@ class OrderModel {
   bool? remindMe;
   final String? location;
   final String? expertId;
-
-  OrderModel({
-    required this.timestamp,
-    required this.serviceId,
-    required this.status,
-    required this.serviceModel,
-    this.remindMe,
-    required this.orderId,
-    required this.date,
-    this.time,
-    this.location,
-    this.expertId,
-  });
+  final String? userId;
+  OrderModel(
+      {required this.timestamp,
+      required this.serviceId,
+      required this.status,
+      required this.serviceModel,
+      this.remindMe,
+      required this.orderId,
+      required this.date,
+      this.time,
+      this.location,
+      this.expertId,
+      this.userId});
 
   static Future<OrderModel> fromFirebase({
     required Map<String, dynamic> orderModel,
@@ -58,16 +58,16 @@ class OrderModel {
     }
 
     return OrderModel(
-      timestamp: bookingTime,
-      serviceId: serviceId,
-      status: orderModel['status'],
-      serviceModel: serviceModel,
-      remindMe: orderModel['remindMe'],
-      orderId: orderId,
-      date: arrivalDate,
-      time: orderModel['time'],
-      location: orderModel['location'],
-      expertId: orderModel['expertId'],
-    );
+        timestamp: bookingTime,
+        serviceId: serviceId,
+        status: orderModel['status'],
+        serviceModel: serviceModel,
+        remindMe: orderModel['remindMe'],
+        orderId: orderId,
+        date: arrivalDate,
+        time: orderModel['time'],
+        location: orderModel['location'],
+        expertId: orderModel['expertId'],
+        userId: orderModel['userId']);
   }
 }

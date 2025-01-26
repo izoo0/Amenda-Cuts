@@ -61,107 +61,116 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
           double height = SizeConfig.blockSizeHeight!;
           return Scaffold(
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            drawer: Drawer(
-              width: mWidth * 55,
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                Radius.circular(0),
-              )),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: double.infinity,
-                    color: Theme.of(context).cardColor,
-                    child: SafeArea(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(30),
-                                  child: CachedNetworkImage(
-                                    imageUrl: usersDetails.profile ?? '',
-                                    width: 60,
-                                    height: 60,
-                                    fit: BoxFit.cover,
+            drawer: usersDetails.role == "admin"
+                ? Drawer(
+                    width: mWidth * 55,
+                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                      Radius.circular(0),
+                    )),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          color: Theme.of(context).cardColor,
+                          child: SafeArea(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(
+                                    height: 12,
                                   ),
-                                ),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(Iconsax.sun_1))
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      usersDetails.name ?? '',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium,
-                                    ),
-                                    const SizedBox(
-                                      height: 2,
-                                    ),
-                                    Text(
-                                      usersDetails.number ?? '',
-                                      style:
-                                          Theme.of(context).textTheme.bodySmall,
-                                    ),
-                                  ],
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      isActive = !isActive;
-                                    });
-                                  },
-                                  icon: Icon(
-                                    !isActive
-                                        ? Iconsax.arrow_down_1
-                                        : Iconsax.arrow_up_2,
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(30),
+                                        child: CachedNetworkImage(
+                                          imageUrl: usersDetails.profile ?? '',
+                                          width: 60,
+                                          height: 60,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      IconButton(
+                                          onPressed: () {},
+                                          icon: const Icon(Iconsax.sun_1))
+                                    ],
                                   ),
-                                ),
-                              ],
-                            )
-                          ],
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            usersDetails.name ?? '',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium,
+                                          ),
+                                          const SizedBox(
+                                            height: 2,
+                                          ),
+                                          Text(
+                                            usersDetails.number ?? '',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall,
+                                          ),
+                                        ],
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            isActive = !isActive;
+                                          });
+                                        },
+                                        icon: Icon(
+                                          !isActive
+                                              ? Iconsax.arrow_down_1
+                                              : Iconsax.arrow_up_2,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
+                        drawerItems(
+                          context: context,
+                          isActive: isActive,
+                          userProfile: usersDetails.profile ?? '',
+                          userName: usersDetails.name ?? '',
+                        )
+                      ],
                     ),
-                  ),
-                  drawerItems(
-                    context: context,
-                    isActive: isActive,
-                    userProfile: usersDetails.profile ?? '',
-                    userName: usersDetails.name ?? '',
                   )
-                ],
-              ),
-            ),
+                : null,
             appBar: AppBar(
               toolbarHeight: 60,
               elevation: 0,
               scrolledUnderElevation: 0,
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              backgroundColor: Theme.of(context).cardColor,
               title: Row(
                 children: [
                   ClipRRect(

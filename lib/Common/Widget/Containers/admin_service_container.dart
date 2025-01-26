@@ -1,5 +1,6 @@
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Models/service_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -28,13 +29,14 @@ Widget adminServiceContainer({
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image(
-                image: NetworkImage(image),
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: mHeight * 18,
-              )),
+            borderRadius: BorderRadius.circular(8),
+            child: CachedNetworkImage(
+              imageUrl: image,
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: mHeight * 18,
+            ),
+          ),
           const SizedBox(
             height: 8,
           ),

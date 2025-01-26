@@ -22,12 +22,12 @@ class _GalleryState extends State<Gallery> {
       child: Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          backgroundColor: Theme.of(context).cardColor,
           title: Text('Our Gallery',
               style: Theme.of(context).textTheme.displaySmall),
         ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
           child: StreamBuilder<List<ServiceModel>>(
               stream: instance.fetchServices(),
               builder: (context, snapshot) {

@@ -58,6 +58,8 @@ dependencies:
   image_picker: ^1.1.2
   http: ^1.2.2
   dotted_border: ^2.1.0
+  grouped_list: ^6.0.0
+  swipe_to: ^1.0.6
   
 
   
