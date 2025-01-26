@@ -170,7 +170,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
               toolbarHeight: 60,
               elevation: 0,
               scrolledUnderElevation: 0,
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              backgroundColor: Theme.of(context).cardColor,
               title: Row(
                 children: [
                   ClipRRect(

@@ -33,7 +33,7 @@ class _BookingState extends State<Booking> {
       child: Scaffold(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           appBar: AppBar(
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            backgroundColor: Theme.of(context).cardColor,
             title: Row(
               children: [
                 Container(

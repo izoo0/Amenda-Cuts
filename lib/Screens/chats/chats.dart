@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../Common/Widget/Containers/chat_container.dart';
 import '../../Models/users_model.dart';
 
 class Chats extends StatefulWidget {
@@ -27,7 +28,7 @@ class _ChatsState extends State<Chats> {
         return Scaffold(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           appBar: AppBar(
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            backgroundColor: Theme.of(context).cardColor,
             title: Row(
               children: [
                 Container(
@@ -53,10 +54,12 @@ class _ChatsState extends State<Chats> {
             ),
           ),
           body: ListView.builder(
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return const ListTile();
-              }),
+            shrinkWrap: true,
+            itemCount: 2,
+            itemBuilder: (context, index) {
+              return chatContainer(context: context);
+            },
+          ),
         );
       }),
     );
