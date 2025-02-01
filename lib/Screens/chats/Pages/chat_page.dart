@@ -1,6 +1,7 @@
 import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Common/Widget/Chats/chat_interaction_sheet.dart';
+import 'package:amenda_cuts/Common/Widget/Chats/chat_text_field.dart';
 import 'package:amenda_cuts/Models/message.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
@@ -102,72 +103,20 @@ class _ChatPageState extends State<ChatPage> {
               },
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Card(
-                    elevation: 3,
-                    color: Theme.of(context).cardColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: Column(
-                      children: [
-                        if (replyMsg.isNotEmpty)
-                          replyWidget(
-                            name: "Isaiah",
-                            context: context,
-                            text: replyMsg,
-                            onTap: () {
-                              setState(() {
-                                replyMsg = '';
-                              });
-                            },
-                          ),
-                        TextFormField(
-                          minLines: 1,
-                          maxLines: 3,
-                          style: Theme.of(context).textTheme.bodySmall,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                                borderSide: const BorderSide(
-                                  width: 0,
-                                  color: Colors.transparent,
-                                )),
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                                borderSide: const BorderSide(
-                                  width: 0,
-                                  color: Colors.transparent,
-                                )),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                                borderSide: const BorderSide(
-                                  width: 0,
-                                  color: Colors.transparent,
-                                )),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Card(
-                  color: Theme.of(context).cardColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Iconsax.send_1),
-                  ),
-                )
-              ],
+          chatTextField(
+            child: replyWidget(
+              name: "Isaiah",
+              context: context,
+              text: replyMsg,
+              onTap: () {
+                setState(() {
+                  replyMsg = '';
+                });
+              },
             ),
-          ),
+            context: context,
+            message: replyMsg,
+          )
         ],
       ),
     ));
