@@ -267,4 +267,8 @@ class Apis extends ChangeNotifier {
   String dateFormat({required date}) {
     return DateFormat.yMMMEd().format(date);
   }
+
+  String dates({required date}) {
+    return DateFormat.Hm().format(date);
+  }
 }

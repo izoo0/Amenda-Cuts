@@ -8,7 +8,8 @@ class ReplyModel {
     this.text,
     this.userId,
   });
-
+  @override
+  String toString() => 'ReplyModel(text: $text)';
   factory ReplyModel.fromFirebase({
     required Map<String, dynamic> mapData,
   }) {
