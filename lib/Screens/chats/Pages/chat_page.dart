@@ -2,7 +2,10 @@ import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Common/Widget/Chats/chat_interaction_sheet.dart';
 import 'package:amenda_cuts/Common/Widget/Chats/chat_text_field.dart';
-import 'package:amenda_cuts/Models/message.dart';
+import 'package:amenda_cuts/Functions/APIS/apis.dart';
+import 'package:amenda_cuts/Models/chat_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:iconsax/iconsax.dart';
@@ -17,6 +20,38 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   String replyMsg = '';
+  List<ChatModel> messages = [];
+  FirebaseFirestore instance = FirebaseFirestore.instance;
+  User? user = FirebaseAuth.instance.currentUser;
+  Apis apisInstance = Apis.instance;
+  fetchMessages() {
+    instance
+        .collection("messages")
+        .doc("IRZTtnkM3jQUJ2zCOAJb")
+        .collection("chats")
+        .orderBy("timestamp")
+        .snapshots()
+        .listen((snap) {
+      List<ChatModel> newMessages = [];
+
+      for (var doc in snap.docs) {
+        if (doc.exists) {
+          String docId = doc.id;
+          Map<String, dynamic> mapData = doc.data();
+          newMessages
+              .add(ChatModel.fromFirebase(msgData: mapData, msgId: docId));
+        }
+      }
+      print("Fetched Messages: $newMessages");
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchMessages();
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -31,29 +66,29 @@ class _ChatPageState extends State<ChatPage> {
       body: Column(
         children: [
           Expanded(
-            child: GroupedListView<Message, String>(
+            child: GroupedListView<ChatModel, DateTime>(
               elements: messages,
-              groupSeparatorBuilder: (String groupByValue) =>
-                  Text(groupByValue),
+              groupSeparatorBuilder: (DateTime message) =>
+                  Text(apisInstance.dateFormat(date: message)),
               groupBy: (messages) => messages.time,
               reverse: true,
               sort: false,
-              itemBuilder: (context, Message msg) {
+              itemBuilder: (context, ChatModel msg) {
                 return SwipeTo(
                   onRightSwipe: (details) {
                     setState(() {
-                      replyMsg = msg.message;
+                      replyMsg = msg.textMessage;
                     });
                   },
                   child: Align(
-                    alignment: msg.isCurrentUser
+                    alignment: user!.uid == msg.userId
                         ? Alignment.centerRight
                         : Alignment.centerLeft,
                     child: GestureDetector(
                       onTap: () {
                         chatInteractionSheet(
                           context: context,
-                          message: msg.message,
+                          message: msg.textMessage,
                         );
                       },
                       child: Padding(
@@ -64,17 +99,17 @@ class _ChatPageState extends State<ChatPage> {
                             minWidth: width * 20,
                           ),
                           child: Card(
-                            color: msg.isCurrentUser
+                            color: user!.uid == msg.userId
                                 ? Theme.of(context).primaryColor
                                 : Theme.of(context).cardColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.only(
-                                topLeft: msg.isCurrentUser
+                                topLeft: user!.uid == msg.userId
                                     ? const Radius.circular(10)
                                     : const Radius.circular(0),
                                 topRight: const Radius.circular(10),
                                 bottomLeft: const Radius.circular(10),
-                                bottomRight: msg.isCurrentUser
+                                bottomRight: user!.uid == msg.userId
                                     ? const Radius.circular(0)
                                     : const Radius.circular(10),
                               ),
@@ -85,8 +120,8 @@ class _ChatPageState extends State<ChatPage> {
                                 vertical: 4,
                               ),
                               child: Text(
-                                msg.message,
-                                style: msg.isCurrentUser
+                                msg.textMessage,
+                                style: user!.uid == msg.userId
                                     ? Theme.of(context)
                                         .textTheme
                                         .bodySmall!
