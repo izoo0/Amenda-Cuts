@@ -4,7 +4,6 @@ import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Models/service_model.dart';
 import 'package:amenda_cuts/Screens/User/Home/favorite/favorite.dart';
 import 'package:amenda_cuts/Screens/User/Home/service/single_service_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../Common/Widget/BottomSheet/bottom_sheet.dart';
@@ -22,8 +21,8 @@ class CategoryService extends StatefulWidget {
 class _CategoryServiceState extends State<CategoryService> {
   @override
   Widget build(BuildContext context) {
-    final Apis instance = Apis.instance;
-    User? user = FirebaseAuth.instance.currentUser;
+    Apis instance = Apis.instance;
+
     SizeConfig().init(context);
     double mHeight = SizeConfig.blockSizeHeight!;
     return NewAppBackground(
@@ -75,7 +74,7 @@ class _CategoryServiceState extends State<CategoryService> {
                           bool favorite = false;
                           final documentId = data.documentId;
                           var favorites =
-                              data.favorite.contains(Apis.user?.uid);
+                              data.favorite.contains(instance.user?.uid);
                           if (favorites) {
                             favorite = true;
                           }
@@ -98,8 +97,8 @@ class _CategoryServiceState extends State<CategoryService> {
                                     serviceName: data.serviceName,
                                     price: data.servicePrice,
                                     onTap: () async {
-                                      await instance.userFavorite(
-                                          favorite, data.documentId, user!.uid);
+                                      await instance.userFavorite(favorite,
+                                          data.documentId, instance.user!.uid);
 
                                       if (context.mounted) {
                                         Navigator.pop(context);

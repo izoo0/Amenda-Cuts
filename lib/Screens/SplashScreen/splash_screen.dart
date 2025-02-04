@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
-
+  Apis instance = Apis.instance;
   @override
   void initState() {
     super.initState();
@@ -37,11 +37,10 @@ class _SplashScreenState extends State<SplashScreen>
     );
     UserDetailsProvider userDetails = Provider.of(context, listen: false);
     Future.delayed(const Duration(seconds: 6), () {
-      print('________________________________${userDetails.usersModel.role}');
-      if (Apis.user != null && userDetails.usersModel.role == "admin") {
+      if (instance.user != null && userDetails.usersModel.role == "admin") {
         Navigator.of(context)
             .pushReplacement(MaterialPageRoute(builder: (_) => const Home()));
-      } else if (Apis.user != null) {
+      } else if (instance.user != null) {
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => const BottomNavigator()));
       } else {

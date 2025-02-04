@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../../../Common/Widget/BottomSheet/bottom_sheet.dart';
@@ -15,8 +14,8 @@ Widget categoryDataSection(
     required String cate,
     required double mWidth,
     required BuildContext context}) {
-  final Apis instance = Apis.instance;
-  User? user = FirebaseAuth.instance.currentUser;
+  Apis instance = Apis.instance;
+
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,7 +62,7 @@ Widget categoryDataSection(
                               bool favorite = false;
                               final documentId = data.documentId;
                               var favorites =
-                                  data.favorite.contains(Apis.user?.uid);
+                                  data.favorite.contains(instance.user?.uid);
                               if (favorites) {
                                 favorite = true;
                               }
@@ -167,8 +166,11 @@ Widget categoryDataSection(
                                                             await instance
                                                                 .userFavorite(
                                                                     favorite,
-                                                                    data.documentId,
-                                                                    user!.uid);
+                                                                    data
+                                                                        .documentId,
+                                                                    instance
+                                                                        .user!
+                                                                        .uid);
 
                                                             if (context
                                                                 .mounted) {

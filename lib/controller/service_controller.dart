@@ -7,7 +7,8 @@ Future<List<OrderModel>> getSingleService({
   required Future<OrderModel> orderModel,
 }) async {
   OrderModel order = await orderModel;
-  bool isFavorite = serviceModel.favorite.contains(Apis.user?.uid);
+  Apis instance = Apis.instance;
+  bool isFavorite = serviceModel.favorite.contains(instance.user?.uid);
   return [
     OrderModel(
         timestamp: order.timestamp,

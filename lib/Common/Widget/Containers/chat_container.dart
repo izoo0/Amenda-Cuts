@@ -1,9 +1,16 @@
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
+import 'package:amenda_cuts/Functions/APIS/apis.dart';
+import 'package:amenda_cuts/Models/chat_home_model.dart';
 import 'package:flutter/material.dart';
 
-Widget chatContainer({required BuildContext context, required Function onTap}) {
+Widget chatContainer({
+  required ChatHomeModel chatModel,
+  required BuildContext context,
+  required Function onTap,
+}) {
   SizeConfig().init(context);
   double width = SizeConfig.blockSizeWidth!;
+  Apis instance = Apis.instance;
   return GestureDetector(
     onTap: () {
       onTap();
@@ -51,7 +58,7 @@ Widget chatContainer({required BuildContext context, required Function onTap}) {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Joseph Norge",
+                            chatModel.userName,
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           const SizedBox(
@@ -60,7 +67,7 @@ Widget chatContainer({required BuildContext context, required Function onTap}) {
                           Text(
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
-                            "Timestamps: These indicate the date and time when a message was sent or received.",
+                            chatModel.lastMessageModel.lastText,
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
                         ],
@@ -73,7 +80,8 @@ Widget chatContainer({required BuildContext context, required Function onTap}) {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            "12:00",
+                            instance.getDateString(
+                                chatModel.lastMessageModel.messageTime),
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
                           const SizedBox(
@@ -86,7 +94,7 @@ Widget chatContainer({required BuildContext context, required Function onTap}) {
                                 borderRadius:
                                     BorderRadiusDirectional.circular(12)),
                             child: Text(
-                              "2",
+                              chatModel.counts.toString(),
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
                           )

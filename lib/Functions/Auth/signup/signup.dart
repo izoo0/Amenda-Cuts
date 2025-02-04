@@ -16,12 +16,13 @@ class Signup {
       required String email,
       required String password}) async {
     try {
-      UserCredential userCredential = await Apis.auth
+      Apis instance = Apis.instance;
+      UserCredential userCredential = await instance.auth
           .createUserWithEmailAndPassword(email: email, password: password);
       User? user = userCredential.user;
 
       if (user != null) {
-        await Apis.firestore.collection('users').doc(user.uid).set({
+        await instance.firestore.collection('users').doc(user.uid).set({
           UserDetailsConstants.username: username,
           UserDetailsConstants.email: email,
           UserDetailsConstants.phoneNumber: phone

@@ -95,12 +95,17 @@ class _ChatPageState extends State<ChatPage> {
                         ),
                       ),
                     ),
-                    groupBy: (messages) => messages.time,
+                    groupBy: (messages) {
+                      return messages.time;
+                    },
                     reverse: true,
                     sort: false,
+                    floatingHeader: true,
                     itemBuilder: (context, ChatModel msg) {
                       double textWidth =
                           getTextWidth(text: msg.textMessage, context: context);
+                      double replyWidth = getTextWidth(
+                          text: msg.replyTo.text ?? '', context: context);
                       return SwipeTo(
                         onRightSwipe: (details) {
                           setState(() {
@@ -162,7 +167,10 @@ class _ChatPageState extends State<ChatPage> {
                                                 msg.replyTo.messageId!.length >
                                                     1)
                                               replyMessage(
-                                                  textWidth: textWidth,
+                                                  textWidth:
+                                                      replyWidth > textWidth
+                                                          ? replyWidth
+                                                          : textWidth,
                                                   msg: msg,
                                                   context: context),
                                             Text(
