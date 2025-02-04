@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class ChatModel {
   final List<String> favorite;
-  final ReplyModel? replyTo;
+  final ReplyModel replyTo;
   final String textMessage;
   final DateTime time;
   final String userId;
@@ -17,8 +17,7 @@ class ChatModel {
       required this.messageId,
       required this.userId});
   @override
-  String toString() =>
-      "ChatModel(favorite: $favorite, replyTo: $replyTo, textMessage: $textMessage, time: $time, messageId: $messageId, userId: $userId)";
+  String toString() => "ChatModel( replyTo: $replyTo,)";
   factory ChatModel.fromFirebase(
       {required Map<String, dynamic> msgData, required String msgId}) {
     List<String> newFavorite = [];
@@ -34,9 +33,9 @@ class ChatModel {
     if (newTime != null && newTime is Timestamp) {
       msgTime = newTime.toDate();
     }
-    ReplyModel? reply;
+    ReplyModel reply = ReplyModel();
     dynamic replyMsg = msgData['replyTo'];
-    if (replyMsg is Map) {
+    if (replyMsg != null && replyMsg is Map) {
       Map<String, dynamic> map = replyMsg as Map<String, dynamic>;
       reply = ReplyModel.fromFirebase(mapData: map);
     }
