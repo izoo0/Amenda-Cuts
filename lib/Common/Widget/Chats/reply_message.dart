@@ -1,4 +1,3 @@
-import 'package:amenda_cuts/Common/Constants/color_constants.dart';
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Models/chat_model.dart';
 import 'package:amenda_cuts/Models/other_users_model.dart';
@@ -12,6 +11,7 @@ Widget replyMessage(
     required BuildContext context,
     required double textWidth}) {
   User? user = FirebaseAuth.instance.currentUser;
+  bool isCurrentUser = FirebaseAuth.instance.currentUser != null;
   OtherUserDetailsProvider otherUserDetailsProvider =
       Provider.of(context, listen: false);
   String userNames = otherUserDetailsProvider.otherUserModel
@@ -19,6 +19,7 @@ Widget replyMessage(
               orElse: () => OtherUsersModel())
           .name ??
       '';
+  bool currentUser = false;
 
   String userName = "";
   if (msg.replyTo.userId != null && user!.uid == msg.replyTo.userId) {
@@ -34,10 +35,8 @@ Widget replyMessage(
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
       decoration: BoxDecoration(
         color: Theme.of(context).brightness == Brightness.dark
-            ? userName == "Me"
-                ? ColorConstants.appTextColor.withOpacity(0.35)
-                : Theme.of(context).scaffoldBackgroundColor.withOpacity(0.35)
-            : Theme.of(context).scaffoldBackgroundColor.withOpacity(0.35),
+            ? const Color.fromARGB(255, 255, 255, 255).withOpacity(0.25)
+            : Theme.of(context).scaffoldBackgroundColor.withOpacity(0.25),
         borderRadius: BorderRadius.circular(8),
       ),
       child: IntrinsicHeight(

@@ -9,6 +9,7 @@ class ChatModel {
   final DateTime time;
   final String userId;
   final String messageId;
+
   ChatModel(
       {required this.favorite,
       required this.replyTo,
@@ -40,11 +41,12 @@ class ChatModel {
       reply = ReplyModel.fromFirebase(mapData: map);
     }
     return ChatModel(
-        favorite: newFavorite,
-        replyTo: reply,
-        textMessage: msgData['text_message'],
-        time: msgTime,
-        userId: msgData['user_id'],
-        messageId: msgId);
+      favorite: newFavorite,
+      replyTo: reply,
+      textMessage: msgData['text_message'],
+      time: msgTime,
+      userId: msgData['user_id'],
+      messageId: msgId,
+    );
   }
 }

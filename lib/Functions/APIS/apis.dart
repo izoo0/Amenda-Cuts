@@ -138,12 +138,32 @@ class Apis {
     if (date == DateTime(1980)) {
       return '';
     } else if (date.isAfter(todayStart) && date.isBefore(endOfToday)) {
-      return DateFormat('HH:mm').format(date);
+      return DateFormat("HH:mm").format(date);
     } else if (date.isAfter(startOfYesterday) &&
         date.isBefore(endOfYesterday)) {
       return 'Yesterday';
     } else {
-      return DateFormat('d/M/yy').format(date);
+      return DateFormat("d/m/y").format(date);
+    }
+  }
+
+  String getDatesString(DateTime date) {
+    DateTime now = DateTime.now();
+    DateTime todayStart = DateTime(now.year, now.month, now.day, 0, 0, 0);
+    DateTime endOfToday =
+        DateTime(now.year, now.month, now.day, 23, 59, 59, 999);
+    DateTime startOfYesterday = todayStart.subtract(const Duration(days: 1));
+    DateTime endOfYesterday =
+        todayStart.subtract(const Duration(milliseconds: 1));
+    if (date == DateTime(1980)) {
+      return '';
+    } else if (date.isAfter(todayStart) && date.isBefore(endOfToday)) {
+      return "Today";
+    } else if (date.isAfter(startOfYesterday) &&
+        date.isBefore(endOfYesterday)) {
+      return 'Yesterday';
+    } else {
+      return DateFormat.yMMMMd().format(date);
     }
   }
 
@@ -269,5 +289,42 @@ class Apis {
 
   String dates({required date}) {
     return DateFormat.Hm().format(date);
+  }
+
+  Future<void> sendMessage(
+      {required String chatId,
+      required String message,
+      required String userId,
+      required String replyUserId,
+      required String messageId,
+      required String text,
+      required String otherUserId}) async {
+    try {
+      CollectionReference collectionReference = instance.firestore
+          .collection("messages")
+          .doc(chatId)
+          .collection('chats');
+      DocumentReference chatRef = await collectionReference.add({
+        "text_message": message,
+        "user_id": userId,
+        "replyTo": {
+          "messageId": messageId,
+          "text": text,
+          "userId": replyUserId,
+        },
+        "timestamp": Timestamp.now()
+      });
+
+      DocumentReference documentReference =
+          instance.firestore.collection("messages").doc(chatId);
+      documentReference.set({
+        "last_message_id": chatRef.id,
+        "unreadCount": {
+          otherUserId: FieldValue.increment(1),
+        },
+      }, SetOptions(merge: true));
+    } catch (e) {
+      //
+    }
   }
 }

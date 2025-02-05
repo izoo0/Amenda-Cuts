@@ -9,8 +9,6 @@ import 'package:amenda_cuts/Models/chat_home_model.dart';
 import 'package:amenda_cuts/Models/chat_model.dart';
 import 'package:amenda_cuts/Models/reply_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:swipe_to/swipe_to.dart';
@@ -26,12 +24,11 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   ReplyModel replyMsg = ReplyModel();
   List<ChatModel> messages = [];
-  FirebaseFirestore instance = FirebaseFirestore.instance;
-  User? user = FirebaseAuth.instance.currentUser;
   Apis apisInstance = Apis.instance;
+  late TextEditingController controller;
   String chatId = '';
   fetchMessages() {
-    instance
+    apisInstance.firestore
         .collection("messages")
         .doc(chatId)
         .collection("chats")
@@ -57,8 +54,15 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void initState() {
     super.initState();
+    controller = TextEditingController();
     chatId = widget.chatHomeModel.chatId;
     fetchMessages();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
   }
 
   @override
@@ -80,6 +84,8 @@ class _ChatPageState extends State<ChatPage> {
             backgroundColor:
                 Theme.of(context).scaffoldBackgroundColor.withOpacity(0.6),
             appBar: AppBar(
+              elevation: 0,
+              scrolledUnderElevation: 0,
               backgroundColor: Theme.of(context).cardColor.withOpacity(0.8),
               title: Row(
                 children: [
@@ -125,7 +131,7 @@ class _ChatPageState extends State<ChatPage> {
                 Expanded(
                   child: GroupedListView<ChatModel, DateTime>(
                     elements: messages,
-                    groupSeparatorBuilder: (DateTime message) => Center(
+                    groupHeaderBuilder: (ChatModel message) => Center(
                       child: Card(
                         color: Theme.of(context).cardColor,
                         shape: RoundedRectangleBorder(
@@ -133,16 +139,19 @@ class _ChatPageState extends State<ChatPage> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 4.0, vertical: 2.0),
-                          child: Text(apisInstance.dateFormat(date: message)),
+                          child:
+                              Text(apisInstance.getDatesString(message.time)),
                         ),
                       ),
                     ),
                     groupBy: (messages) {
-                      return messages.time;
+                      return DateTime(messages.time.day, messages.time.month,
+                          messages.time.year);
                     },
                     reverse: true,
                     sort: false,
                     floatingHeader: true,
+                    order: GroupedListOrder.DESC,
                     itemBuilder: (context, ChatModel msg) {
                       double textWidth =
                           getTextWidth(text: msg.textMessage, context: context);
@@ -152,15 +161,18 @@ class _ChatPageState extends State<ChatPage> {
                         onRightSwipe: (details) {
                           setState(() {
                             replyMsg = ReplyModel(
-                                text: msg.textMessage, userId: msg.userId);
+                                text: msg.textMessage,
+                                userId: msg.userId,
+                                messageId: msg.messageId);
                           });
                         },
                         child: Align(
-                          alignment: user!.uid == msg.userId
+                          alignment: apisInstance.user!.uid == msg.userId
                               ? Alignment.centerRight
                               : Alignment.centerLeft,
                           child: GestureDetector(
                             onTap: () {
+                              print(msg.userId);
                               chatInteractionSheet(
                                 context: context,
                                 message: msg.textMessage,
@@ -169,27 +181,31 @@ class _ChatPageState extends State<ChatPage> {
                             child: Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Container(
-                                constraints: BoxConstraints(
-                                  maxWidth: width * 80,
-                                  minWidth: width * 20,
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Card(
-                                      color: user!.uid == msg.userId
-                                          ? Theme.of(context).primaryColor
-                                          : Theme.of(context).cardColor,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Container(
+                                    constraints: BoxConstraints(
+                                      maxWidth: width * 80,
+                                      minWidth: width * 20,
+                                      minHeight: width * 8,
+                                    ),
+                                    child: Card(
+                                      color:
+                                          apisInstance.user!.uid == msg.userId
+                                              ? Theme.of(context).primaryColor
+                                              : Theme.of(context).cardColor,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.only(
-                                          topLeft: user!.uid == msg.userId
+                                          topLeft: apisInstance.user!.uid ==
+                                                  msg.userId
                                               ? const Radius.circular(10)
                                               : const Radius.circular(0),
                                           topRight: const Radius.circular(10),
                                           bottomLeft: const Radius.circular(10),
-                                          bottomRight: user!.uid == msg.userId
+                                          bottomRight: apisInstance.user!.uid ==
+                                                  msg.userId
                                               ? const Radius.circular(0)
                                               : const Radius.circular(10),
                                         ),
@@ -217,7 +233,8 @@ class _ChatPageState extends State<ChatPage> {
                                                   context: context),
                                             Text(
                                               msg.textMessage,
-                                              style: user!.uid == msg.userId
+                                              style: apisInstance.user!.uid ==
+                                                      msg.userId
                                                   ? Theme.of(context)
                                                       .textTheme
                                                       .bodySmall!
@@ -231,13 +248,13 @@ class _ChatPageState extends State<ChatPage> {
                                         ),
                                       ),
                                     ),
-                                    Text(
-                                      apisInstance.dates(date: msg.time),
-                                      style:
-                                          Theme.of(context).textTheme.bodySmall,
-                                    )
-                                  ],
-                                ),
+                                  ),
+                                  Text(
+                                    apisInstance.dates(date: msg.time),
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall,
+                                  )
+                                ],
                               ),
                             ),
                           ),
@@ -247,6 +264,24 @@ class _ChatPageState extends State<ChatPage> {
                   ),
                 ),
                 chatTextField(
+                  controller: controller,
+                  onTap: () async {
+                    await apisInstance.sendMessage(
+                      replyUserId: replyMsg.userId ?? '',
+                      otherUserId: widget.chatHomeModel.otherUserId,
+                      chatId: chatId,
+                      message: controller.text.trim(),
+                      userId: apisInstance.user!.uid,
+                      messageId: replyMsg.messageId != null
+                          ? replyMsg.messageId ?? ""
+                          : "",
+                      text: replyMsg.text != null ? replyMsg.text ?? '' : "",
+                    );
+                    controller.clear();
+                    setState(() {
+                      replyMsg = ReplyModel();
+                    });
+                  },
                   child: replyWidget(
                     msg: replyMsg,
                     context: context,
