@@ -9,6 +9,7 @@ import 'package:amenda_cuts/Models/chat_home_model.dart';
 import 'package:amenda_cuts/Models/chat_model.dart';
 import 'package:amenda_cuts/Models/reply_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:swipe_to/swipe_to.dart';
@@ -45,10 +46,21 @@ class _ChatPageState extends State<ChatPage> {
               .add(ChatModel.fromFirebase(msgData: mapData, msgId: docId));
           setState(() {
             messages = newMessages;
+            updateCount();
           });
         }
       }
     });
+  }
+
+  updateCount() {
+    DocumentReference documentReference =
+        apisInstance.firestore.collection('messages').doc(chatId);
+    documentReference.set({
+      "unreadCount": {
+        apisInstance.user!.uid: 0,
+      }
+    }, SetOptions(merge: true));
   }
 
   @override

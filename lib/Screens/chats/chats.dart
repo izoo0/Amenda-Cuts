@@ -112,7 +112,7 @@ class _ChatsState extends State<Chats> {
                             child: CircularProgressIndicator(),
                           );
                         } else {
-                          return Text("No data available");
+                          return const Text("No data available");
                         }
                       });
                 } else if (snapshot.connectionState ==
@@ -121,7 +121,7 @@ class _ChatsState extends State<Chats> {
                     child: CircularProgressIndicator(),
                   );
                 } else {
-                  return Text("data");
+                  return const Text("data");
                 }
               }),
         );

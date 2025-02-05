@@ -102,20 +102,22 @@ Widget chatContainer({
                           const SizedBox(
                             height: 6,
                           ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 4),
-                            decoration: BoxDecoration(
-                                color: Theme.of(context).primaryColor,
-                                borderRadius:
-                                    BorderRadiusDirectional.circular(12)),
-                            child: Text(
-                              chatModel.counts.toString(),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .apply(color: Colors.black),
-                            ),
-                          )
+                          if (chatModel.counts > 0)
+                            Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 4),
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context).primaryColor,
+                                  borderRadius:
+                                      BorderRadiusDirectional.circular(12)),
+                              child: Text(
+                                chatModel.counts.toString(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .apply(color: Colors.black),
+                              ),
+                            )
                         ],
                       ),
                     )
