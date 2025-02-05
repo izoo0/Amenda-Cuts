@@ -48,7 +48,7 @@ Widget replyMessage(
             Container(
               width: 3,
               decoration: const BoxDecoration(
-                  color: Colors.red,
+                  color: Colors.redAccent,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(4),
                     bottomLeft: Radius.circular(4),
@@ -66,7 +66,7 @@ Widget replyMessage(
                     style: Theme.of(context)
                         .textTheme
                         .bodySmall!
-                        .apply(color: Colors.red, fontWeightDelta: 2),
+                        .apply(color: Colors.redAccent, fontWeightDelta: 2),
                   ),
                   Text(
                     msg.replyTo.text ?? '',

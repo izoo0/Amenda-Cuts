@@ -56,6 +56,7 @@ Container upcomingContainer(OrderModel data, BuildContext context,
             children: [
               Container(
                 width: mWidth * 28,
+                height: mWidth * 28,
                 decoration:
                     BoxDecoration(borderRadius: BorderRadius.circular(10)),
                 child: ClipRRect(

@@ -60,6 +60,7 @@ dependencies:
   dotted_border: ^2.1.0
   grouped_list: ^6.0.0
   swipe_to: ^1.0.6
+  shimmer: ^3.0.0
   
 
   

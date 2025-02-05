@@ -20,11 +20,17 @@ class Chats extends StatefulWidget {
 }
 
 class _ChatsState extends State<Chats> {
+  Apis instance = Apis.instance;
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     double width = SizeConfig.blockSizeWidth!;
-    Apis instance = Apis.instance;
+
     return NewAppBackground(
       color: Theme.of(context).scaffoldBackgroundColor,
       child: Consumer<UserDetailsProvider>(
@@ -61,39 +67,62 @@ class _ChatsState extends State<Chats> {
           body: StreamBuilder(
               stream: FirebaseFirestore.instance
                   .collection('messages')
-                  // .where('participant', arrayContains: user!.uid)
+                  .where('participant', arrayContains: instance.user!.uid)
                   .snapshots(),
               builder: (context, snapshot) {
-                var chats = snapshot.data?.docs;
-                List<Future<ChatHomeModel>> chatHomeModel =
-                    chats!.map((docSnap) {
-                  Map<String, dynamic> data = docSnap.data();
-                  String docId = docSnap.id;
+                if (snapshot.data != null && snapshot.hasData) {
+                  var chats = snapshot.data?.docs;
+                  List<Future<ChatHomeModel>> chatHomeModel =
+                      chats!.map((docSnap) {
+                    Map<String, dynamic> data = docSnap.data();
+                    String docId = docSnap.id;
 
-                  return ChatHomeModel.chatHomeData(
-                      chatData: data,
-                      chatId: docId,
-                      context: context,
-                      currentUser: instance.user!.uid);
-                }).toList();
+                    return ChatHomeModel.chatHomeData(
+                        chatData: data,
+                        chatId: docId,
+                        context: context,
+                        currentUser: instance.user!.uid);
+                  }).toList();
 
-                return FutureBuilder<List<ChatHomeModel>>(
-                    future: Future.wait(chatHomeModel),
-                    builder: (context, snap) {
-                      List<ChatHomeModel> chatData = snap.data!;
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: chatData.length,
-                        itemBuilder: (context, index) {
-                          final data = chatData[index];
-                          return chatContainer(
-                            chatModel: data,
-                            context: context,
-                            onTap: () {},
+                  return FutureBuilder<List<ChatHomeModel>>(
+                      future: Future.wait(chatHomeModel),
+                      builder: (context, snap) {
+                        if (snap.connectionState == ConnectionState.done) {
+                          List<ChatHomeModel> chatData = snap.data!;
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: chatData.length,
+                            itemBuilder: (context, index) {
+                              final data = chatData[index];
+                              return chatContainer(
+                                chatModel: data,
+                                context: context,
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => ChatPage(
+                                            chatHomeModel: data,
+                                          )));
+                                },
+                              );
+                            },
                           );
-                        },
-                      );
-                    });
+                        } else if (snap.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else {
+                          return Text("No data available");
+                        }
+                      });
+                } else if (snapshot.connectionState ==
+                    ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  return Text("data");
+                }
               }),
         );
       }),

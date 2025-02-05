@@ -1,6 +1,7 @@
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Models/chat_home_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 Widget chatContainer({
@@ -42,6 +43,20 @@ Widget chatContainer({
                       width: 1,
                       color: Theme.of(context).primaryColor,
                     )),
+                child: chatModel.profile.isNotEmpty &&
+                        (chatModel.profile.length) > 1
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: CachedNetworkImage(
+                          imageUrl: chatModel.profile,
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    : Center(
+                        child: Text(
+                        chatModel.userName[0],
+                        style: Theme.of(context).textTheme.bodySmall,
+                      )),
               ),
               const SizedBox(
                 width: 6,
@@ -52,7 +67,7 @@ Widget chatContainer({
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
-                      width: width * 72,
+                      width: width * 68,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -74,7 +89,7 @@ Widget chatContainer({
                       ),
                     ),
                     SizedBox(
-                      width: width * 10,
+                      width: width * 16,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -95,7 +110,10 @@ Widget chatContainer({
                                     BorderRadiusDirectional.circular(12)),
                             child: Text(
                               chatModel.counts.toString(),
-                              style: Theme.of(context).textTheme.bodySmall,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .apply(color: Colors.black),
                             ),
                           )
                         ],

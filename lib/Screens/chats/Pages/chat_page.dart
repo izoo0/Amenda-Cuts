@@ -5,8 +5,10 @@ import 'package:amenda_cuts/Common/Widget/Chats/chat_text_field.dart';
 import 'package:amenda_cuts/Common/Widget/Chats/reply_message.dart';
 import 'package:amenda_cuts/Common/Widget/Chats/reply_widget.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
+import 'package:amenda_cuts/Models/chat_home_model.dart';
 import 'package:amenda_cuts/Models/chat_model.dart';
 import 'package:amenda_cuts/Models/reply_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +16,8 @@ import 'package:grouped_list/grouped_list.dart';
 import 'package:swipe_to/swipe_to.dart';
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({super.key});
+  final ChatHomeModel chatHomeModel;
+  const ChatPage({super.key, required this.chatHomeModel});
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -26,10 +29,11 @@ class _ChatPageState extends State<ChatPage> {
   FirebaseFirestore instance = FirebaseFirestore.instance;
   User? user = FirebaseAuth.instance.currentUser;
   Apis apisInstance = Apis.instance;
+  String chatId = '';
   fetchMessages() {
     instance
         .collection("messages")
-        .doc("IRZTtnkM3jQUJ2zCOAJb")
+        .doc(chatId)
         .collection("chats")
         .orderBy("timestamp", descending: true)
         .snapshots()
@@ -53,6 +57,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void initState() {
     super.initState();
+    chatId = widget.chatHomeModel.chatId;
     fetchMessages();
   }
 
@@ -76,7 +81,44 @@ class _ChatPageState extends State<ChatPage> {
                 Theme.of(context).scaffoldBackgroundColor.withOpacity(0.6),
             appBar: AppBar(
               backgroundColor: Theme.of(context).cardColor.withOpacity(0.8),
-              title: const Text("Hello"),
+              title: Row(
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          width: 1,
+                          color: Theme.of(context).primaryColor,
+                        )),
+                    child: widget.chatHomeModel.profile.isNotEmpty &&
+                            (widget.chatHomeModel.profile.length) > 1
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(30),
+                            child: CachedNetworkImage(
+                              imageUrl: widget.chatHomeModel.profile,
+                              fit: BoxFit.cover,
+                            ))
+                        : Center(
+                            child: Text(
+                              widget.chatHomeModel.userName[0],
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                          ),
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  Text(
+                    widget.chatHomeModel.userName,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall!
+                        .apply(fontWeightDelta: 3),
+                  )
+                ],
+              ),
             ),
             body: Column(
               children: [

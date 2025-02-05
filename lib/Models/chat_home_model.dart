@@ -69,8 +69,8 @@ class ChatHomeModel {
     OtherUserDetailsProvider otherUserDetailsProvider =
         Provider.of<OtherUserDetailsProvider>(context, listen: false);
     List<OtherUsersModel> users = otherUserDetailsProvider.otherUserModel;
-    List<String> parts = chatData['participant'] ?? [];
-    print("___________________________${chatData['unreadCount']}");
+    final parts = chatData['participant'] ?? [];
+    print("___________________________${chatData["participant"]}");
     if (parts.length > 1) {
       List<String> allParties = [];
 
