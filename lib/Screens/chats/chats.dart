@@ -1,8 +1,11 @@
 import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
+import 'package:amenda_cuts/Functions/APIS/apis.dart';
+import 'package:amenda_cuts/Models/chat_home_model.dart';
 import 'package:amenda_cuts/Provider/user_details_provider.dart';
 import 'package:amenda_cuts/Screens/chats/Pages/chat_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,10 +20,17 @@ class Chats extends StatefulWidget {
 }
 
 class _ChatsState extends State<Chats> {
+  Apis instance = Apis.instance;
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     double width = SizeConfig.blockSizeWidth!;
+
     return NewAppBackground(
       color: Theme.of(context).scaffoldBackgroundColor,
       child: Consumer<UserDetailsProvider>(
@@ -54,19 +64,66 @@ class _ChatsState extends State<Chats> {
               ],
             ),
           ),
-          body: ListView.builder(
-            shrinkWrap: true,
-            itemCount: 2,
-            itemBuilder: (context, index) {
-              return chatContainer(
-                context: context,
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const ChatPage()));
-                },
-              );
-            },
-          ),
+          body: StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection('messages')
+                  .where('participant', arrayContains: instance.user!.uid)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.data != null && snapshot.hasData) {
+                  var chats = snapshot.data?.docs;
+                  List<Future<ChatHomeModel>> chatHomeModel =
+                      chats!.map((docSnap) {
+                    Map<String, dynamic> data = docSnap.data();
+                    String docId = docSnap.id;
+
+                    return ChatHomeModel.chatHomeData(
+                        chatData: data,
+                        chatId: docId,
+                        context: context,
+                        currentUser: instance.user!.uid);
+                  }).toList();
+
+                  return FutureBuilder<List<ChatHomeModel>>(
+                      future: Future.wait(chatHomeModel),
+                      builder: (context, snap) {
+                        if (snap.connectionState == ConnectionState.done) {
+                          List<ChatHomeModel> chatData = snap.data!;
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: chatData.length,
+                            itemBuilder: (context, index) {
+                              final data = chatData[index];
+                              return chatContainer(
+                                chatModel: data,
+                                context: context,
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => ChatPage(
+                                            chatHomeModel: data,
+                                          )));
+                                },
+                              );
+                            },
+                          );
+                        } else if (snap.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else {
+                          return Text("No data available");
+                        }
+                      });
+                } else if (snapshot.connectionState ==
+                    ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  return Text("data");
+                }
+              }),
         );
       }),
     );

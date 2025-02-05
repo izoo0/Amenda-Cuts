@@ -12,13 +12,12 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
-class Apis extends ChangeNotifier {
+class Apis {
   static Apis instance = Apis._constructor();
   Apis._constructor();
-  static final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  static final FirebaseAuth auth = FirebaseAuth.instance;
-  static final user = FirebaseAuth.instance.currentUser;
-
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  User? user = FirebaseAuth.instance.currentUser;
+  FirebaseAuth auth = FirebaseAuth.instance;
   Stream<List<ServiceModel>> fetchServices() {
     return firestore
         .collection(FirebaseCollectionConstant.serviceCollection)
@@ -266,5 +265,9 @@ class Apis extends ChangeNotifier {
 
   String dateFormat({required date}) {
     return DateFormat.yMMMEd().format(date);
+  }
+
+  String dates({required date}) {
+    return DateFormat.Hm().format(date);
   }
 }

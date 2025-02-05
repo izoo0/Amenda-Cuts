@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../../../Common/Widget/BottomSheet/bottom_sheet.dart';
 import '../../../../Common/Widget/Containers/service_container.dart';
@@ -10,8 +9,8 @@ import '../favorite/favorite.dart';
 import '../service/single_service_screen.dart';
 
 Widget allServiceSection({required double mHeight}) {
-  final Apis instance = Apis.instance;
-  User? user = FirebaseAuth.instance.currentUser;
+  Apis instance = Apis.instance;
+
   return StreamBuilder<List<ServiceModel>>(
       stream: instance.fetchServices(),
       builder: (context, snapshot) {
@@ -37,7 +36,7 @@ Widget allServiceSection({required double mHeight}) {
 
                     bool favorite = false;
                     final documentId = data.documentId;
-                    var favorites = data.favorite.contains(Apis.user?.uid);
+                    var favorites = data.favorite.contains(instance.user?.uid);
                     if (favorites) {
                       favorite = true;
                     }
@@ -59,8 +58,8 @@ Widget allServiceSection({required double mHeight}) {
                               serviceName: data.serviceName,
                               price: data.servicePrice,
                               onTap: () async {
-                                await instance.userFavorite(
-                                    favorite, data.documentId, user!.uid);
+                                await instance.userFavorite(favorite,
+                                    data.documentId, instance.user!.uid);
 
                                 if (context.mounted) {
                                   Navigator.pop(context);

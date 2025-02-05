@@ -4,7 +4,7 @@ class ColorConstants {
   ColorConstants._();
 
   static const appBackground = Color(0xff111111);
-  static const blackBackground = Color(0xff353535);
+  static const blackBackground = Color(0xff1D1D1D);
   static const appColor = Colors.amber;
   static const blurColor = Color.fromARGB(101, 0, 0, 0);
   static const appTextColor = Color(0xfff5f5f5);

@@ -1,9 +1,17 @@
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
+import 'package:amenda_cuts/Functions/APIS/apis.dart';
+import 'package:amenda_cuts/Models/chat_home_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-Widget chatContainer({required BuildContext context, required Function onTap}) {
+Widget chatContainer({
+  required ChatHomeModel chatModel,
+  required BuildContext context,
+  required Function onTap,
+}) {
   SizeConfig().init(context);
   double width = SizeConfig.blockSizeWidth!;
+  Apis instance = Apis.instance;
   return GestureDetector(
     onTap: () {
       onTap();
@@ -35,6 +43,20 @@ Widget chatContainer({required BuildContext context, required Function onTap}) {
                       width: 1,
                       color: Theme.of(context).primaryColor,
                     )),
+                child: chatModel.profile.isNotEmpty &&
+                        (chatModel.profile.length) > 1
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: CachedNetworkImage(
+                          imageUrl: chatModel.profile,
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    : Center(
+                        child: Text(
+                        chatModel.userName[0],
+                        style: Theme.of(context).textTheme.bodySmall,
+                      )),
               ),
               const SizedBox(
                 width: 6,
@@ -45,13 +67,13 @@ Widget chatContainer({required BuildContext context, required Function onTap}) {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
-                      width: width * 72,
+                      width: width * 68,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Joseph Norge",
+                            chatModel.userName,
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           const SizedBox(
@@ -60,20 +82,21 @@ Widget chatContainer({required BuildContext context, required Function onTap}) {
                           Text(
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
-                            "Timestamps: These indicate the date and time when a message was sent or received.",
+                            chatModel.lastMessageModel.lastText,
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
                         ],
                       ),
                     ),
                     SizedBox(
-                      width: width * 10,
+                      width: width * 16,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            "12:00",
+                            instance.getDateString(
+                                chatModel.lastMessageModel.messageTime),
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
                           const SizedBox(
@@ -86,8 +109,11 @@ Widget chatContainer({required BuildContext context, required Function onTap}) {
                                 borderRadius:
                                     BorderRadiusDirectional.circular(12)),
                             child: Text(
-                              "2",
-                              style: Theme.of(context).textTheme.bodySmall,
+                              chatModel.counts.toString(),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .apply(color: Colors.black),
                             ),
                           )
                         ],

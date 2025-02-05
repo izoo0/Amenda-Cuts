@@ -13,7 +13,8 @@ class Login {
   static Future signInWithEmailAndPassword(BuildContext context,
       {required String email, required String password}) async {
     try {
-      UserCredential result = await Apis.auth
+      Apis instance = Apis.instance;
+      UserCredential result = await instance.auth
           .signInWithEmailAndPassword(email: email, password: password);
       UserDetailsProvider userDetailsProvider =
           Provider.of<UserDetailsProvider>(context, listen: false);

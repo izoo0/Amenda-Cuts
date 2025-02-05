@@ -14,7 +14,7 @@ class ChatInteractionList {
 
 List<ChatInteractionList> reactionList = [
   ChatInteractionList(
-    leading: const Icon(Iconsax.smileys1),
+    leading: const Icon(Iconsax.smileys),
     title: "React",
   ),
   ChatInteractionList(
@@ -41,7 +41,7 @@ List<ChatInteractionList> reactionList = [
     title: "Edit",
   ),
   ChatInteractionList(
-    leading: const Icon(Icons.star_border),
+    leading: const Icon(Iconsax.sms_star),
     title: "Favorite",
   )
 ];
