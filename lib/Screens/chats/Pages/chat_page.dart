@@ -1,8 +1,8 @@
 import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
-import 'package:amenda_cuts/Common/Widget/Chats/chat_interaction_sheet.dart';
 import 'package:amenda_cuts/Common/Widget/Chats/chat_text_field.dart';
-import 'package:amenda_cuts/Common/Widget/Chats/reply_message.dart';
+import 'package:amenda_cuts/Common/Widget/Chats/deleted_widget.dart';
+import 'package:amenda_cuts/Common/Widget/Chats/message_card.dart';
 import 'package:amenda_cuts/Common/Widget/Chats/reply_widget.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Models/chat_home_model.dart';
@@ -12,7 +12,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
-import 'package:swipe_to/swipe_to.dart';
 
 class ChatPage extends StatefulWidget {
   final ChatHomeModel chatHomeModel;
@@ -44,6 +43,7 @@ class _ChatPageState extends State<ChatPage> {
           Map<String, dynamic> mapData = doc.data();
           newMessages
               .add(ChatModel.fromFirebase(msgData: mapData, msgId: docId));
+
           setState(() {
             messages = newMessages;
             updateCount();
@@ -171,117 +171,35 @@ class _ChatPageState extends State<ChatPage> {
                           getTextWidth(text: msg.textMessage, context: context);
                       double replyWidth = getTextWidth(
                           text: msg.replyTo.text ?? '', context: context);
-                      return SwipeTo(
-                        onRightSwipe: (details) {
-                          setState(() {
-                            replyMsg = ReplyModel(
-                                text: msg.textMessage,
-                                userId: msg.userId,
-                                messageId: msg.messageId);
-                          });
-                        },
-                        child: Align(
-                          alignment: apisInstance.user!.uid == msg.userId
-                              ? Alignment.centerRight
-                              : Alignment.centerLeft,
-                          child: GestureDetector(
-                            onTap: () {
-                              chatInteractionSheet(
-                                  chatId: widget.chatHomeModel.chatId,
-                                  context: context,
-                                  message: msg,
-                                  replyOnTap: () {
-                                    setState(() {
-                                      replyMsg = ReplyModel(
-                                          messageId: msg.messageId,
-                                          userId: msg.userId,
-                                          text: msg.textMessage);
-                                    });
-                                    Navigator.pop(context);
-                                  });
-                            },
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Container(
-                                    constraints: BoxConstraints(
-                                      maxWidth: width * 80,
-                                      minWidth: width * 20,
-                                      minHeight: width * 8,
-                                    ),
-                                    child: Card(
-                                      color:
-                                          apisInstance.user!.uid == msg.userId
-                                              ? Theme.of(context).primaryColor
-                                              : Theme.of(context).cardColor,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: apisInstance.user!.uid ==
-                                                  msg.userId
-                                              ? const Radius.circular(10)
-                                              : const Radius.circular(0),
-                                          topRight: const Radius.circular(10),
-                                          bottomLeft: const Radius.circular(10),
-                                          bottomRight: apisInstance.user!.uid ==
-                                                  msg.userId
-                                              ? const Radius.circular(0)
-                                              : const Radius.circular(10),
-                                        ),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 4,
-                                          vertical: 4,
-                                        ),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            if (msg.replyTo.messageId != null &&
-                                                msg.replyTo.messageId!.length >
-                                                    1)
-                                              replyMessage(
-                                                  textWidth:
-                                                      replyWidth > textWidth
-                                                          ? replyWidth
-                                                          : textWidth,
-                                                  msg: msg,
-                                                  context: context),
-                                            Text(
-                                              msg.textMessage,
-                                              style: apisInstance.user!.uid ==
-                                                      msg.userId
-                                                  ? Theme.of(context)
-                                                      .textTheme
-                                                      .bodySmall!
-                                                      .apply(
-                                                          color: Colors.black)
-                                                  : Theme.of(context)
-                                                      .textTheme
-                                                      .bodySmall,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    apisInstance.dates(date: msg.time),
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
+                      bool isDeleted =
+                          msg.deleted.contains(apisInstance.user!.uid);
+
+                      bool deleteForMe = msg.isDeleted;
+                      return deleteForMe || isDeleted
+                          ? deletedCard(context: context, msg: msg)
+                          : messageCard(
+                              msg: msg,
+                              context: context,
+                              chatId: chatId,
+                              replyWidth: replyWidth,
+                              textWidth: textWidth,
+                              onSwipe: (details) {
+                                setState(() {
+                                  replyMsg = ReplyModel(
+                                      text: msg.textMessage,
+                                      userId: msg.userId,
+                                      messageId: msg.messageId);
+                                });
+                              },
+                              onReplyTap: () {
+                                setState(() {
+                                  replyMsg = ReplyModel(
+                                      messageId: msg.messageId,
+                                      userId: msg.userId,
+                                      text: msg.textMessage);
+                                });
+                                Navigator.pop(context);
+                              });
                     },
                   ),
                 ),

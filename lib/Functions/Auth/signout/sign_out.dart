@@ -15,7 +15,6 @@ class SignOut {
   Future<void> signOut(BuildContext context) async {
     try {
       await FirebaseAuth.instance.signOut();
-      Navigator.pop(context);
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const OnBoardingTwo()),
       );

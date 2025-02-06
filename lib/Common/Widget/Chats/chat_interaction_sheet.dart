@@ -1,8 +1,11 @@
 import 'package:amenda_cuts/Common/Widget/Alerts/delete_alert.dart';
+import 'package:amenda_cuts/Common/Widget/Alerts/snack_alert.dart';
 import 'package:amenda_cuts/Common/Widget/Chats/chat_interaction_action.dart';
+import 'package:amenda_cuts/Common/Widget/Preloader/loading_widget.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Models/chat_model.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 
 chatInteractionSheet(
     {required BuildContext context,
@@ -74,17 +77,34 @@ chatInteractionSheet(
                               } else if (data.title == "Reply") {
                                 replyOnTap();
                               } else if (data.title == "Delete") {
+                                if (message.userId == instance.user!.uid) {
+                                  Navigator.pop(context);
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return DeleteAnimatedAlert(
+                                          userId: message.userId,
+                                          title: "Delete Message",
+                                          body: "Hello there",
+                                          chatId: chatId,
+                                          messageId: message.messageId,
+                                        );
+                                      });
+                                }
+                              }
+                              if (context.mounted) {
                                 Navigator.pop(context);
-                                showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return DeleteAnimatedAlert(
-                                        title: "Delete Message",
-                                        body: "Hello there",
-                                        chatId: chatId,
-                                        messageId: message.messageId,
-                                      );
-                                    });
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    snackAlert(
+                                        context: context,
+                                        info: "Deleting",
+                                        child: loadingWidget(),
+                                        icon: Iconsax.trash));
+                                await instance.deleteForMe(
+                                    messageId: message.messageId,
+                                    chatId: chatId,
+                                    userId: instance.user!.uid,
+                                    context: context);
                               }
                             },
                             leading: data.leading,

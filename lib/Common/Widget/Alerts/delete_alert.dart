@@ -9,13 +9,14 @@ class DeleteAnimatedAlert extends StatefulWidget {
   final String body;
   final String chatId;
   final String messageId;
-  const DeleteAnimatedAlert({
-    super.key,
-    required this.title,
-    required this.body,
-    required this.chatId,
-    required this.messageId,
-  });
+  final String userId;
+  const DeleteAnimatedAlert(
+      {super.key,
+      required this.title,
+      required this.body,
+      required this.chatId,
+      required this.messageId,
+      required this.userId});
 
   @override
   State<DeleteAnimatedAlert> createState() => _DeleteAnimatedAlertState();
@@ -87,11 +88,13 @@ class _DeleteAnimatedAlertState extends State<DeleteAnimatedAlert>
                             info: "Deleting",
                             child: loadingWidget(),
                             icon: Iconsax.trash));
+
                         await instance.deleteForEveryOne(
                           messageId: widget.messageId,
                           chatId: widget.chatId,
                           context: context,
                         );
+                        await _controller.reverse();
                         if (context.mounted) {
                           Navigator.pop(context);
                         }
@@ -103,7 +106,24 @@ class _DeleteAnimatedAlertState extends State<DeleteAnimatedAlert>
                     deleteItems(
                       context: context,
                       title: "Delete For Me",
-                      onTap: () async {},
+                      onTap: () async {
+                        ScaffoldMessenger.of(context).showSnackBar(snackAlert(
+                            context: context,
+                            info: "Deleting",
+                            child: loadingWidget(),
+                            icon: Iconsax.trash));
+
+                        instance.deleteForMe(
+                          messageId: widget.messageId,
+                          chatId: widget.chatId,
+                          userId: widget.userId,
+                          context: context,
+                        );
+                        await _controller.reverse();
+                        if (context.mounted) {
+                          Navigator.pop(context);
+                        }
+                      },
                     ),
                     Divider(
                       color: Theme.of(context).cardColor,

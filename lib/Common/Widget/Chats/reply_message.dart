@@ -71,7 +71,7 @@ Widget replyMessage(
                     msg.replyTo.text ?? '',
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: user!.uid == msg.userId
+                    style: isCurrentUser
                         ? Theme.of(context)
                             .textTheme
                             .bodySmall!

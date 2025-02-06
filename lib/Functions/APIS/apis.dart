@@ -1,6 +1,4 @@
 // ignore_for_file: unnecessary_cast
-
-import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Common/Widget/Alerts/alerts.dart';
 import 'package:amenda_cuts/Common/Constants/FirebaseConstants/firebase_collection_constant.dart';
 import 'package:amenda_cuts/Common/Widget/Alerts/snack_alert.dart';
@@ -355,6 +353,41 @@ class Apis {
       await documentReference.set(
         {
           "isDeleted": true,
+        },
+        SetOptions(merge: true),
+      );
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(snackAlert(
+          context: context,
+          info: "Message has been deleted",
+          icon: Iconsax.tick_circle,
+        ));
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(snackAlert(
+          context: context,
+          info: e.toString(),
+          icon: Iconsax.close_circle,
+        ));
+      }
+    }
+  }
+
+  Future<void> deleteForMe(
+      {required String messageId,
+      required String chatId,
+      required String userId,
+      required BuildContext context}) async {
+    try {
+      DocumentReference documentReference = firestore
+          .collection("messages")
+          .doc(chatId)
+          .collection("chats")
+          .doc(messageId);
+      await documentReference.set(
+        {
+          "deleted": FieldValue.arrayUnion([userId]),
         },
         SetOptions(merge: true),
       );
