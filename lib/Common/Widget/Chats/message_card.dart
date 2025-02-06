@@ -1,9 +1,12 @@
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
+import 'package:amenda_cuts/Common/Widget/Alerts/snack_alert.dart';
 import 'package:amenda_cuts/Common/Widget/Chats/chat_interaction_sheet.dart';
 import 'package:amenda_cuts/Common/Widget/Chats/reply_message.dart';
+import 'package:amenda_cuts/Common/Widget/Preloader/loading_widget.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Models/chat_model.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:swipe_to/swipe_to.dart';
 
 Widget messageCard(
@@ -13,6 +16,7 @@ Widget messageCard(
     required double replyWidth,
     required double textWidth,
     required Function onSwipe,
+    required bool favorite,
     required Function onReplyTap}) {
   Apis apisInstance = Apis.instance;
   SizeConfig().init(context);
@@ -28,6 +32,7 @@ Widget messageCard(
       child: GestureDetector(
         onTap: () {
           chatInteractionSheet(
+              isFavorite: favorite,
               chatId: chatId,
               context: context,
               message: msg,
@@ -94,9 +99,40 @@ Widget messageCard(
                   ),
                 ),
               ),
-              Text(
-                apisInstance.dates(date: msg.time),
-                style: Theme.of(context).textTheme.bodySmall,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  if (favorite)
+                    GestureDetector(
+                        onTap: () async {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            snackAlert(
+                              context: context,
+                              info: "Favorite",
+                              child: loadingWidget(),
+                              icon: Iconsax.star,
+                            ),
+                          );
+                          await apisInstance.favorite(
+                              isFavorite: favorite,
+                              messageId: msg.messageId,
+                              chatId: chatId,
+                              userId: apisInstance.user!.uid,
+                              context: context);
+                        },
+                        child: const Icon(
+                          Iconsax.star,
+                          size: 14,
+                        )),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  Text(
+                    apisInstance.dates(date: msg.time),
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ],
               )
             ],
           ),

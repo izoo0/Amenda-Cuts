@@ -21,7 +21,7 @@ class ChatModel {
       required this.deleted,
       required this.userId});
   @override
-  String toString() => "ChatModel( replyTo: $replyTo, delete:$deleted)";
+  String toString() => "ChatModel( replyTo: $replyTo, delete:$favorite)";
   factory ChatModel.fromFirebase(
       {required Map<String, dynamic> msgData, required String msgId}) {
     List<String> newFavorite = [];

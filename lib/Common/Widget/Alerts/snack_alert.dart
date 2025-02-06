@@ -23,6 +23,7 @@ snackAlert({
         Icon(
           icon,
           color: Colors.black45,
+          size: 18,
         ),
         const SizedBox(width: 8),
         Expanded(

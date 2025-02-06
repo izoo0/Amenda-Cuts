@@ -11,6 +11,7 @@ chatInteractionSheet(
     {required BuildContext context,
     required ChatModel message,
     required String chatId,
+    required bool isFavorite,
     required Function replyOnTap}) {
   showModalBottomSheet(
       backgroundColor: Colors.transparent,
@@ -90,21 +91,41 @@ chatInteractionSheet(
                                           messageId: message.messageId,
                                         );
                                       });
-                                }
-                              }
-                              if (context.mounted) {
-                                Navigator.pop(context);
-                                ScaffoldMessenger.of(context).showSnackBar(
+                                } else {
+                                  Navigator.pop(context);
+                                  ScaffoldMessenger.of(context).showSnackBar(
                                     snackAlert(
-                                        context: context,
-                                        info: "Deleting",
-                                        child: loadingWidget(),
-                                        icon: Iconsax.trash));
-                                await instance.deleteForMe(
+                                      context: context,
+                                      info: "Deleting",
+                                      child: loadingWidget(),
+                                      icon: Iconsax.trash,
+                                    ),
+                                  );
+                                  await instance.deleteForMe(
                                     messageId: message.messageId,
                                     chatId: chatId,
                                     userId: instance.user!.uid,
-                                    context: context);
+                                    context: context,
+                                  );
+                                }
+                              } else if (data.title == "Favorite") {
+                                Navigator.pop(context);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  snackAlert(
+                                    context: context,
+                                    info: "Favorite",
+                                    child: loadingWidget(),
+                                    icon: Iconsax.star,
+                                  ),
+                                );
+
+                                await instance.favorite(
+                                  isFavorite: isFavorite,
+                                  messageId: message.messageId,
+                                  chatId: chatId,
+                                  userId: instance.user!.uid,
+                                  context: context,
+                                );
                               }
                             },
                             leading: data.leading,

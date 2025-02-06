@@ -408,4 +408,35 @@ class Apis {
       }
     }
   }
+
+  Future<void> favorite(
+      {required bool isFavorite,
+      required String messageId,
+      required String chatId,
+      required String userId,
+      required BuildContext context}) async {
+    DocumentReference documentReference = firestore
+        .collection("messages")
+        .doc(chatId)
+        .collection("chats")
+        .doc(messageId);
+    await documentReference.set(
+      {
+        'favorite': isFavorite
+            ? FieldValue.arrayRemove([userId])
+            : FieldValue.arrayUnion([userId])
+      },
+      SetOptions(merge: true),
+    );
+
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(snackAlert(
+        context: context,
+        info: isFavorite
+            ? "Message removed from favorite"
+            : "Message added to favorite",
+        icon: Iconsax.star,
+      ));
+    }
+  }
 }

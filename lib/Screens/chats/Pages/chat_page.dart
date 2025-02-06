@@ -43,7 +43,7 @@ class _ChatPageState extends State<ChatPage> {
           Map<String, dynamic> mapData = doc.data();
           newMessages
               .add(ChatModel.fromFirebase(msgData: mapData, msgId: docId));
-
+          print(newMessages);
           setState(() {
             messages = newMessages;
             updateCount();
@@ -173,11 +173,13 @@ class _ChatPageState extends State<ChatPage> {
                           text: msg.replyTo.text ?? '', context: context);
                       bool isDeleted =
                           msg.deleted.contains(apisInstance.user!.uid);
-
+                      bool isFavorite =
+                          msg.favorite.contains(apisInstance.user!.uid);
                       bool deleteForMe = msg.isDeleted;
                       return deleteForMe || isDeleted
                           ? deletedCard(context: context, msg: msg)
                           : messageCard(
+                              favorite: isFavorite,
                               msg: msg,
                               context: context,
                               chatId: chatId,
