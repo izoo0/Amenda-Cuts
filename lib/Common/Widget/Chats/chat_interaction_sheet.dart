@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 chatInteractionSheet(
     {required BuildContext context,
     required ChatModel message,
+    required String chatId,
     required Function replyOnTap}) {
   showModalBottomSheet(
       backgroundColor: Colors.transparent,
@@ -77,9 +78,11 @@ chatInteractionSheet(
                                 showDialog(
                                     context: context,
                                     builder: (context) {
-                                      return const DeleteAnimatedAlert(
+                                      return DeleteAnimatedAlert(
                                         title: "Delete Message",
                                         body: "Hello there",
+                                        chatId: chatId,
+                                        messageId: message.messageId,
                                       );
                                     });
                               }

@@ -1,8 +1,12 @@
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:flutter/material.dart';
 
-snackAlert(
-    {required BuildContext context, required String info, required icon}) {
+snackAlert({
+  required BuildContext context,
+  required String info,
+  required icon,
+  Widget? child,
+}) {
   SizeConfig().init(context);
   double width = SizeConfig.blockSizeWidth!;
   return SnackBar(
@@ -22,12 +26,19 @@ snackAlert(
         ),
         const SizedBox(width: 8),
         Expanded(
-          child: Text(
-            info,
-            style: Theme.of(context)
-                .textTheme
-                .bodySmall!
-                .apply(color: Colors.black45),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  info,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall!
+                      .apply(color: Colors.black45),
+                ),
+              ),
+              if (child != null) child
+            ],
           ),
         ),
       ],

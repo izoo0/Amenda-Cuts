@@ -9,13 +9,14 @@ class ChatModel {
   final DateTime time;
   final String userId;
   final String messageId;
-
+  final bool isDeleted;
   ChatModel(
       {required this.favorite,
       required this.replyTo,
       required this.textMessage,
       required this.time,
       required this.messageId,
+      required this.isDeleted,
       required this.userId});
   @override
   String toString() => "ChatModel( replyTo: $replyTo,)";
@@ -47,6 +48,7 @@ class ChatModel {
       time: msgTime,
       userId: msgData['user_id'],
       messageId: msgId,
+      isDeleted: msgData['isDeleted'] ?? false,
     );
   }
 }

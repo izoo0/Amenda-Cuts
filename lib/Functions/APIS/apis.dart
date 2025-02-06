@@ -341,4 +341,38 @@ class Apis {
       ),
     );
   }
+
+  Future<void> deleteForEveryOne(
+      {required String messageId,
+      required String chatId,
+      required BuildContext context}) async {
+    try {
+      DocumentReference documentReference = firestore
+          .collection("messages")
+          .doc(chatId)
+          .collection("chats")
+          .doc(messageId);
+      await documentReference.set(
+        {
+          "isDeleted": true,
+        },
+        SetOptions(merge: true),
+      );
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(snackAlert(
+          context: context,
+          info: "Message has been deleted",
+          icon: Iconsax.tick_circle,
+        ));
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(snackAlert(
+          context: context,
+          info: e.toString(),
+          icon: Iconsax.close_circle,
+        ));
+      }
+    }
+  }
 }

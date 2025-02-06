@@ -1,12 +1,20 @@
+import 'package:amenda_cuts/Common/Widget/Alerts/snack_alert.dart';
+import 'package:amenda_cuts/Common/Widget/Preloader/loading_widget.dart';
+import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 
 class DeleteAnimatedAlert extends StatefulWidget {
   final String title;
   final String body;
+  final String chatId;
+  final String messageId;
   const DeleteAnimatedAlert({
     super.key,
     required this.title,
     required this.body,
+    required this.chatId,
+    required this.messageId,
   });
 
   @override
@@ -17,10 +25,12 @@ class _DeleteAnimatedAlertState extends State<DeleteAnimatedAlert>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
-
+  Apis instance = Apis.instance;
+  late bool isDeleting;
   @override
   void initState() {
     super.initState();
+    isDeleting = false;
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 1),
@@ -71,7 +81,21 @@ class _DeleteAnimatedAlertState extends State<DeleteAnimatedAlert>
                     deleteItems(
                       context: context,
                       title: "Delete For Everyone",
-                      onTap: () {},
+                      onTap: () async {
+                        ScaffoldMessenger.of(context).showSnackBar(snackAlert(
+                            context: context,
+                            info: "Deleting",
+                            child: loadingWidget(),
+                            icon: Iconsax.trash));
+                        await instance.deleteForEveryOne(
+                          messageId: widget.messageId,
+                          chatId: widget.chatId,
+                          context: context,
+                        );
+                        if (context.mounted) {
+                          Navigator.pop(context);
+                        }
+                      },
                     ),
                     Divider(
                       color: Theme.of(context).cardColor,
@@ -79,7 +103,7 @@ class _DeleteAnimatedAlertState extends State<DeleteAnimatedAlert>
                     deleteItems(
                       context: context,
                       title: "Delete For Me",
-                      onTap: () {},
+                      onTap: () async {},
                     ),
                     Divider(
                       color: Theme.of(context).cardColor,

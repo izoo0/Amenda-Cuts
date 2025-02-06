@@ -187,6 +187,7 @@ class _ChatPageState extends State<ChatPage> {
                           child: GestureDetector(
                             onTap: () {
                               chatInteractionSheet(
+                                  chatId: widget.chatHomeModel.chatId,
                                   context: context,
                                   message: msg,
                                   replyOnTap: () {
