@@ -1,7 +1,9 @@
 // ignore_for_file: unnecessary_cast
 
+import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Common/Widget/Alerts/alerts.dart';
 import 'package:amenda_cuts/Common/Constants/FirebaseConstants/firebase_collection_constant.dart';
+import 'package:amenda_cuts/Common/Widget/Alerts/snack_alert.dart';
 import 'package:amenda_cuts/Common/Widget/Navigation/navigation_bar.dart';
 import 'package:amenda_cuts/Models/order_model.dart';
 import 'package:amenda_cuts/Models/service_model.dart';
@@ -9,6 +11,7 @@ import 'package:amenda_cuts/controller/service_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
@@ -326,5 +329,16 @@ class Apis {
     } catch (e) {
       //
     }
+  }
+
+  copyToClipBoard({required String text, required BuildContext context}) {
+    Clipboard.setData(ClipboardData(text: text));
+    ScaffoldMessenger.of(context).showSnackBar(
+      snackAlert(
+        context: context,
+        info: "Message copied to clipboard",
+        icon: Iconsax.clipboard_text,
+      ),
+    );
   }
 }

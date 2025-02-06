@@ -68,6 +68,7 @@ class _ChatPageState extends State<ChatPage> {
     super.initState();
     controller = TextEditingController();
     chatId = widget.chatHomeModel.chatId;
+
     fetchMessages();
   }
 
@@ -143,6 +144,7 @@ class _ChatPageState extends State<ChatPage> {
                 Expanded(
                   child: GroupedListView<ChatModel, DateTime>(
                     elements: messages,
+                    addAutomaticKeepAlives: true,
                     groupHeaderBuilder: (ChatModel message) => Center(
                       child: Card(
                         color: Theme.of(context).cardColor,
@@ -184,11 +186,18 @@ class _ChatPageState extends State<ChatPage> {
                               : Alignment.centerLeft,
                           child: GestureDetector(
                             onTap: () {
-                              print(msg.userId);
                               chatInteractionSheet(
-                                context: context,
-                                message: msg.textMessage,
-                              );
+                                  context: context,
+                                  message: msg,
+                                  replyOnTap: () {
+                                    setState(() {
+                                      replyMsg = ReplyModel(
+                                          messageId: msg.messageId,
+                                          userId: msg.userId,
+                                          text: msg.textMessage);
+                                    });
+                                    Navigator.pop(context);
+                                  });
                             },
                             child: Padding(
                               padding:

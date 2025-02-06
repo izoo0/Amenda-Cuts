@@ -14,23 +14,12 @@ class ChatInteractionList {
 
 List<ChatInteractionList> reactionList = [
   ChatInteractionList(
-    leading: const Icon(Iconsax.smileys),
-    title: "React",
-  ),
-  ChatInteractionList(
     leading: const Icon(Iconsax.copy),
     title: "Copy",
   ),
   ChatInteractionList(
     leading: const Icon(CupertinoIcons.arrowshape_turn_up_left),
     title: "Reply",
-  ),
-  ChatInteractionList(
-    leading: Transform.flip(
-      flipX: true,
-      child: const Icon(CupertinoIcons.arrowshape_turn_up_left_2),
-    ),
-    title: "Forward",
   ),
   ChatInteractionList(
     leading: const Icon(Iconsax.trash),

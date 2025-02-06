@@ -50,10 +50,12 @@ class _ChatsState extends State<Chats> {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(30),
-                    child: CachedNetworkImage(
-                      imageUrl: userDetails.profile ?? '',
-                      fit: BoxFit.cover,
-                    ),
+                    child: userDetails.profile == null
+                        ? const CircularProgressIndicator()
+                        : CachedNetworkImage(
+                            imageUrl: userDetails.profile ?? '',
+                            fit: BoxFit.cover,
+                          ),
                   ),
                 ),
                 const SizedBox(
@@ -67,7 +69,7 @@ class _ChatsState extends State<Chats> {
           body: StreamBuilder(
               stream: FirebaseFirestore.instance
                   .collection('messages')
-                  .where('participant', arrayContains: instance.user!.uid)
+                  .where('participant', arrayContains: userDetails.userId)
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.data != null && snapshot.hasData) {

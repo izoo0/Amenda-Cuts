@@ -29,7 +29,7 @@ class UserDetailsProvider extends ChangeNotifier {
           .snapshots()
           .listen((snap) {
         Map<String, dynamic> userDetails = snap.data() as Map<String, dynamic>;
-        _usersModel = UsersModel.fromFirebase(userDetails);
+        _usersModel = UsersModel.fromFirebase(userDetails, userId ?? '');
 
         notifyListeners();
       });

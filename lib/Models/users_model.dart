@@ -8,6 +8,7 @@ class UsersModel {
   final String? username;
   final String? role;
   final bool? isExpert;
+  final String? userId;
   UsersModel(
       {this.name,
       this.email,
@@ -15,10 +16,13 @@ class UsersModel {
       this.profile,
       this.username,
       this.role,
+      this.userId,
       this.isExpert});
   @override
-  factory UsersModel.fromFirebase(Map<String, dynamic> userData) {
+  factory UsersModel.fromFirebase(
+      Map<String, dynamic> userData, String userId) {
     return UsersModel(
+      userId: userId,
       name: userData[UserDetailsConstants.fullName] ?? '',
       email: userData[UserDetailsConstants.email] ?? '',
       number: userData[UserDetailsConstants.phoneNumber] ?? '',
