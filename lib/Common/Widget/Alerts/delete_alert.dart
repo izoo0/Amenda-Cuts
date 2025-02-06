@@ -77,7 +77,7 @@ class _DeleteAnimatedAlertState extends State<DeleteAnimatedAlert>
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Divider(
-                      color: Theme.of(context).cardColor,
+                      color: Theme.of(context).cardColor.withOpacity(0.4),
                     ),
                     deleteItems(
                       context: context,
@@ -101,7 +101,7 @@ class _DeleteAnimatedAlertState extends State<DeleteAnimatedAlert>
                       },
                     ),
                     Divider(
-                      color: Theme.of(context).cardColor,
+                      color: Theme.of(context).cardColor.withOpacity(0.4),
                     ),
                     deleteItems(
                       context: context,
@@ -126,7 +126,7 @@ class _DeleteAnimatedAlertState extends State<DeleteAnimatedAlert>
                       },
                     ),
                     Divider(
-                      color: Theme.of(context).cardColor,
+                      color: Theme.of(context).cardColor.withOpacity(0.4),
                     ),
                     deleteItems(
                       context: context,
@@ -139,7 +139,7 @@ class _DeleteAnimatedAlertState extends State<DeleteAnimatedAlert>
                       },
                     ),
                     Divider(
-                      color: Theme.of(context).cardColor,
+                      color: Theme.of(context).cardColor.withOpacity(0.4),
                     ),
                   ],
                 ),

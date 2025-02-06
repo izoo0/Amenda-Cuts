@@ -43,7 +43,6 @@ class _ChatPageState extends State<ChatPage> {
           Map<String, dynamic> mapData = doc.data();
           newMessages
               .add(ChatModel.fromFirebase(msgData: mapData, msgId: docId));
-          print(newMessages);
           setState(() {
             messages = newMessages;
             updateCount();

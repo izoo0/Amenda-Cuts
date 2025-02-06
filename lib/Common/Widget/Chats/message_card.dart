@@ -102,6 +102,7 @@ Widget messageCard(
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   if (favorite)
                     GestureDetector(
