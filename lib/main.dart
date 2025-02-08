@@ -19,7 +19,8 @@ void main() async {
       create: (context) => UserDetailsProvider()..init(),
     ),
     ChangeNotifierProvider<OtherUserDetailsProvider>(
-        create: (context) => OtherUserDetailsProvider()..init())
+      create: (context) => OtherUserDetailsProvider()..init(),
+    )
   ], child: const MyApp()));
 }
 

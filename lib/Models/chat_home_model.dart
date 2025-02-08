@@ -22,8 +22,7 @@ class ChatHomeModel {
     required this.otherUserId,
   });
   @override
-  toString() =>
-      'ChatHomeModel(userName: $userName, counts: $counts, lastMessageModel: $lastMessageModel, profile: $profile, chatId: $chatId, otherUserId: $otherUserId)';
+  toString() => 'ChatHomeModel( lastMessageModel: $lastMessageModel,)';
   static Future<ChatHomeModel> chatHomeData(
       {required Map<String, dynamic> chatData,
       required String chatId,
@@ -33,9 +32,10 @@ class ChatHomeModel {
     final lastMessageId = chatData['last_message_id'] ?? '';
 
     LastMessageModel lastMessageModel = LastMessageModel(
-      lastText: '',
-      messageTime: DateTime(1850),
-    );
+        lastText: '',
+        messageTime: DateTime(1850),
+        isDeleted: false,
+        deleted: []);
     if (lastMessageId is String) {
       DocumentSnapshot snapshot = await instance.firestore
           .collection("messages")
@@ -50,6 +50,7 @@ class ChatHomeModel {
 
         lastMessageModel =
             LastMessageModel.fromFirebase(lastMessage: lastMessage);
+        print(lastMessageModel);
       }
     }
 

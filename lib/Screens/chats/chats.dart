@@ -91,11 +91,13 @@ class _ChatsState extends State<Chats> {
                       builder: (context, snap) {
                         if (snap.connectionState == ConnectionState.done) {
                           List<ChatHomeModel> chatData = snap.data!;
+
                           return ListView.builder(
                             shrinkWrap: true,
                             itemCount: chatData.length,
                             itemBuilder: (context, index) {
                               final data = chatData[index];
+
                               return chatContainer(
                                 chatModel: data,
                                 context: context,

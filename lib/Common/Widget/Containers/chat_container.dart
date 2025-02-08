@@ -12,6 +12,9 @@ Widget chatContainer({
   SizeConfig().init(context);
   double width = SizeConfig.blockSizeWidth!;
   Apis instance = Apis.instance;
+  bool isDeleted = chatModel.lastMessageModel.isDeleted;
+  bool deleted =
+      chatModel.lastMessageModel.deleted.contains(instance.user!.uid);
   return GestureDetector(
     onTap: () {
       onTap();
@@ -80,10 +83,17 @@ Widget chatContainer({
                             height: 4,
                           ),
                           Text(
+                            isDeleted || deleted
+                                ? "This message was deleted"
+                                : chatModel.lastMessageModel.lastText,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
-                            chatModel.lastMessageModel.lastText,
-                            style: Theme.of(context).textTheme.bodySmall,
+                            style: isDeleted || deleted
+                                ? Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .apply(fontStyle: FontStyle.italic)
+                                : Theme.of(context).textTheme.bodySmall,
                           ),
                         ],
                       ),
