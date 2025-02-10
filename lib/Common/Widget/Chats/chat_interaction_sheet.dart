@@ -10,6 +10,7 @@ import 'package:iconsax/iconsax.dart';
 chatInteractionSheet(
     {required BuildContext context,
     required ChatModel message,
+    required Function onEdit,
     required String chatId,
     required bool isFavorite,
     required Function replyOnTap}) {
@@ -18,6 +19,12 @@ chatInteractionSheet(
       context: context,
       builder: (context) {
         Apis instance = Apis.instance;
+
+        DateTime messageTime = message.time;
+        DateTime clockTime = DateTime.now();
+        Duration difference = clockTime.difference(messageTime);
+        int hours = difference.inHours;
+
         return StatefulBuilder(builder: (context, state) {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 20.0),
@@ -63,9 +70,26 @@ chatInteractionSheet(
                     ),
                     ListView.builder(
                         shrinkWrap: true,
-                        itemCount: reactionList.length,
+                        itemCount: reactionList.length + 1,
                         itemBuilder: (context, index) {
-                          final data = reactionList[index];
+                          if (index == 0) {
+                            return hours < 1 &&
+                                    (message.userId == instance.user!.uid)
+                                ? ListTile(
+                                    onTap: () {
+                                      onEdit();
+                                    },
+                                    leading: const Icon(Iconsax.edit),
+                                    title: Text(
+                                      "Edit",
+                                      style:
+                                          Theme.of(context).textTheme.bodySmall,
+                                    ),
+                                  )
+                                : const SizedBox.shrink();
+                          }
+                          final newData = index - 1;
+                          final data = reactionList[newData];
                           return ListTile(
                             onTap: () async {
                               if (data.title == "Copy") {

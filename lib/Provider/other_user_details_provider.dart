@@ -6,8 +6,8 @@ class OtherUserDetailsProvider extends ChangeNotifier {
   List<OtherUsersModel> _otherUsersModel = [];
   List<OtherUsersModel> get otherUserModel => _otherUsersModel;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  init() async {
-    await fetchOtherUsers();
+  init() {
+    fetchOtherUsers();
     notifyListeners();
   }
 

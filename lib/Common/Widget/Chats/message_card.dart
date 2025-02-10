@@ -16,6 +16,7 @@ Widget messageCard(
     required double replyWidth,
     required double textWidth,
     required Function onSwipe,
+    required Function onEdit,
     required bool favorite,
     required Function onReplyTap}) {
   Apis apisInstance = Apis.instance;
@@ -36,6 +37,9 @@ Widget messageCard(
               chatId: chatId,
               context: context,
               message: msg,
+              onEdit: () {
+                onEdit();
+              },
               replyOnTap: () {
                 onReplyTap();
               });
@@ -86,7 +90,9 @@ Widget messageCard(
                               msg: msg,
                               context: context),
                         Text(
-                          msg.textMessage,
+                          msg.editMessage.isEmpty
+                              ? msg.textMessage
+                              : msg.editMessage,
                           style: apisInstance.user!.uid == msg.userId
                               ? Theme.of(context)
                                   .textTheme
@@ -126,6 +132,12 @@ Widget messageCard(
                           Iconsax.star,
                           size: 14,
                         )),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  if (msg.isEdited)
+                    Text("Edited",
+                        style: Theme.of(context).textTheme.bodySmall),
                   const SizedBox(
                     width: 4,
                   ),

@@ -18,7 +18,7 @@ class UsersModel {
       this.role,
       this.userId,
       this.isExpert});
-  @override
+
   factory UsersModel.fromFirebase(
       Map<String, dynamic> userData, String userId) {
     return UsersModel(

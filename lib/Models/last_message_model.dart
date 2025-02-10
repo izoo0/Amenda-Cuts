@@ -5,14 +5,16 @@ class LastMessageModel {
   final DateTime messageTime;
   final List<String> deleted;
   final bool isDeleted;
-  LastMessageModel(
-      {required this.lastText,
-      required this.messageTime,
-      required this.deleted,
-      required this.isDeleted});
-  @override
-  String toString() =>
-      'LastMessageModel(lastText: $lastText, messageTime: $messageTime,deleted:$deleted,isDeleted:$isDeleted)';
+  final String editedMessage;
+  final bool isEdited;
+  LastMessageModel({
+    required this.lastText,
+    required this.messageTime,
+    required this.deleted,
+    required this.isDeleted,
+    required this.editedMessage,
+    required this.isEdited,
+  });
   factory LastMessageModel.fromFirebase(
       {required Map<String, dynamic> lastMessage}) {
     List<String> deletedUsers = [];
@@ -33,7 +35,9 @@ class LastMessageModel {
       lastText: lastMessage['text_message'],
       messageTime: messageTime,
       deleted: deletedUsers,
-      isDeleted: lastMessage['isDeleted'],
+      isDeleted: lastMessage['isDeleted'] ?? false,
+      isEdited: lastMessage["isEdited"] ?? false,
+      editedMessage: lastMessage['edited_message'] ?? "",
     );
   }
 }

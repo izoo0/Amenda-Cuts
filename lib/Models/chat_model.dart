@@ -10,15 +10,19 @@ class ChatModel {
   final String userId;
   final String messageId;
   final bool isDeleted;
+  final String editMessage;
+  final bool isEdited;
   final List<String> deleted;
   ChatModel(
       {required this.favorite,
       required this.replyTo,
       required this.textMessage,
+      required this.editMessage,
       required this.time,
       required this.messageId,
       required this.isDeleted,
       required this.deleted,
+      required this.isEdited,
       required this.userId});
   @override
   String toString() => "ChatModel( replyTo: $replyTo, delete:$favorite)";
@@ -56,6 +60,8 @@ class ChatModel {
       favorite: newFavorite,
       replyTo: reply,
       textMessage: msgData['text_message'],
+      editMessage: msgData['edited_message'] ?? '',
+      isEdited: msgData['isEdited'] ?? false,
       time: msgTime,
       userId: msgData['user_id'],
       messageId: msgId,

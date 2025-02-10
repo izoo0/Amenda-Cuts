@@ -15,6 +15,7 @@ Widget chatContainer({
   bool isDeleted = chatModel.lastMessageModel.isDeleted;
   bool deleted =
       chatModel.lastMessageModel.deleted.contains(instance.user!.uid);
+  bool isEdited = chatModel.lastMessageModel.isEdited;
   return GestureDetector(
     onTap: () {
       onTap();
@@ -85,7 +86,10 @@ Widget chatContainer({
                           Text(
                             isDeleted || deleted
                                 ? "This message was deleted"
-                                : chatModel.lastMessageModel.lastText,
+                                : chatModel
+                                        .lastMessageModel.editedMessage.isEmpty
+                                    ? chatModel.lastMessageModel.lastText
+                                    : chatModel.lastMessageModel.editedMessage,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: isDeleted || deleted
@@ -107,21 +111,26 @@ Widget chatContainer({
                           Text(
                             instance.getDateString(
                                 chatModel.lastMessageModel.messageTime),
-                            style: Theme.of(context).textTheme.bodySmall,
+                            style: chatModel.counts > 0
+                                ? Theme.of(context).textTheme.bodySmall!.apply(
+                                    color: Theme.of(context).primaryColor)
+                                : Theme.of(context).textTheme.bodySmall,
                           ),
                           const SizedBox(
                             height: 6,
                           ),
                           if (chatModel.counts > 0)
                             Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 4),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 4, vertical: 2),
                               decoration: BoxDecoration(
                                   color: Theme.of(context).primaryColor,
                                   borderRadius:
                                       BorderRadiusDirectional.circular(12)),
                               child: Text(
-                                chatModel.counts.toString(),
+                                chatModel.counts > 10
+                                    ? "9+"
+                                    : chatModel.counts.toString(),
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodySmall!

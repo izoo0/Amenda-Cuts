@@ -26,6 +26,8 @@ class _ChatPageState extends State<ChatPage> {
   List<ChatModel> messages = [];
   Apis apisInstance = Apis.instance;
   late TextEditingController controller;
+  String editMessage = '';
+  String editMessageId = '';
   String chatId = '';
   fetchMessages() {
     apisInstance.firestore
@@ -178,6 +180,16 @@ class _ChatPageState extends State<ChatPage> {
                       return deleteForMe || isDeleted
                           ? deletedCard(context: context, msg: msg)
                           : messageCard(
+                              onEdit: () {
+                                setState(() {
+                                  editMessageId = msg.messageId;
+                                  editMessage = msg.editMessage.isEmpty
+                                      ? msg.textMessage
+                                      : msg.editMessage;
+                                  controller.text = editMessage;
+                                });
+                                Navigator.pop(context);
+                              },
                               favorite: isFavorite,
                               msg: msg,
                               context: context,
@@ -207,20 +219,29 @@ class _ChatPageState extends State<ChatPage> {
                 chatTextField(
                   controller: controller,
                   onTap: () async {
-                    await apisInstance.sendMessage(
-                      replyUserId: replyMsg.userId ?? '',
-                      otherUserId: widget.chatHomeModel.otherUserId,
-                      chatId: chatId,
-                      message: controller.text.trim(),
-                      userId: apisInstance.user!.uid,
-                      messageId: replyMsg.messageId != null
-                          ? replyMsg.messageId ?? ""
-                          : "",
-                      text: replyMsg.text != null ? replyMsg.text ?? '' : "",
-                    );
+                    if (editMessage.isNotEmpty) {
+                      await apisInstance.editMessage(
+                          message: controller.text.trim(),
+                          chatId: chatId,
+                          messageId: editMessageId);
+                    } else {
+                      await apisInstance.sendMessage(
+                        replyUserId: replyMsg.userId ?? '',
+                        otherUserId: widget.chatHomeModel.otherUserId,
+                        chatId: chatId,
+                        message: controller.text.trim(),
+                        userId: apisInstance.user!.uid,
+                        messageId: replyMsg.messageId != null
+                            ? replyMsg.messageId ?? ""
+                            : "",
+                        text: replyMsg.text != null ? replyMsg.text ?? '' : "",
+                      );
+                    }
                     controller.clear();
                     setState(() {
                       replyMsg = ReplyModel();
+                      editMessage = '';
+                      editMessageId = '';
                     });
                   },
                   child: replyWidget(

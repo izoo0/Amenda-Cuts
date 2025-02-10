@@ -305,6 +305,7 @@ class Apis {
           .collection("messages")
           .doc(chatId)
           .collection('chats');
+
       DocumentReference chatRef = await collectionReference.add({
         "text_message": message,
         "user_id": userId,
@@ -324,6 +325,23 @@ class Apis {
           otherUserId: FieldValue.increment(1),
         },
       }, SetOptions(merge: true));
+    } catch (e) {
+      //
+    }
+  }
+
+  Future<void> editMessage(
+      {required String message,
+      required String chatId,
+      required String messageId}) async {
+    try {
+      DocumentReference documentReference = firestore
+          .collection("messages")
+          .doc(chatId)
+          .collection("chats")
+          .doc(messageId);
+      documentReference.set({"edited_message": message, "isEdited": true},
+          SetOptions(merge: true));
     } catch (e) {
       //
     }

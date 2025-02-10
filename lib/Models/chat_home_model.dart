@@ -35,6 +35,8 @@ class ChatHomeModel {
         lastText: '',
         messageTime: DateTime(1850),
         isDeleted: false,
+        isEdited: false,
+        editedMessage: "",
         deleted: []);
     if (lastMessageId is String) {
       DocumentSnapshot snapshot = await instance.firestore
@@ -50,7 +52,6 @@ class ChatHomeModel {
 
         lastMessageModel =
             LastMessageModel.fromFirebase(lastMessage: lastMessage);
-        print(lastMessageModel);
       }
     }
 
