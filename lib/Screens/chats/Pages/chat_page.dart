@@ -199,7 +199,9 @@ class _ChatPageState extends State<ChatPage> {
                               onSwipe: (details) {
                                 setState(() {
                                   replyMsg = ReplyModel(
-                                      text: msg.textMessage,
+                                      text: msg.editMessage.isNotEmpty
+                                          ? msg.editMessage
+                                          : msg.textMessage,
                                       userId: msg.userId,
                                       messageId: msg.messageId);
                                 });
@@ -207,9 +209,12 @@ class _ChatPageState extends State<ChatPage> {
                               onReplyTap: () {
                                 setState(() {
                                   replyMsg = ReplyModel(
-                                      messageId: msg.messageId,
-                                      userId: msg.userId,
-                                      text: msg.textMessage);
+                                    messageId: msg.messageId,
+                                    userId: msg.userId,
+                                    text: msg.editMessage.isNotEmpty
+                                        ? msg.editMessage
+                                        : msg.textMessage,
+                                  );
                                 });
                                 Navigator.pop(context);
                               });
