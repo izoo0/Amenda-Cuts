@@ -1,5 +1,6 @@
 import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
+import 'package:amenda_cuts/Common/Widget/Preloader/shimmer_widget.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Models/chat_home_model.dart';
 import 'package:amenda_cuts/Provider/user_details_provider.dart';
@@ -115,15 +116,13 @@ class _ChatsState extends State<Chats> {
                           );
                         } else if (snap.connectionState ==
                             ConnectionState.waiting) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
+                          return shimmerFullWidgets(width, context);
                         } else {
-                          return const Text("No data available");
+                          return shimmerFullWidgets(width, context);
                         }
                       });
                 } else {
-                  return const Text("data");
+                  return shimmerFullWidgets(width, context);
                 }
               }),
         );
