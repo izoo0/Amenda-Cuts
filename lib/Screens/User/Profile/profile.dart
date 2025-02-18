@@ -7,6 +7,7 @@ import 'package:amenda_cuts/Functions/Auth/signout/sign_out.dart';
 import 'package:amenda_cuts/Models/users_model.dart';
 import 'package:amenda_cuts/Provider/theme_provider.dart';
 import 'package:amenda_cuts/Provider/user_details_provider.dart';
+import 'package:amenda_cuts/Screens/User/Profile/about_app.dart';
 import 'package:amenda_cuts/Screens/User/Profile/user_details_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -121,6 +122,11 @@ class _ProfileState extends State<Profile> {
                     context: context,
                     color: const Color(0xff006494),
                     icon: Iconsax.broom,
+                    themeType: themeProvider.currentTheme == 0
+                        ? "System Theme"
+                        : themeProvider.currentTheme == 1
+                            ? "Light Theme"
+                            : "Dark Theme",
                     title: 'Appearance',
                     onTap: () {
                       bottomSheet(
@@ -187,6 +193,9 @@ class _ProfileState extends State<Profile> {
                     subtitle: 'Our Privacy Policy',
                     trailingIcon: Iconsax.arrow_right,
                   ),
+                  const SizedBox(
+                    height: 16,
+                  ),
                   listTile(
                     context: context,
                     color: const Color(0xff4cc9f0),
@@ -204,7 +213,10 @@ class _ProfileState extends State<Profile> {
                     color: const Color(0xff72195a),
                     icon: Iconsax.info_circle,
                     title: 'About',
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const AboutApp()));
+                    },
                     subtitle: 'About Application',
                     trailingIcon: Iconsax.arrow_right,
                   ),
