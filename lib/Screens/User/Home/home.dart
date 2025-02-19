@@ -118,7 +118,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                             },
                                             icon: Icon(
                                                 themeProvider.currentTheme == 1
-                                                    ? Iconsax.sun_15
+                                                    ? Iconsax.moon5
                                                     : Iconsax.sun_1))
                                       ],
                                     ),
