@@ -85,13 +85,12 @@ class _AnimatedAlertDialogState extends State<AnimatedAlertDialog>
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  TextButton(
-                    style: TextButton.styleFrom(
-                        backgroundColor: Theme.of(context).primaryColor,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 4, vertical: 8),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(4))),
+                  MaterialButton(
+                    color: Theme.of(context).primaryColor,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4)),
                     onPressed: () async {
                       await _controller.reverse();
                       if (context.mounted) {

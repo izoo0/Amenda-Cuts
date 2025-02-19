@@ -7,6 +7,7 @@ import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
 import 'package:amenda_cuts/Models/users_model.dart';
 import 'package:amenda_cuts/Provider/user_details_provider.dart';
+import 'package:amenda_cuts/Screens/User/Profile/profile_picker.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -41,6 +42,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                       ? CachedNetworkImage(
                           imageUrl: userDetails.profile ?? '',
                           height: height * 50,
+                          width: double.infinity,
                           fit: BoxFit.cover,
                         )
                       : Image(
@@ -111,7 +113,12 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                   width: width * 40,
                                   name: "Change Profile",
                                   color: Theme.of(context).primaryColor,
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const ProfilePicker()));
+                                  },
                                   context: context)
                             ],
                           ),
