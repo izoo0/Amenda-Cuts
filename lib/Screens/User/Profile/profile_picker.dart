@@ -47,7 +47,8 @@ class _ProfilePickerState extends State<ProfilePicker> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     DottedBorder(
-                      radius: const Radius.circular(12),
+                      dashPattern: const [6, 4],
+                      borderType: BorderType.RRect,
                       color: Theme.of(context).primaryColor,
                       strokeWidth: 2,
                       child: Padding(
