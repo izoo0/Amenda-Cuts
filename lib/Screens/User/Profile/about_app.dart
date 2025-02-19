@@ -42,7 +42,7 @@ class _AboutAppState extends State<AboutApp> {
         backgroundColor: Theme.of(context).cardColor,
         title: Text(
           "About App",
-          style: Theme.of(context).textTheme.bodySmall,
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
       ),
       body: Stack(
