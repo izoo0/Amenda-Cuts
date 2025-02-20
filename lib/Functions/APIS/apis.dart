@@ -457,4 +457,11 @@ class Apis {
       ));
     }
   }
+
+  Future<void> editDetails({required value}) async {
+    DocumentReference documentReference =
+        firestore.collection("users").doc(user!.uid);
+
+    documentReference.set({}, SetOptions(merge: true));
+  }
 }

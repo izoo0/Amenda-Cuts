@@ -1,6 +1,7 @@
 import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Common/Widget/Button/user_button_border.dart';
 import 'package:amenda_cuts/Common/Widget/TextField/text_field.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class EditUserDetails extends StatefulWidget {
@@ -63,7 +64,9 @@ class _EditUserDetailsState extends State<EditUserDetails> {
                   child: userButtonOutline(
                     width: double.infinity,
                     name: "Update",
-                    onTap: () {},
+                    onTap: () {
+                      print(controller.text);
+                    },
                     context: context,
                   ),
                 )
