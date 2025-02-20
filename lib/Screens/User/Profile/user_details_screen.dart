@@ -147,33 +147,34 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                             height: 16,
                           ),
                           userDetailsListTile(
+                            title: "Full Names",
                             context: context,
-                            leading: userDetails.name ?? '',
-                            onTap: () {},
+                            subtitle: userDetails.name ?? '',
                           ),
                           const SizedBox(
                             height: 16,
                           ),
                           userDetailsListTile(
+                            title: "Email",
                             context: context,
-                            leading: userDetails.email ?? ''.toUpperCase(),
-                            onTap: () {},
+                            subtitle: userDetails.email ?? ''.toUpperCase(),
                           ),
                           const SizedBox(
                             height: 16,
                           ),
                           userDetailsListTile(
+                            title: "Phone Number",
                             context: context,
-                            leading: userDetails.number ?? '',
-                            onTap: () {},
+                            subtitle: userDetails.number ?? '',
                           ),
                           const SizedBox(
                             height: 16,
                           ),
                           userDetailsListTile(
-                              context: context,
-                              leading: userDetails.username ?? '',
-                              onTap: () {}),
+                            title: "Username",
+                            context: context,
+                            subtitle: userDetails.username ?? '',
+                          ),
                         ],
                       ),
                     ),
