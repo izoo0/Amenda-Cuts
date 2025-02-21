@@ -43,7 +43,5 @@ ThemeData whiteTheme() {
             fontSize: 16,
           ),
           bodySmall: TextStyle(
-            color: ColorConstants.blackBackground,
-            fontSize: 12,
-          )));
+              color: ColorConstants.blackBackground, fontSize: 12, height: 1)));
 }

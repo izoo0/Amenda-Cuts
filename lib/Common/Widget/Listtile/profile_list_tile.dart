@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 Widget listTile(
     {required Color color,
     required icon,
+    String? themeType,
     required String title,
     required Function onTap,
     required String subtitle,
@@ -43,7 +44,15 @@ Widget listTile(
                 ? ColorConstants.appTextColor.withOpacity(0.5)
                 : ColorConstants.blackBackground.withOpacity(0.5)),
       ),
-      trailing: Icon(trailingIcon),
+      trailing: title == "Appearance"
+          ? Text(
+              themeType ?? "",
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall!
+                  .apply(color: Theme.of(context).primaryColor),
+            )
+          : Icon(trailingIcon),
     ),
   );
 }

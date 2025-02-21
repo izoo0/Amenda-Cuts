@@ -16,13 +16,13 @@ class Login {
       Apis instance = Apis.instance;
       UserCredential result = await instance.auth
           .signInWithEmailAndPassword(email: email, password: password);
+      String id = result.user!.uid;
       UserDetailsProvider userDetailsProvider =
           Provider.of<UserDetailsProvider>(context, listen: false);
+      await userDetailsProvider.getUserDetails();
       Navigator.of(context).pop();
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (_) => const BottomNavigator()));
-
-      userDetailsProvider.getUserDetails();
     } catch (e) {
       Navigator.of(context).pop();
       return showDialog(

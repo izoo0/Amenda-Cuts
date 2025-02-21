@@ -3,6 +3,7 @@ import 'package:amenda_cuts/Screens/Admin/Bookings/bookings.dart';
 import 'package:amenda_cuts/Screens/Admin/Service/service.dart';
 import 'package:amenda_cuts/Screens/User/Profile/profile.dart';
 import 'package:amenda_cuts/Screens/User/Profile/user_details_screen.dart';
+import 'package:amenda_cuts/Screens/chats/chats.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -135,17 +136,23 @@ Widget drawerItems(
                 color: Theme.of(context).cardColor.withOpacity(0.3),
               ),
               const SizedBox(height: 5),
-              const Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(Iconsax.messages_3),
-                  SizedBox(
-                    width: 8,
-                  ),
-                  Text("Messages"),
-                ],
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => const Chats()));
+                },
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(Iconsax.messages_3),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text("Messages"),
+                  ],
+                ),
               ),
               const SizedBox(height: 20),
               InkWell(

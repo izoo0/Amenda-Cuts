@@ -35,7 +35,7 @@ app.post('/upload_image', upload.single('image'), (req, res) => {
     return res.status(400).json({ error: 'No file uploaded' });
   }
   const serviceId = req.body.serviceId || null;
-  const imageUrl = `http://192.168.33.213:8080/uploads/${req.file.filename}`;
+  const imageUrl = `http://192.168.170.54:8080/uploads/${req.file.filename}`;
   
   const query = "INSERT INTO services_images (service_id, image_url) VALUES (?, ?)";
   con.query(query, [serviceId, imageUrl], (err, result) => {
@@ -54,7 +54,7 @@ app.post('/edit_image', upload.single('image'), (req, res) => {
     return res.status(400).json({ error: 'No file uploaded' });
   }
   const serviceId = req.body.serviceId || null;
-  const imageUrl = `http://192.168.219.210:8080/uploads/${req.file.filename}`;
+  const imageUrl = `http://192.168.170.54:8080/uploads/${req.file.filename}`;
   const query = "UPDATE services_images SET image_url = ? WHERE service_id = ?";
   con.query(query, [serviceId, imageUrl], (err, result) => {
     if (err) {
@@ -65,6 +65,38 @@ app.post('/edit_image', upload.single('image'), (req, res) => {
   });
 });
 
+app.post('/upload_profile', upload.single('image'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: 'No file uploaded' });
+  }
+  const userId = req.body.userId || null;
+  const user_profile = `http://192.168.170.54:8080/uploads/${req.file.filename}`;
+  
+  const query = "INSERT INTO user_profile (user_id, user_profile) VALUES (?, ?)";
+  con.query(query, [userId, user_profile], (err, result) => {
+    if (err) {
+      console.error('Database Error:', err);
+      return res.status(500).json({ error: 'Database query failed' });
+    }
+    return res.json({ success: true, user_profile: user_profile });
+  });
+});
+
+app.post('/edit_profile', upload.single('image'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: 'No file uploaded' });
+  }
+  const userId = req.body.userId || null;
+  const user_profile = `http://192.168.170.54:8080/uploads/${req.file.filename}`;
+  const query = "UPDATE user_profile SET user_profile = ? WHERE user_id = ?";
+  con.query(query, [userId, user_profile], (err, result) => {
+    if (err) {
+      console.error('Database Error:', err);
+      return res.status(500).json({ error: 'Database query failed' });
+    }
+    return res.json({ success: true, user_profile: user_profile });
+  });
+});
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.listen(8080, () => {

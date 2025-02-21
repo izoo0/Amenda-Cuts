@@ -12,6 +12,10 @@ Widget chatContainer({
   SizeConfig().init(context);
   double width = SizeConfig.blockSizeWidth!;
   Apis instance = Apis.instance;
+  bool isDeleted = chatModel.lastMessageModel.isDeleted;
+  bool deleted =
+      chatModel.lastMessageModel.deleted.contains(instance.user!.uid);
+  bool isEdited = chatModel.lastMessageModel.isEdited;
   return GestureDetector(
     onTap: () {
       onTap();
@@ -80,10 +84,20 @@ Widget chatContainer({
                             height: 4,
                           ),
                           Text(
+                            isDeleted || deleted
+                                ? "This message was deleted"
+                                : chatModel
+                                        .lastMessageModel.editedMessage.isEmpty
+                                    ? chatModel.lastMessageModel.lastText
+                                    : chatModel.lastMessageModel.editedMessage,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
-                            chatModel.lastMessageModel.lastText,
-                            style: Theme.of(context).textTheme.bodySmall,
+                            style: isDeleted || deleted
+                                ? Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .apply(fontStyle: FontStyle.italic)
+                                : Theme.of(context).textTheme.bodySmall,
                           ),
                         ],
                       ),
@@ -97,25 +111,32 @@ Widget chatContainer({
                           Text(
                             instance.getDateString(
                                 chatModel.lastMessageModel.messageTime),
-                            style: Theme.of(context).textTheme.bodySmall,
+                            style: chatModel.counts > 0
+                                ? Theme.of(context).textTheme.bodySmall!.apply(
+                                    color: Theme.of(context).primaryColor)
+                                : Theme.of(context).textTheme.bodySmall,
                           ),
                           const SizedBox(
                             height: 6,
                           ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 4),
-                            decoration: BoxDecoration(
-                                color: Theme.of(context).primaryColor,
-                                borderRadius:
-                                    BorderRadiusDirectional.circular(12)),
-                            child: Text(
-                              chatModel.counts.toString(),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .apply(color: Colors.black),
-                            ),
-                          )
+                          if (chatModel.counts > 0)
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 4, vertical: 2),
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context).primaryColor,
+                                  borderRadius:
+                                      BorderRadiusDirectional.circular(12)),
+                              child: Text(
+                                chatModel.counts > 10
+                                    ? "9+"
+                                    : chatModel.counts.toString(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .apply(color: Colors.black),
+                              ),
+                            )
                         ],
                       ),
                     )

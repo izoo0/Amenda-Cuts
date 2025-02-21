@@ -10,14 +10,14 @@ class UserDetailsProvider extends ChangeNotifier {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   User? user = FirebaseAuth.instance.currentUser;
 
-  init() async {
-    await getUserDetails();
+  init() {
+    getUserDetails();
     notifyListeners();
   }
 
   Future getUserDetails() async {
-    final userId = user?.uid;
-    if (user == null) {
+    String id = FirebaseAuth.instance.currentUser!.uid;
+    if (id.isEmpty) {
       _usersModel = UsersModel(
         username: '',
         email: '',
@@ -25,12 +25,11 @@ class UserDetailsProvider extends ChangeNotifier {
     } else {
       firestore
           .collection(FirebaseCollectionConstant.usersCollection)
-          .doc(userId)
+          .doc(id)
           .snapshots()
           .listen((snap) {
         Map<String, dynamic> userDetails = snap.data() as Map<String, dynamic>;
-        _usersModel = UsersModel.fromFirebase(userDetails);
-
+        _usersModel = UsersModel.fromFirebase(userDetails, id);
         notifyListeners();
       });
     }

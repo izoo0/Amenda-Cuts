@@ -33,6 +33,9 @@ ThemeData darkTheme() {
               TextStyle(color: ColorConstants.appTextColor, fontSize: 20),
           bodyMedium:
               TextStyle(color: ColorConstants.appTextColor, fontSize: 16),
-          bodySmall:
-              TextStyle(color: ColorConstants.appTextColor, fontSize: 12)));
+          bodySmall: TextStyle(
+            color: ColorConstants.appTextColor,
+            fontSize: 12,
+            height: 1,
+          )));
 }

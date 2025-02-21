@@ -57,7 +57,6 @@ class _SignInState extends State<SignIn> {
             padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8),
             child: Container(
               constraints: BoxConstraints(minHeight: mHeight * 100),
-              alignment: Alignment.center,
               child: Form(
                 key: _formKey,
                 child: Column(

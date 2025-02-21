@@ -133,7 +133,7 @@ Widget categoryDataSection(
                                               height: 6,
                                             ),
                                             Text(data.description,
-                                                maxLines: 4,
+                                                maxLines: 3,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: Theme.of(context)
                                                     .textTheme

@@ -1,8 +1,8 @@
 import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
-import 'package:amenda_cuts/Common/Widget/Chats/chat_interaction_sheet.dart';
 import 'package:amenda_cuts/Common/Widget/Chats/chat_text_field.dart';
-import 'package:amenda_cuts/Common/Widget/Chats/reply_message.dart';
+import 'package:amenda_cuts/Common/Widget/Chats/deleted_widget.dart';
+import 'package:amenda_cuts/Common/Widget/Chats/message_card.dart';
 import 'package:amenda_cuts/Common/Widget/Chats/reply_widget.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Models/chat_home_model.dart';
@@ -10,10 +10,8 @@ import 'package:amenda_cuts/Models/chat_model.dart';
 import 'package:amenda_cuts/Models/reply_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
-import 'package:swipe_to/swipe_to.dart';
 
 class ChatPage extends StatefulWidget {
   final ChatHomeModel chatHomeModel;
@@ -26,12 +24,13 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   ReplyModel replyMsg = ReplyModel();
   List<ChatModel> messages = [];
-  FirebaseFirestore instance = FirebaseFirestore.instance;
-  User? user = FirebaseAuth.instance.currentUser;
   Apis apisInstance = Apis.instance;
+  late TextEditingController controller;
+  String editMessage = '';
+  String editMessageId = '';
   String chatId = '';
   fetchMessages() {
-    instance
+    apisInstance.firestore
         .collection("messages")
         .doc(chatId)
         .collection("chats")
@@ -48,17 +47,36 @@ class _ChatPageState extends State<ChatPage> {
               .add(ChatModel.fromFirebase(msgData: mapData, msgId: docId));
           setState(() {
             messages = newMessages;
+            updateCount();
           });
         }
       }
     });
   }
 
+  updateCount() {
+    DocumentReference documentReference =
+        apisInstance.firestore.collection('messages').doc(chatId);
+    documentReference.set({
+      "unreadCount": {
+        apisInstance.user!.uid: 0,
+      }
+    }, SetOptions(merge: true));
+  }
+
   @override
   void initState() {
     super.initState();
+    controller = TextEditingController();
     chatId = widget.chatHomeModel.chatId;
+
     fetchMessages();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
   }
 
   @override
@@ -80,6 +98,8 @@ class _ChatPageState extends State<ChatPage> {
             backgroundColor:
                 Theme.of(context).scaffoldBackgroundColor.withOpacity(0.6),
             appBar: AppBar(
+              elevation: 0,
+              scrolledUnderElevation: 0,
               backgroundColor: Theme.of(context).cardColor.withOpacity(0.8),
               title: Row(
                 children: [
@@ -125,7 +145,8 @@ class _ChatPageState extends State<ChatPage> {
                 Expanded(
                   child: GroupedListView<ChatModel, DateTime>(
                     elements: messages,
-                    groupSeparatorBuilder: (DateTime message) => Center(
+                    addAutomaticKeepAlives: true,
+                    groupHeaderBuilder: (ChatModel message) => Center(
                       child: Card(
                         color: Theme.of(context).cardColor,
                         shape: RoundedRectangleBorder(
@@ -133,120 +154,101 @@ class _ChatPageState extends State<ChatPage> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 4.0, vertical: 2.0),
-                          child: Text(apisInstance.dateFormat(date: message)),
+                          child:
+                              Text(apisInstance.getDatesString(message.time)),
                         ),
                       ),
                     ),
                     groupBy: (messages) {
-                      return messages.time;
+                      return DateTime(messages.time.day, messages.time.month,
+                          messages.time.year);
                     },
                     reverse: true,
                     sort: false,
                     floatingHeader: true,
+                    order: GroupedListOrder.DESC,
                     itemBuilder: (context, ChatModel msg) {
                       double textWidth =
                           getTextWidth(text: msg.textMessage, context: context);
                       double replyWidth = getTextWidth(
                           text: msg.replyTo.text ?? '', context: context);
-                      return SwipeTo(
-                        onRightSwipe: (details) {
-                          setState(() {
-                            replyMsg = ReplyModel(
-                                text: msg.textMessage, userId: msg.userId);
-                          });
-                        },
-                        child: Align(
-                          alignment: user!.uid == msg.userId
-                              ? Alignment.centerRight
-                              : Alignment.centerLeft,
-                          child: GestureDetector(
-                            onTap: () {
-                              chatInteractionSheet(
-                                context: context,
-                                message: msg.textMessage,
-                              );
-                            },
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Container(
-                                constraints: BoxConstraints(
-                                  maxWidth: width * 80,
-                                  minWidth: width * 20,
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Card(
-                                      color: user!.uid == msg.userId
-                                          ? Theme.of(context).primaryColor
-                                          : Theme.of(context).cardColor,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: user!.uid == msg.userId
-                                              ? const Radius.circular(10)
-                                              : const Radius.circular(0),
-                                          topRight: const Radius.circular(10),
-                                          bottomLeft: const Radius.circular(10),
-                                          bottomRight: user!.uid == msg.userId
-                                              ? const Radius.circular(0)
-                                              : const Radius.circular(10),
-                                        ),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 4,
-                                          vertical: 4,
-                                        ),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            if (msg.replyTo.messageId != null &&
-                                                msg.replyTo.messageId!.length >
-                                                    1)
-                                              replyMessage(
-                                                  textWidth:
-                                                      replyWidth > textWidth
-                                                          ? replyWidth
-                                                          : textWidth,
-                                                  msg: msg,
-                                                  context: context),
-                                            Text(
-                                              msg.textMessage,
-                                              style: user!.uid == msg.userId
-                                                  ? Theme.of(context)
-                                                      .textTheme
-                                                      .bodySmall!
-                                                      .apply(
-                                                          color: Colors.black)
-                                                  : Theme.of(context)
-                                                      .textTheme
-                                                      .bodySmall,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Text(
-                                      apisInstance.dates(date: msg.time),
-                                      style:
-                                          Theme.of(context).textTheme.bodySmall,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
+                      bool isDeleted =
+                          msg.deleted.contains(apisInstance.user!.uid);
+                      bool isFavorite =
+                          msg.favorite.contains(apisInstance.user!.uid);
+                      bool deleteForMe = msg.isDeleted;
+                      return deleteForMe || isDeleted
+                          ? deletedCard(context: context, msg: msg)
+                          : messageCard(
+                              onEdit: () {
+                                setState(() {
+                                  editMessageId = msg.messageId;
+                                  editMessage = msg.editMessage.isEmpty
+                                      ? msg.textMessage
+                                      : msg.editMessage;
+                                  controller.text = editMessage;
+                                });
+                                Navigator.pop(context);
+                              },
+                              favorite: isFavorite,
+                              msg: msg,
+                              context: context,
+                              chatId: chatId,
+                              replyWidth: replyWidth,
+                              textWidth: textWidth,
+                              onSwipe: (details) {
+                                setState(() {
+                                  replyMsg = ReplyModel(
+                                      text: msg.editMessage.isNotEmpty
+                                          ? msg.editMessage
+                                          : msg.textMessage,
+                                      userId: msg.userId,
+                                      messageId: msg.messageId);
+                                });
+                              },
+                              onReplyTap: () {
+                                setState(() {
+                                  replyMsg = ReplyModel(
+                                    messageId: msg.messageId,
+                                    userId: msg.userId,
+                                    text: msg.editMessage.isNotEmpty
+                                        ? msg.editMessage
+                                        : msg.textMessage,
+                                  );
+                                });
+                                Navigator.pop(context);
+                              });
                     },
                   ),
                 ),
                 chatTextField(
+                  controller: controller,
+                  onTap: () async {
+                    if (editMessage.isNotEmpty) {
+                      await apisInstance.editMessage(
+                          message: controller.text.trim(),
+                          chatId: chatId,
+                          messageId: editMessageId);
+                    } else {
+                      await apisInstance.sendMessage(
+                        replyUserId: replyMsg.userId ?? '',
+                        otherUserId: widget.chatHomeModel.otherUserId,
+                        chatId: chatId,
+                        message: controller.text.trim(),
+                        userId: apisInstance.user!.uid,
+                        messageId: replyMsg.messageId != null
+                            ? replyMsg.messageId ?? ""
+                            : "",
+                        text: replyMsg.text != null ? replyMsg.text ?? '' : "",
+                      );
+                    }
+                    controller.clear();
+                    setState(() {
+                      replyMsg = ReplyModel();
+                      editMessage = '';
+                      editMessageId = '';
+                    });
+                  },
                   child: replyWidget(
                     msg: replyMsg,
                     context: context,

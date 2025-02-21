@@ -4,7 +4,9 @@ import 'package:iconsax/iconsax.dart';
 Widget chatTextField(
     {required Widget child,
     required BuildContext context,
-    required String message}) {
+    required String message,
+    required Function onTap,
+    required TextEditingController controller}) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 8),
     child: Row(
@@ -20,6 +22,7 @@ Widget chatTextField(
               children: [
                 if (message.isNotEmpty) child,
                 TextFormField(
+                  controller: controller,
                   minLines: 1,
                   maxLines: 3,
                   style: Theme.of(context).textTheme.bodySmall,
@@ -54,7 +57,9 @@ Widget chatTextField(
             borderRadius: BorderRadius.circular(30),
           ),
           child: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              onTap();
+            },
             icon: const Icon(Iconsax.send_1),
           ),
         )

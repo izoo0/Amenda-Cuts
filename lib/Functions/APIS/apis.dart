@@ -1,7 +1,7 @@
 // ignore_for_file: unnecessary_cast
-
 import 'package:amenda_cuts/Common/Widget/Alerts/alerts.dart';
 import 'package:amenda_cuts/Common/Constants/FirebaseConstants/firebase_collection_constant.dart';
+import 'package:amenda_cuts/Common/Widget/Alerts/snack_alert.dart';
 import 'package:amenda_cuts/Common/Widget/Navigation/navigation_bar.dart';
 import 'package:amenda_cuts/Models/order_model.dart';
 import 'package:amenda_cuts/Models/service_model.dart';
@@ -9,6 +9,7 @@ import 'package:amenda_cuts/controller/service_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
@@ -138,12 +139,32 @@ class Apis {
     if (date == DateTime(1980)) {
       return '';
     } else if (date.isAfter(todayStart) && date.isBefore(endOfToday)) {
-      return DateFormat('HH:mm').format(date);
+      return DateFormat("HH:mm").format(date);
     } else if (date.isAfter(startOfYesterday) &&
         date.isBefore(endOfYesterday)) {
       return 'Yesterday';
     } else {
-      return DateFormat('d/M/yy').format(date);
+      return DateFormat("d/m/y").format(date);
+    }
+  }
+
+  String getDatesString(DateTime date) {
+    DateTime now = DateTime.now();
+    DateTime todayStart = DateTime(now.year, now.month, now.day, 0, 0, 0);
+    DateTime endOfToday =
+        DateTime(now.year, now.month, now.day, 23, 59, 59, 999);
+    DateTime startOfYesterday = todayStart.subtract(const Duration(days: 1));
+    DateTime endOfYesterday =
+        todayStart.subtract(const Duration(milliseconds: 1));
+    if (date == DateTime(1980)) {
+      return '';
+    } else if (date.isAfter(todayStart) && date.isBefore(endOfToday)) {
+      return "Today";
+    } else if (date.isAfter(startOfYesterday) &&
+        date.isBefore(endOfYesterday)) {
+      return 'Yesterday';
+    } else {
+      return DateFormat.yMMMMd().format(date);
     }
   }
 
@@ -269,5 +290,190 @@ class Apis {
 
   String dates({required date}) {
     return DateFormat.Hm().format(date);
+  }
+
+  Future<void> sendMessage(
+      {required String chatId,
+      required String message,
+      required String userId,
+      required String replyUserId,
+      required String messageId,
+      required String text,
+      required String otherUserId}) async {
+    try {
+      CollectionReference collectionReference = instance.firestore
+          .collection("messages")
+          .doc(chatId)
+          .collection('chats');
+
+      DocumentReference chatRef = await collectionReference.add({
+        "text_message": message,
+        "user_id": userId,
+        "replyTo": {
+          "messageId": messageId,
+          "text": text,
+          "userId": replyUserId,
+        },
+        "timestamp": Timestamp.now()
+      });
+
+      DocumentReference documentReference =
+          instance.firestore.collection("messages").doc(chatId);
+      documentReference.set({
+        "last_message_id": chatRef.id,
+        "unreadCount": {
+          otherUserId: FieldValue.increment(1),
+        },
+      }, SetOptions(merge: true));
+    } catch (e) {
+      //
+    }
+  }
+
+  Future<void> editMessage(
+      {required String message,
+      required String chatId,
+      required String messageId}) async {
+    try {
+      DocumentReference documentReference = firestore
+          .collection("messages")
+          .doc(chatId)
+          .collection("chats")
+          .doc(messageId);
+      documentReference.set({"edited_message": message, "isEdited": true},
+          SetOptions(merge: true));
+    } catch (e) {
+      //
+    }
+  }
+
+  copyToClipBoard({required String text, required BuildContext context}) {
+    Clipboard.setData(ClipboardData(text: text));
+    ScaffoldMessenger.of(context).showSnackBar(
+      snackAlert(
+        context: context,
+        info: "Message copied to clipboard",
+        icon: Iconsax.clipboard_text,
+      ),
+    );
+  }
+
+  Future<void> deleteForEveryOne(
+      {required String messageId,
+      required String chatId,
+      required BuildContext context}) async {
+    try {
+      DocumentReference documentReference = firestore
+          .collection("messages")
+          .doc(chatId)
+          .collection("chats")
+          .doc(messageId);
+      await documentReference.set(
+        {
+          "isDeleted": true,
+        },
+        SetOptions(merge: true),
+      );
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(snackAlert(
+          context: context,
+          info: "Message has been deleted",
+          icon: Iconsax.tick_circle,
+        ));
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(snackAlert(
+          context: context,
+          info: e.toString(),
+          icon: Iconsax.close_circle,
+        ));
+      }
+    }
+  }
+
+  Future<void> deleteForMe(
+      {required String messageId,
+      required String chatId,
+      required String userId,
+      required BuildContext context}) async {
+    try {
+      DocumentReference documentReference = firestore
+          .collection("messages")
+          .doc(chatId)
+          .collection("chats")
+          .doc(messageId);
+      await documentReference.set(
+        {
+          "deleted": FieldValue.arrayUnion([userId]),
+        },
+        SetOptions(merge: true),
+      );
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(snackAlert(
+          context: context,
+          info: "Message has been deleted",
+          icon: Iconsax.tick_circle,
+        ));
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(snackAlert(
+          context: context,
+          info: e.toString(),
+          icon: Iconsax.close_circle,
+        ));
+      }
+    }
+  }
+
+  Future<void> favorite(
+      {required bool isFavorite,
+      required String messageId,
+      required String chatId,
+      required String userId,
+      required BuildContext context}) async {
+    DocumentReference documentReference = firestore
+        .collection("messages")
+        .doc(chatId)
+        .collection("chats")
+        .doc(messageId);
+    await documentReference.set(
+      {
+        'favorite': isFavorite
+            ? FieldValue.arrayRemove([userId])
+            : FieldValue.arrayUnion([userId])
+      },
+      SetOptions(merge: true),
+    );
+
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(snackAlert(
+        context: context,
+        info: isFavorite
+            ? "Message removed from favorite"
+            : "Message added to favorite",
+        icon: Iconsax.star,
+      ));
+    }
+  }
+
+  Future<void> editDetails({
+    required String value,
+    required String field,
+    required BuildContext context,
+  }) async {
+    DocumentReference documentReference =
+        firestore.collection("users").doc(user!.uid);
+    documentReference.set({
+      field: value,
+    }, SetOptions(merge: true));
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(snackAlert(
+        context: context,
+        info: "$field has been updated",
+        icon: Iconsax.star,
+      ));
+    }
   }
 }
