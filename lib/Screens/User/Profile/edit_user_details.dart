@@ -1,8 +1,11 @@
 import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
+import 'package:amenda_cuts/Common/Widget/Alerts/snack_alert.dart';
 import 'package:amenda_cuts/Common/Widget/Button/user_button_border.dart';
+import 'package:amenda_cuts/Common/Widget/Preloader/loading_widget.dart';
 import 'package:amenda_cuts/Common/Widget/TextField/text_field.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 
 class EditUserDetails extends StatefulWidget {
   final String title;
@@ -15,11 +18,22 @@ class EditUserDetails extends StatefulWidget {
 
 class _EditUserDetailsState extends State<EditUserDetails> {
   late TextEditingController controller;
-
+  Apis instance = Apis.instance;
   @override
   void initState() {
     super.initState();
     controller = TextEditingController(text: widget.value);
+  }
+
+  String fieldValues(String fieldValue) {
+    switch (fieldValue) {
+      case "Full Names":
+        return 'full_name';
+      case "Phone Number":
+        return 'phone_number';
+      default:
+        return 'username';
+    }
   }
 
   @override
@@ -53,7 +67,11 @@ class _EditUserDetailsState extends State<EditUserDetails> {
                       isPassword: false,
                       obscure: false,
                       validator: (val) {},
-                      isPrefix: false,
+                      isPrefix: true,
+                      icon: (widget.title == "Full Names" ||
+                              widget.title == "Username")
+                          ? Iconsax.user
+                          : Iconsax.call,
                       context: context),
                 ),
                 const SizedBox(
@@ -64,10 +82,20 @@ class _EditUserDetailsState extends State<EditUserDetails> {
                   child: userButtonOutline(
                     width: double.infinity,
                     name: "Update",
-                    onTap: () {
-                      print(controller.text);
-                    },
                     context: context,
+                    onTap: () async {
+                      final fields = fieldValues(widget.title);
+
+                      ScaffoldMessenger.of(context).showSnackBar(snackAlert(
+                          context: context,
+                          info: "updating ${widget.title}",
+                          child: loadingWidget(),
+                          icon: Iconsax.edit));
+                      await instance.editDetails(
+                          context: context,
+                          value: controller.text.trim(),
+                          field: fields);
+                    },
                   ),
                 )
               ],

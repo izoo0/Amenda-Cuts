@@ -458,10 +458,22 @@ class Apis {
     }
   }
 
-  Future<void> editDetails({required value}) async {
+  Future<void> editDetails({
+    required String value,
+    required String field,
+    required BuildContext context,
+  }) async {
     DocumentReference documentReference =
         firestore.collection("users").doc(user!.uid);
-
-    documentReference.set({}, SetOptions(merge: true));
+    documentReference.set({
+      field: value,
+    }, SetOptions(merge: true));
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(snackAlert(
+        context: context,
+        info: "$field has been updated",
+        icon: Iconsax.star,
+      ));
+    }
   }
 }
