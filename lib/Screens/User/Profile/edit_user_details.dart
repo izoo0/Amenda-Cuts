@@ -18,7 +18,9 @@ class EditUserDetails extends StatefulWidget {
 
 class _EditUserDetailsState extends State<EditUserDetails> {
   late TextEditingController controller;
+
   Apis instance = Apis.instance;
+  final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
     super.initState();
@@ -50,55 +52,64 @@ class _EditUserDetailsState extends State<EditUserDetails> {
             ),
           ),
           body: SingleChildScrollView(
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 8,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 8,
                   ),
-                  child: commonTextField(
-                      controller: controller,
-                      text: widget.title,
-                      maxLines: 1,
-                      onChange: (val) {},
-                      isPassword: false,
-                      obscure: false,
-                      validator: (val) {},
-                      isPrefix: true,
-                      icon: (widget.title == "Full Names" ||
-                              widget.title == "Username")
-                          ? Iconsax.user
-                          : Iconsax.call,
-                      context: context),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  child: userButtonOutline(
-                    width: double.infinity,
-                    name: "Update",
-                    context: context,
-                    onTap: () async {
-                      final fields = fieldValues(widget.title);
-
-                      ScaffoldMessenger.of(context).showSnackBar(snackAlert(
-                          context: context,
-                          info: "updating ${widget.title}",
-                          child: loadingWidget(),
-                          icon: Iconsax.edit));
-                      await instance.editDetails(
-                          context: context,
-                          value: controller.text.trim(),
-                          field: fields);
-                    },
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                    ),
+                    child: commonTextField(
+                        controller: controller,
+                        text: widget.title,
+                        maxLines: 1,
+                        onChange: (val) {},
+                        isPassword: false,
+                        obscure: false,
+                        validator: (val) {
+                          if (val == null || val.isEmpty) {
+                            return "Please enter your ${widget.title}";
+                          }
+                        },
+                        isPrefix: true,
+                        icon: (widget.title == "Full Names" ||
+                                widget.title == "Username")
+                            ? Iconsax.user
+                            : Iconsax.call,
+                        context: context),
                   ),
-                )
-              ],
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: userButtonOutline(
+                      width: double.infinity,
+                      name: "Update",
+                      context: context,
+                      onTap: () async {
+                        final fields = fieldValues(widget.title);
+                        _formKey.currentState!.save();
+                        if (_formKey.currentState!.validate()) {
+                          ScaffoldMessenger.of(context).showSnackBar(snackAlert(
+                              context: context,
+                              info: "updating ${widget.title}",
+                              child: loadingWidget(),
+                              icon: Iconsax.edit));
+                          await instance.editDetails(
+                              context: context,
+                              value: controller.text.trim(),
+                              field: fields);
+                        }
+                      },
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ));
