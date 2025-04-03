@@ -1,11 +1,13 @@
 import 'package:amenda_cuts/Common/Constants/new_app_background.dart';
 import 'package:amenda_cuts/Common/Constants/size_config.dart';
+import 'package:amenda_cuts/Common/Widget/Preloader/shimmer_widget.dart';
 import 'package:amenda_cuts/Functions/APIS/apis.dart';
 import 'package:amenda_cuts/Models/chat_home_model.dart';
 import 'package:amenda_cuts/Provider/user_details_provider.dart';
 import 'package:amenda_cuts/Screens/chats/Pages/chat_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,9 +23,16 @@ class Chats extends StatefulWidget {
 
 class _ChatsState extends State<Chats> {
   Apis instance = Apis.instance;
+  String id = FirebaseAuth.instance.currentUser!.uid;
+  late Stream<QuerySnapshot<Map<String, dynamic>>>? chatStream;
   @override
   void initState() {
     super.initState();
+
+    chatStream = FirebaseFirestore.instance
+        .collection('messages')
+        .where('participant', arrayContains: id)
+        .snapshots();
   }
 
   @override
@@ -50,10 +59,12 @@ class _ChatsState extends State<Chats> {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(30),
-                    child: CachedNetworkImage(
-                      imageUrl: userDetails.profile ?? '',
-                      fit: BoxFit.cover,
-                    ),
+                    child: userDetails.profile == null
+                        ? const CircularProgressIndicator()
+                        : CachedNetworkImage(
+                            imageUrl: userDetails.profile ?? '',
+                            fit: BoxFit.cover,
+                          ),
                   ),
                 ),
                 const SizedBox(
@@ -65,10 +76,7 @@ class _ChatsState extends State<Chats> {
             ),
           ),
           body: StreamBuilder(
-              stream: FirebaseFirestore.instance
-                  .collection('messages')
-                  .where('participant', arrayContains: instance.user!.uid)
-                  .snapshots(),
+              stream: chatStream,
               builder: (context, snapshot) {
                 if (snapshot.data != null && snapshot.hasData) {
                   var chats = snapshot.data?.docs;
@@ -83,12 +91,12 @@ class _ChatsState extends State<Chats> {
                         context: context,
                         currentUser: instance.user!.uid);
                   }).toList();
-
                   return FutureBuilder<List<ChatHomeModel>>(
                       future: Future.wait(chatHomeModel),
                       builder: (context, snap) {
-                        if (snap.connectionState == ConnectionState.done) {
+                        if (snap.data != null) {
                           List<ChatHomeModel> chatData = snap.data!;
+
                           return ListView.builder(
                             shrinkWrap: true,
                             itemCount: chatData.length,
@@ -108,20 +116,13 @@ class _ChatsState extends State<Chats> {
                           );
                         } else if (snap.connectionState ==
                             ConnectionState.waiting) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
+                          return shimmerFullWidgets(width, context);
                         } else {
-                          return Text("No data available");
+                          return shimmerFullWidgets(width, context);
                         }
                       });
-                } else if (snapshot.connectionState ==
-                    ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
                 } else {
-                  return Text("data");
+                  return shimmerFullWidgets(width, context);
                 }
               }),
         );

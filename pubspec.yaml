@@ -61,6 +61,7 @@ dependencies:
   grouped_list: ^6.0.0
   swipe_to: ^1.0.6
   shimmer: ^3.0.0
+  package_info_plus: ^8.2.1
   
 
   

@@ -85,17 +85,17 @@ class _AnimatedAlertDialogState extends State<AnimatedAlertDialog>
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  TextButton(
-                    style: TextButton.styleFrom(
-                        backgroundColor: Theme.of(context).primaryColor,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 4, vertical: 8),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(4))),
-                    onPressed: () {
-                      // Reverse the animation and close the dialog
-                      _controller.reverse();
-                      Navigator.of(context).pop();
+                  MaterialButton(
+                    color: Theme.of(context).primaryColor,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4)),
+                    onPressed: () async {
+                      await _controller.reverse();
+                      if (context.mounted) {
+                        Navigator.of(context).pop();
+                      }
                     },
                     child: Text(
                       "Close",
